@@ -13,6 +13,9 @@
         android:theme="@style/Theme.PlantingApp"
         tools:targetApi="31">
         <activity
+            android:name=".ExpActivity"
+            android:exported="false" />
+        <activity
             android:name=".ExampleActivity"
             android:exported="true">
             <intent-filter>
