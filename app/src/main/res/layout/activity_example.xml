@@ -1,9 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ExampleActivity">
+    android:orientation="vertical"
+    android:background="@color/green_background"
+    android:padding="16dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- 应用名称 -->
+    <TextView
+        android:id="@+id/app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="应用名称"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/white" />
+
+    <!-- 搜索框 -->
+    <EditText
+        android:id="@+id/search_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="搜索植物信息..."
+        android:background="@drawable/search_box_background"
+        android:padding="10dp"
+        android:layout_marginTop="10dp" />
+
+    <!-- 天气信息区域 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/weather_card_background"
+        android:padding="16dp"
+        android:layout_marginTop="16dp">
+
+        <!-- 地区与天气图标 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="XX地区"
+                android:textSize="18sp"
+                android:textColor="@color/white" />
+
+            <ImageView
+                android:id="@+id/weather_icon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_sunny"
+                android:contentDescription="天气图标" />
+        </LinearLayout>
+
+        <!-- 天气信息 -->
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="3"
+            android:rowCount="2"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="气温"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/temperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="XX度 ~ XX度"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/humidity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="湿度 [data]"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="降雨概率"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/rain_probability"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="[data]"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/wind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="风力 [data]"
+                android:textColor="@color/white" />
+        </GridLayout>
+
+        <!-- 恶劣天气预警 -->
+        <TextView
+            android:id="@+id/weather_warning"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="8dp"
+            android:background="@drawable/warning_background"
+            android:text="恶劣天气预警 [data]"
+            android:textColor="@color/red"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <!-- 最近编辑 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/recent_edit_background"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="植物名称"
+            android:textSize="16sp"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已种植 [data] 天"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+</LinearLayout>
