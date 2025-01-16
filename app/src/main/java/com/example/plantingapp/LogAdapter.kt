@@ -1,5 +1,6 @@
 package com.example.plantingapp
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,17 @@ class LogAdapter(private val logs: List<String>) : RecyclerView.Adapter<LogAdapt
     override fun onBindViewHolder(holder: LogViewHolder, position: Int) {
         val textView = holder.view.findViewById<TextView>(R.id.log_text)
         textView.text = logs[position]
+
+        // Set a click listener on the log item view
+        holder.view.setOnClickListener {
+            // When a log item is clicked, create an Intent to start LogDetailActivity
+            val context = holder.view.context
+            val intent = Intent(context, LogDetailActivity::class.java)
+            // Pass the log text to the new activity
+            intent.putExtra("LOG_TEXT", logs[position])
+            // Start the LogDetailActivity
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount() = logs.size
