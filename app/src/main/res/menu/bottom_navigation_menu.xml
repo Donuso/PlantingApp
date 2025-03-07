@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_main"
+        android:icon="@drawable/main_icon"
+        android:title="主页" />
+    <item
+        android:id="@+id/navigation_logs"
+        android:icon="@drawable/main_icon"
+        android:title="日志" />
+    <item
+        android:id="@+id/navigation_todos"
+        android:icon="@drawable/main_icon"
+        android:title="待办" />
+    <item
+        android:id="@+id/navigation_me"
+        android:icon="@drawable/main_icon"
+        android:title="我" />
+    <!-- 请将自己负责的入口对应的图标放入，此处仅填充示例内容   -->
+</menu>
