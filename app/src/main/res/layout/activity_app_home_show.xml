@@ -95,7 +95,7 @@
                         <ImageView
                             android:layout_width="53dp"
                             android:layout_height="53dp"
-                            android:src="@drawable/sun" />
+                            android:src="@drawable/sun_icon" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -142,7 +142,7 @@
                                 <ImageView
                                     android:layout_width="24dp"
                                     android:layout_height="24dp"
-                                    android:src="@drawable/temperature"
+                                    android:src="@drawable/temperature_icon"
                                     />
                             </LinearLayout>
                             <LinearLayout
@@ -194,7 +194,7 @@
                             <ImageView
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
-                                android:src="@drawable/rain"
+                                android:src="@drawable/rain_icon"
                                 android:layout_marginStart="10dp"
                                 />
                             <TextView
@@ -234,7 +234,7 @@
                             <ImageView
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
-                                android:src="@drawable/moisture"
+                                android:src="@drawable/moisture_icon"
                                 android:layout_marginStart="10dp"
                                 />
                             <TextView
@@ -269,7 +269,7 @@
                             <ImageView
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
-                                android:src="@drawable/wind"
+                                android:src="@drawable/wind_icon"
                                 android:layout_marginStart="10dp"
                                 />
                             <TextView
@@ -345,7 +345,7 @@
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/attention"
+                            android:src="@drawable/attention_icon"
                             />
                     </LinearLayout>
                     <TextView

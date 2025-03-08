@@ -26,6 +26,5 @@
         android:layout_height="wrap_content"
         android:textSize="24dp"
         android:text="记录与植物的点点滴滴"
-        android:paintFlags="underline"
         />
 </LinearLayout>
