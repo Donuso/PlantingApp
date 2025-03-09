@@ -3,19 +3,59 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D8EBD8"
+    android:background="#D3DBD3"
     android:padding="16dp">
 
-    <EditText
-        android:id="@+id/plant_name"
+    <RelativeLayout
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#D3DBD3">
+
+        <!-- 植物名称 -->
+        <TextView
+            android:id="@+id/plant_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25dp"
+            android:hint="植物名称"
+            android:layout_alignParentStart="true" />
+
+        <!-- 菜单按钮 -->
+        <ImageView
+            android:id="@+id/menu_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/f5"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:contentDescription="菜单" />
+    </RelativeLayout>
+
+    <!-- 分割线 -->
+    <View
+        android:id="@+id/underline"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#000000"
+        android:layout_below="@id/line1"
+        android:layout_marginTop="8dp" />
+
+    <!-- 标签布局 -->
+    <LinearLayout
+        android:id="@+id/tag_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="植物名称" />
+        android:orientation="horizontal"
+        android:layout_below="@id/underline"
+        android:layout_marginTop="8dp">
+    </LinearLayout>
 
+    <!-- 其他布局内容 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:layout_below="@id/plant_name"
+        android:layout_below="@id/tag_layout"
         android:layout_marginTop="8dp"
         android:orientation="horizontal">
 
@@ -30,6 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="18dp"
+                android:textColor="@color/black"
                 android:text="20xx年xx月xx日" />
 
             <TextView
@@ -48,7 +89,7 @@
             android:layout_height="56dp"
             android:layout_gravity="end|bottom"
             android:layout_margin="2dp"
-            android:background="@drawable/round1"
+            android:background="@drawable/round2"
             android:contentDescription="@string/add_log_button_description" />
 
         <Button
@@ -57,7 +98,7 @@
             android:layout_height="56dp"
             android:layout_gravity="end|bottom"
             android:layout_margin="2dp"
-            android:background="@drawable/round1"
+            android:background="@drawable/round3"
             android:contentDescription="@string/add_log_button_description" />
     </LinearLayout>
 
@@ -65,7 +106,8 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="130dp"
+        android:layout_below="@id/tag_layout"
+        android:layout_marginTop="90dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="8dp">
 
@@ -75,21 +117,26 @@
             android:orientation="vertical"
             android:padding="35dp">
 
-            <!-- 添加到悬浮框内的TextView -->
+            <LinearLayout
+                android:id="@+id/main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginTop="16dp"/>
+
             <TextView
-                android:id="@+id/record_prompt"
+                android:id="@+id/add_tag_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="在此处写下你今天的记录……" />
+                android:text="点击增加标签"
+                android:gravity="center"
+                android:padding="5dp"
+                android:textColor="#186413"
+                android:background="#FFFFFF"
+                android:clickable="true"
+                android:focusable="true" />
 
-            <!-- 添加到悬浮框内的EditText -->
-            <EditText
-                android:id="@+id/record"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="点击增加记录" />
-
-            <!-- 添加到悬浮框内的TextView -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -97,7 +144,7 @@
                 app:cardCornerRadius="10dp"
                 app:cardElevation="4dp"
                 app:cardUseCompatPadding="true"
-                app:cardForegroundColor="#FF000000"> <!-- 设置边框颜色，这里为黑色 -->
+                app:cardForegroundColor="#FF000000">
 
                 <TextView
                     android:id="@+id/weather"
@@ -106,7 +153,6 @@
                     android:padding="8dp"
                     android:text="当日天气 晴 [temp data]" />
             </androidx.cardview.widget.CardView>
-
         </LinearLayout>
     </androidx.cardview.widget.CardView>
     <!-- 第一个CardView 悬浮框结束 -->
@@ -115,7 +161,8 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="350dp"
+        android:layout_below="@id/main"
+        android:layout_marginTop="380dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="8dp">
 
@@ -125,25 +172,45 @@
             android:orientation="vertical"
             android:padding="35dp">
 
-            <!-- 添加一个TextView来填充上面的空间 -->
-            <TextView
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_weight="1"
                 android:text="请输入记录"
                 android:textSize="18dp"
                 android:gravity="bottom"
-                android:background="#00FFFFFF" />
+                android:background="#00FFFFFF"/>
 
-            <!-- 将添加图片按钮放到第二个CardView中 -->
-            <Button
+            <TextView
                 android:id="@+id/add_image"
-                android:layout_width="105dp"
-                android:layout_height="33dp"
-                android:background="@drawable/f56"
-                android:layout_gravity="bottom|center_horizontal" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="点击增加图片"
+                android:gravity="center"
+                android:padding="5dp"
+                android:textColor="#186413"
+                android:background="#FFFFFF"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <ImageView
+                android:id="@+id/image_preview"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="16dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="Selected Image" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
     <!-- 第二个CardView 悬浮框结束 -->
 
+    <!-- 取消按钮 -->
+    <Button
+        android:id="@+id/cancel_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="取消"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:visibility="gone" />
 </RelativeLayout>
