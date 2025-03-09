@@ -11,7 +11,15 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+    </style>
+    <!--   ThemeOverlay.FinalApp.FullscreenContainer 全屏主题     -->
+    <style name="ThemeOverlay.FinalApp.FullscreenContainer" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="fullscreenBackgroundColor">@color/black</item>
+        <item name="fullscreenTextColor">@color/white</item>
+    </style>
+    <!--    AppThemeHalfStatusBar 可在状态栏下显示layout，状态栏变为半透明     -->
+    <style name="AppThemeHalfStatusBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
 </resources>
