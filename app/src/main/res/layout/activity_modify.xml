@@ -13,7 +13,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:navigationIcon="@drawable/back1">
+        app:navigationIcon="@drawable/back">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,7 +65,8 @@
                     android:layout_height="125dp"
                     android:scaleType="matrix"
                     android:background="#E0E0E0"
-                    android:src="@drawable/picture" />
+                    android:layout_gravity="center"
+                    android:src="@drawable/photo" />
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
