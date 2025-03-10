@@ -4,27 +4,22 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="8dp">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="植物分组名称1"
-        android:textSize="20dp"
-        />
+
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_marginStart="20dp"
-        android:textSize="17dp"
-        android:text="xxxx年xx月xx日"
+        android:textSize="25dp"
+        android:text="[data]"
         />
     <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@drawable/detail_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/todo_icon"
         />
 
-    
+
 
 
 </LinearLayout>
