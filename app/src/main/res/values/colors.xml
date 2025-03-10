@@ -14,4 +14,5 @@
     <color name="iconGrey">#BEBEBE</color>
     <color name="text_grey_wzc">#BEBEBE</color>
     <color name="search_color_wzc">#CFffffff</color>
+    <color name="cover_gray_wzc">#2E000000</color>
 </resources>

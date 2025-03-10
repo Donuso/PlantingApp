@@ -1,7 +1,20 @@
 <resources>
-    <string name="app_name">PlantingApp</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="app_name">忆植</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="log_title_wzc">日志</string>
     <string name="search_text_wzc">搜索植物信息......</string>
+    <string name="edit_log_group_wzc">修改分组信息</string>
+    <string name="delete_log_group_wzc">删除分组</string>
+    <string name="log_group_alter">点击以修改日志组信息</string>
+    <string name="log_group_delete">点击以删除日志组</string>
+    <string name="cancel_wzc">取消</string>
+    <string name="alter_info_wzc">修改信息</string>
+    <string name="hint_name_wzc">名称｜不超过15个字</string>
+    <string name="hint_name_input_wzc">点击此处填写</string>
+    <string name="hint_note_wzc">备注｜不超过15个字</string>
+    <string name="hint_note_input_wzc">点击此处填写（可不填写）</string>
+    <string name="make_sure_wzc">确认</string>
+    <string name="new_group_wzc">新建分组</string>
+    <string name="delete_group_wzc">删除分组</string>
+    <string name="group_delete_hint_1_wzc">删除后将不可恢复！</string>
 </resources>
