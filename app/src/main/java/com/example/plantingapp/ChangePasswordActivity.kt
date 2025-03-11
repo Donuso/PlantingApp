@@ -2,6 +2,7 @@ package com.example.plantingapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.ViewOutlineProvider
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -14,6 +15,8 @@ class ChangePasswordActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_change_password)
+
+
 
         val toolbar: MaterialToolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
