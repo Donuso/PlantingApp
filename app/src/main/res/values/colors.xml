@@ -13,6 +13,11 @@
     <color name="themeRed">#FF0000</color>
     <color name="iconGrey">#BEBEBE</color>
     <color name="text_grey_wzc">#BEBEBE</color>
+    <color name="text_grey_2_wzc">#9a9a9a</color>
     <color name="search_color_wzc">#CFffffff</color>
     <color name="cover_gray_wzc">#2E000000</color>
+    <color name="bg_grey_wzc">#efefef</color>
+    <color name="black_text_wzc">#101010</color>
+    <color name="black_line_wzc">#4f4f4f</color>
+    <color name="grey_line_wzc">#BBBBBB</color>
 </resources>

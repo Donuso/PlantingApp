@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
+    app:cardCornerRadius="15dp"
+    android:layout_margin="10dp">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:id="@+id/pic"
+            />
+
+        <ImageButton
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="end"
+            android:src="@drawable/icon_delete_wzc"
+            android:scaleType="fitCenter"
+            android:background="@android:color/transparent"
+            android:layout_margin="5dp"
+            android:focusable="false"
+            android:visibility="gone"
+            android:id="@+id/delete_pic_icon"
+            />
+
+    </FrameLayout>
+
+
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minHeight="50dp"
+    app:cardCornerRadius="30dp"
+    app:cardElevation="0dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="@color/grey_line_wzc"
+    app:rippleColor="@color/white"
+    >
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:src="@drawable/main_icon"
+                android:scaleType="fitCenter"
+                android:paddingTop="9dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
+                android:id="@+id/label_icon"
+                android:layout_marginStart="8dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="example"
+                android:gravity="center"
+                android:textColor="@color/black_text_wzc"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="10dp"
+                android:textSize="16sp"
+                />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:text="basic"
+                    android:gravity="center"
+                    android:layout_marginEnd="15dp"
+                    android:id="@+id/label_contents"
+                    android:textSize="16sp"
+                    />
+
+                <ImageButton
+                    android:layout_width="40dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@android:color/transparent"
+                    android:id="@+id/delete_label"
+                    android:src="@drawable/icon_delete_wzc"
+                    android:scaleType="fitCenter"
+                    android:focusable="false"
+                    android:visibility="gone"
+                    />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="备注：示例"
+            android:textSize="12sp"
+            android:id="@+id/label_hint"
+            android:layout_marginStart="16dp"
+            android:textColor="@color/themeDarkGreen"
+            android:translationY="-10dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:focusable="false"
+            android:visibility="gone"
+            />
+
+    </LinearLayout>
+
+
+</com.google.android.material.card.MaterialCardView>

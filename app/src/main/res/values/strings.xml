@@ -17,4 +17,14 @@
     <string name="new_group_wzc">新建分组</string>
     <string name="delete_group_wzc">删除分组</string>
     <string name="group_delete_hint_1_wzc">删除后将不可恢复！</string>
+    <string name="group_title_wzc">植物名称</string>
+    <string name="back_to_today">回到今天</string>
+    <string name="new_label_text_wzc">点击增加标签</string>
+    <string name="no_label_wzc">暂无标签</string>
+    <string name="log_text_hint">在此处写下这一天的记录......</string>
+    <string name="new_log_pic_wzc">点击增加图片</string>
+    <string name="delete_label_wzc">删除标签</string>
+    <string name="delete_pic_wzc">删除图片</string>
+    <string name="delete_label_hint_wzc">点击标签进行删除</string>
+    <string name="delete_pic_hint_wzc">点击图片进行删除</string>
 </resources>
