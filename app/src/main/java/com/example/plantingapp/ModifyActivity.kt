@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.plantingapp.R
 
@@ -28,7 +29,6 @@ class ModifyActivity : AppCompatActivity() {
 
         val avatarTitle: TextView = findViewById(R.id.avatar_title)
         val avatarImage: ImageView = findViewById(R.id.avatar_image)
-       // val cameraIcon: ImageView = findViewById(R.id.camera_icon)
         val nicknameTitle: TextView = findViewById(R.id.nickname_title)
         val nicknameEdit: EditText = findViewById(R.id.nickname_edit)
 
@@ -40,17 +40,15 @@ class ModifyActivity : AppCompatActivity() {
             // startActivityForResult(intent, PICK_IMAGE_REQUEST)
         }
 
-        // 相机图标点击事件处理
-        //cameraIcon.setOnClickListener {
-            // 这里可以添加打开相机的逻辑，例如使用 Intent 调用系统相机应用
-            // 示例代码（未完整实现，仅作示意）：
-            // val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            // startActivityForResult(intent, TAKE_PHOTO_REQUEST)
-        //}
-
         // 昵称编辑相关逻辑
-        nicknameEdit.setOnClickListener {
-            // 可以在这里添加弹出键盘等操作的逻辑
+        nicknameTitle.setOnClickListener {
+            val newNickname = nicknameEdit.text.toString().trim()
+            if (newNickname.isEmpty()) {
+                Toast.makeText(this, "修改昵称不能为空", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "修改成功！", Toast.LENGTH_SHORT).show()
+                // 这里可以添加保存新昵称到数据库或其他操作的逻辑
+            }
         }
     }
 
