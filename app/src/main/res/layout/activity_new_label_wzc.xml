@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NewLabelActivityWzc"
+    android:background="@color/bg_grey_wzc">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingTop="16dp"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        app:contentInsetStart="9dp"
+        android:id="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="@id/main">
+        <ImageButton
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:padding="11dp"
+            android:layout_gravity="start"
+            android:src="@drawable/back_wzc"
+            android:scaleType="fitCenter"
+            android:background="@android:color/transparent"
+            android:id="@+id/back_btn"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_new_label_wzc"
+            android:textColor="@color/text_black_wzc"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="9dp"
+            />
+
+        <ImageButton
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="6dp"
+            android:paddingEnd="12dp"
+            android:layout_gravity="end"
+            android:src="@drawable/icon_help_wzc"
+            android:scaleType="fitCenter"
+            android:background="@android:color/transparent"
+            android:id="@+id/help_btn"
+            android:layout_marginEnd="9dp"
+            />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_black_wzc"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        android:id="@+id/dividing_line_1"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:text="@string/subtitle_recently_used_label_wzc"
+        app:layout_constraintTop_toBottomOf="@id/dividing_line_1"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textColor="@color/general_grey_wzc"
+        android:id="@+id/subtitle"
+        />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintTop_toBottomOf="@id/subtitle"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:padding="10dp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

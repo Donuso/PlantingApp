@@ -10,17 +10,27 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+        android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".LogActivity"
+            android:name=".NewLabelActivityWzc"
+            android:exported="false" />
+        <activity
+            android:name=".LogDataAnalyzeWzc"
             android:exported="true" />
         <activity
+            android:name=".DatePickerActivityWzc"
+            android:exported="true"></activity>
+        <activity
+            android:name=".LogActivityWzc"
+            android:exported="true"></activity>
+        <activity
             android:name=".MainSwitchActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

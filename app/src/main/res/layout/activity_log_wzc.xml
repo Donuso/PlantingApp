@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LogActivity"
-    android:orientation="vertical"
+    tools:context=".LogActivityWzc"
     android:background="@color/bg_grey_wzc">
 
     <androidx.appcompat.widget.Toolbar
@@ -29,8 +29,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/group_title_wzc"
-            android:textColor="@color/black_text_wzc"
+            android:text="植物名称"
+            android:textColor="@color/text_black_wzc"
             android:textSize="20sp"
             android:layout_gravity="center"
             android:layout_marginBottom="9dp"
@@ -63,29 +63,23 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/black_line_wzc"
+            android:background="@color/line_black_wzc"
             android:layout_marginBottom="20dp"/>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:orientation="horizontal"
             android:layout_marginBottom="13dp">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="70dp"
-                android:orientation="vertical"
-                android:layout_gravity="start"
-                android:layout_marginStart="5dp">
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:text="0000年00月00日"
-                    android:textColor="@color/black_text_wzc"
+                    android:textColor="@color/text_black_wzc"
                     android:textSize="25sp"
                     android:id="@+id/log_date"
+                    android:layout_marginStart="5dp"
                     />
 
                 <TextView
@@ -96,6 +90,8 @@
                     android:textColor="@color/themeDarkGreen"
                     android:textSize="15sp"
                     android:id="@+id/back_today"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="40dp"
                     />
 
                 <View
@@ -103,22 +99,18 @@
                     android:layout_height="1dp"
                     android:background="@color/themeDarkGreen"
                     android:translationY="-3dp"
+                    android:layout_marginTop="69dp"
+                    android:layout_marginStart="5dp"
                     />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:gravity="end|center">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="55dp"
                     android:layout_height="55dp"
                     app:cardCornerRadius="20dp"
-                    android:layout_gravity="center"
                     app:cardElevation="5dp"
-                    android:layout_marginEnd="20dp">
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="75dp">
 
                     <ImageButton
                         android:layout_width="match_parent"
@@ -136,7 +128,8 @@
                     android:layout_width="55dp"
                     android:layout_height="55dp"
                     app:cardCornerRadius="20dp"
-                    android:layout_gravity="center"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_marginEnd="5dp"
                     app:cardElevation="5dp">
 
@@ -151,9 +144,7 @@
 
                 </androidx.cardview.widget.CardView>
 
-            </LinearLayout>
-
-        </LinearLayout>
+        </RelativeLayout>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -192,7 +183,7 @@
                         <androidx.recyclerview.widget.RecyclerView
                             android:layout_width="match_parent"
                             android:layout_height="100dp"
-                            android:layout_margin="14dp"
+                            android:layout_margin="10dp"
                             android:id="@+id/labels"
                             android:focusable="false"
                             android:visibility="gone"
@@ -206,20 +197,14 @@
                             android:text="@string/no_label_wzc"
                             android:gravity="center"
                             android:textSize="19sp"
-                            android:textColor="@color/text_grey_2_wzc"
+                            android:textColor="@color/general_grey_wzc"
                             android:id="@+id/no_label_hint_text"
                             />
-                        <FrameLayout
+
+                        <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:id="@+id/add_label_module">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:gravity="center"
-                                android:layout_height="match_parent"
-                                android:orientation="horizontal"
-                                >
 
                                 <ImageView
                                     android:layout_width="35dp"
@@ -228,33 +213,35 @@
                                     android:scaleType="fitCenter"
                                     android:paddingTop="13dp"
                                     android:paddingBottom="10dp"
+                                    android:layout_centerInParent="true"
+                                    android:layout_alignStart="@id/add_label_1"
                                     />
 
                                 <TextView
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="158dp"
+                                    android:gravity="end"
+                                    android:paddingEnd="9dp"
                                     android:layout_height="wrap_content"
                                     android:text="@string/new_label_text_wzc"
                                     android:textSize="19sp"
                                     android:textColor="@color/themeDarkGreen"
-                                    android:layout_marginEnd="8dp"
+                                    android:layout_centerInParent="true"
+                                    android:id="@+id/add_label_1"
                                     />
 
-                            </LinearLayout>
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@android:color/transparent"
+                                    android:id="@+id/add_label"
+                                    />
 
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="@android:color/transparent"
-                                android:id="@+id/add_label"
-                                />
-
-                        </FrameLayout>
-
+                        </RelativeLayout>
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@color/grey_line_wzc"/>
+                            android:background="@color/line_grey_wzc"/>
 
                         <TextView
                             android:layout_width="match_parent"
@@ -264,7 +251,7 @@
                             android:gravity="center"
                             android:textSize="19sp"
                             android:id="@+id/record_temp"
-                            android:textColor="@color/text_grey_2_wzc"
+                            android:textColor="@color/general_grey_wzc"
                             android:ellipsize="end"
                             android:maxLines="1"/>
 
@@ -312,48 +299,43 @@
                             android:layout_height="wrap_content"
                             android:minHeight="95dp"
                             android:hint="@string/log_text_hint"
-                            android:textColorHint="@color/text_grey_2_wzc"
+                            android:textColorHint="@color/general_grey_wzc"
                             android:paddingTop="20dp"
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
                             android:paddingBottom="10dp"
                             android:textSize="20sp"
-                            android:textColor="@color/black_text_wzc"
+                            android:textColor="@color/text_black_wzc"
                             android:id="@+id/log_text"
                             />
 
-                        <FrameLayout
+                        <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:id="@+id/add_pic_module">
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:gravity="center"
-                                android:layout_height="match_parent"
-                                android:orientation="horizontal"
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="50dp"
+                                android:src="@drawable/icon_add_new_wzc"
+                                android:scaleType="fitCenter"
+                                android:paddingTop="13dp"
                                 android:paddingBottom="10dp"
-                                >
+                                android:layout_centerInParent="true"
+                                android:layout_alignStart="@id/add_pic_1"
+                                />
 
-                                <ImageView
-                                    android:layout_width="35dp"
-                                    android:layout_height="50dp"
-                                    android:src="@drawable/icon_add_new_wzc"
-                                    android:scaleType="fitCenter"
-                                    android:paddingTop="13dp"
-                                    android:paddingBottom="10dp"
-                                    />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/new_log_pic_wzc"
-                                    android:textSize="19sp"
-                                    android:textColor="@color/themeDarkGreen"
-                                    android:layout_marginEnd="8dp"
-                                    />
-
-                            </LinearLayout>
+                            <TextView
+                                android:layout_height="wrap_content"
+                                android:text="@string/new_log_pic_wzc"
+                                android:textSize="19sp"
+                                android:textColor="@color/themeDarkGreen"
+                                android:id="@+id/add_pic_1"
+                                android:layout_centerInParent="true"
+                                android:layout_width="158dp"
+                                android:gravity="end"
+                                android:paddingEnd="9dp"
+                                />
 
                             <View
                                 android:layout_width="match_parent"
@@ -362,7 +344,11 @@
                                 android:id="@+id/add_pic"
                                 />
 
-                        </FrameLayout>
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="6dp"/>
 
                     </LinearLayout>
 
@@ -426,24 +412,9 @@
 
     </LinearLayout>
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        app:cardCornerRadius="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_gravity="bottom"
-        app:cardElevation="20dp"
-        android:translationY="70dp"
-        android:layout_marginEnd="20dp">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/cancel_wzc"
-            android:textColor="@color/themeRed"
-            android:textSize="20sp"
-            android:id="@+id/cancel"
-            />
-    </androidx.cardview.widget.CardView>
+    <include
+        layout="@layout/component_cancel_wzc"
+        android:id="@+id/cancel"
+        />
 
-</FrameLayout>
+</RelativeLayout>

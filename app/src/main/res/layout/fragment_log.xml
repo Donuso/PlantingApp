@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -56,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 app:cardCornerRadius="25dp"
-                app:cardBackgroundColor="@color/search_color_wzc">
+                app:cardBackgroundColor="@color/text_search_color_wzc">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -126,7 +127,8 @@
     <androidx.cardview.widget.CardView
         android:layout_width="88dp"
         android:layout_height="88dp"
-        android:layout_gravity="end|bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp"
         app:cardCornerRadius="30dp"
@@ -136,7 +138,10 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="25dp"
+            android:paddingTop="24dp"
+            android:paddingBottom="26dp"
+            android:paddingStart="25dp"
+            android:paddingEnd="25dp"
             android:src="@drawable/icon_new_log_group_wzc"
             android:scaleType="fitCenter"
             android:id="@+id/add_log_group"/>
@@ -194,23 +199,9 @@
 
     </LinearLayout>
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        app:cardCornerRadius="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_gravity="bottom"
-        app:cardElevation="20dp"
-        android:translationY="70dp"
-        android:layout_marginEnd="20dp">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/cancel_wzc"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:id="@+id/cancel"
-            />
-    </androidx.cardview.widget.CardView>
-</FrameLayout>
+    <include
+        layout="@layout/component_cancel_wzc"
+        android:id="@+id/cancel"
+        />
+
+</RelativeLayout>

@@ -1,16 +1,12 @@
 package com.example.plantingapp
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
-class LogActivity : AppCompatActivity() {
+class DatePickerActivityWzc : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_log)
-
+        setContentView(R.layout.activity_date_picker_wzc)
 
     }
 }
