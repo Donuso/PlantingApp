@@ -2,4 +2,9 @@
     <string name="app_name">PlantingApp</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="apptile_zhj">忆植</string>
+    <string name="RelatedLog_zhj">相关日志</string>
+    <string name="RelatedAgency_zhj">相关代办</string>
+    <string name="login_zhj">登录</string>
+    <string name="register_zhj">注册</string>
 </resources>

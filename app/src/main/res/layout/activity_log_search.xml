@@ -49,11 +49,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="相关日志"
+            android:text="@string/RelatedLog_zhj"
             android:textSize="20dp"
             android:gravity="center"
             android:textStyle="bold"
-            android:textColor="#206a42"
+            android:textColor="@color/themeDarkGreen"
 
             />
         <androidx.recyclerview.widget.RecyclerView
@@ -71,11 +71,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="相关代办"
+            android:text="@string/RelatedAgency_zhj"
             android:textSize="20dp"
             android:gravity="center"
             android:textStyle="bold"
-            android:textColor="#206a42"
+            android:textColor="@color/themeDarkGreen"
 
 
             />
