@@ -20,6 +20,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/back_icon"
+                android:id="@+id/backToHome"
                 />
             <EditText
                 android:layout_width="0dp"
@@ -33,6 +34,7 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:src="@drawable/search_icon"
+                android:id="@+id/Search"
                 />
         </LinearLayout>
         <View
@@ -45,6 +47,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="20dp"
+        android:id="@+id/relatedLog"
         >
         <TextView
             android:layout_width="match_parent"
@@ -59,6 +62,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/log_list"
             />
     </LinearLayout>
 
@@ -67,6 +71,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="20dp"
+        android:id="@+id/relatedAgency"
         >
         <TextView
             android:layout_width="match_parent"
@@ -76,12 +81,11 @@
             android:gravity="center"
             android:textStyle="bold"
             android:textColor="@color/themeDarkGreen"
-
-
             />
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/todo_list"
             />
     </LinearLayout>
 

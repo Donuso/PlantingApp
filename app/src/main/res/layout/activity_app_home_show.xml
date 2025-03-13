@@ -80,12 +80,14 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:id="@+id/area"
                                 android:text="xx地区"
                                 android:textSize="15sp" /> <!-- 使用sp替代dp -->
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:id="@+id/weather"
                                 android:textSize="25sp"
                                 android:text="晴" />
                         </LinearLayout>
@@ -166,6 +168,7 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
+                                        android:id="@+id/currentTemperature"
                                         android:text="XX度"
                                         android:textSize="25dp"
                                         />
@@ -176,7 +179,21 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="XX度~XX度"
+                                        android:id="@+id/minTemperature"
+                                        android:text="XX度"
+                                        android:textSize="17dp"
+                                        />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="~"
+                                        android:textSize="17dp"
+                                        />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/maxTemperature"
+                                        android:text="XX度"
                                         android:textSize="17dp"
                                         />
                                 </LinearLayout>
@@ -209,6 +226,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:id="@+id/rain"
                                     android:text="[data]"
                                     android:textSize="17dp"
                                     android:layout_marginStart="10dp"/>
@@ -249,6 +267,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:id="@+id/moisture"
                                     android:text="[data]"
                                     android:textSize="17dp"
                                     android:layout_marginStart="10dp"/>
@@ -284,6 +303,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:id="@+id/wind"
                                     android:text="[data]"
                                     android:textSize="17dp"
                                     android:layout_marginStart="10dp"/>
@@ -313,6 +333,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:id="@+id/nextClimate"
                                     android:text="[data]"
                                     android:textSize="17dp"
                                     android:layout_marginStart="5dp"/>
@@ -329,6 +350,7 @@
                     app:cardCornerRadius="20dp"
                     android:layout_marginTop="15dp"
                     app:cardBackgroundColor="#fffdba"
+                    android:id="@+id/attentionCardView"
                     >
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -360,6 +382,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:id="@+id/attention"
                             android:textSize="17dp"
                             android:text="[data]"
                             android:layout_marginTop="5dp"/>
@@ -404,7 +427,7 @@
                         android:paddingStart="20dp"
                         android:paddingEnd="20dp"
                         android:background="@android:color/transparent"
-                        android:id="@+id/log_group_cover"/>
+                        android:id="@+id/plantPhoto"/>
 
                     <!--   part 2 - texts    -->
                     <LinearLayout
@@ -422,7 +445,7 @@
                             android:layout_marginTop="15dp"
                             android:ellipsize="end"
                             android:maxLines="1"
-                            android:id="@+id/group_name"
+                            android:id="@+id/plantName"
                             />
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -469,26 +492,10 @@
                         android:paddingEnd="20dp"
                         android:paddingStart="5dp"
                         android:id="@+id/action_button"
-                        android:src="@drawable/activator_icon_wzc"
+                        android:src="@drawable/detail_icon"
                         android:scaleType="fitCenter"
                         />
                 </LinearLayout>
-
-                <!--   part 4 - hint    -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:text="备注：example"
-                    android:id="@+id/log_group_hint"
-                    android:paddingStart="25dp"
-                    android:textSize="17sp"
-                    android:textColor="@color/text_grey_wzc"
-                    android:translationY="-10dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:focusable="false"
-                    android:visibility="gone"
-                    />
             </LinearLayout>
 
 

@@ -64,19 +64,21 @@
                                 android:textSize="18dp"
                                 android:hint="请输入用户名"
                                 android:layout_marginTop="10dp"
-
+                                android:id="@+id/setUsername"
                                 />
                             <EditText
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:textSize="18dp"
                                 android:hint="请输入密码"
+                                android:id="@+id/setPassword"
                                 />
                             <EditText
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:textSize="18dp"
                                 android:hint="请在此输入密码"
+                                android:id="@+id/confirmPassword"
                                 />
                             <TextView
                                 android:layout_width="wrap_content"
@@ -99,12 +101,14 @@
                                     android:layout_height="50dp"
                                     app:cardCornerRadius="15dp"
                                     android:layout_marginRight="25dp"
+                                    android:id="@+id/cardViewAutoLogin"
                                     >
                                     <LinearLayout
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
                                         android:orientation="horizontal"
-                                        android:layout_gravity="center"
+                                        android:gravity="center"
+                                        android:id="@+id/autoLoginTransfer"
                                         >
                                         <TextView
                                             android:layout_width="wrap_content"
@@ -114,12 +118,14 @@
                                             android:textSize="18dp"
                                             android:textColor="@color/themeDarkGreen"
                                             android:textStyle="bold"
+                                            android:id="@+id/autoLogin"
                                             />
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="关闭"
                                             android:textSize="18dp"
+                                            android:id="@+id/transfer"
                                             />
                                     </LinearLayout>
                                 </androidx.cardview.widget.CardView>
@@ -130,13 +136,14 @@
                                     app:cardBackgroundColor="@color/themeDarkGreen"
                                     >
                                     <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
                                         android:text="确认"
                                         android:textSize="18dp"
                                         android:textStyle="bold"
-                                        android:layout_gravity="center"
+                                        android:gravity="center"
                                         android:textColor="#eef4f0"
+                                        android:id="@+id/confirmRegister"
                                         />
 
                                 </androidx.cardview.widget.CardView>
@@ -171,6 +178,11 @@
                                     android:text="注册"
                                     />
                             </LinearLayout>
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@android:color/transparent"
+                                android:id="@+id/gotoLogin_zhj"/>
                         </androidx.cardview.widget.CardView>
                     </LinearLayout>
 
