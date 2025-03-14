@@ -33,4 +33,25 @@
     <string name="status_diagram_title_wzc">状态分析</string>
     <string name="title_new_label_wzc">增加标签</string>
     <string name="subtitle_recently_used_label_wzc">最近使用的标签</string>
+    <string name="label_type_status_wzc">状态</string>
+    <string name="label_type_data_wzc">数值记录</string>
+    <string name="label_type_diy_wzc">自定义</string>
+    <string name="new_diy_label_wzc">点击新增自定义标签</string>
+    <string name="temporarily_no_diy_labels">暂无自定义标签</string>
+    <string name="delete_diy_label_wzc">删除自定义标签</string>
+    <string name="title_new_diy_label_wzc">新增自定义标签</string>
+    <string name="diy_label_type_status_wzc">状态标签</string>
+    <string name="diy_label_type_data_wzc">数值记录标签</string>
+    <string name="new_label_name_subtitle_wzc">标签名称｜不超过8个字</string>
+    <string name="new_diy_label_name_wzc">请输入名称</string>
+    <string name="new_diy_label_unit_wzc">请输入单位名称</string>
+    <string name="new_label_unit_subtitle_wzc">单位名称｜最多10个字符</string>
+    <string name="hint_label_change_wzc">若该标签已存在，此次增加的标签将会覆盖旧标签的内容</string>
+    <string name="hint_unit_input_wzc">请输入数值</string>
+    <string name="label_extra_input_wzc">额外描述（不超过15个字）</string>
+    <string name="status_1_wzc">好</string>
+    <string name="status_2_wzc">较好</string>
+    <string name="status_3_wzc">一般</string>
+    <string name="status_4_wzc">较差</string>
+    <string name="status_5_wzc">差</string>
 </resources>

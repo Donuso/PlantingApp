@@ -18,19 +18,21 @@
             />
 
         <ImageButton
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_gravity="end"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="end|top"
             android:src="@drawable/icon_delete_wzc"
             android:scaleType="fitCenter"
             android:background="@android:color/transparent"
             android:layout_margin="5dp"
+            android:paddingStart="40dp"
+            android:paddingEnd="0dp"
+            android:paddingBottom="40dp"
+            android:id="@+id/delete_pic_icon"
             android:focusable="false"
             android:visibility="gone"
-            android:id="@+id/delete_pic_icon"
             />
 
     </FrameLayout>
-
 
 </androidx.cardview.widget.CardView>

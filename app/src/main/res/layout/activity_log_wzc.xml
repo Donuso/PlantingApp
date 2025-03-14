@@ -146,7 +146,7 @@
 
         </RelativeLayout>
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -187,6 +187,7 @@
                             android:id="@+id/labels"
                             android:focusable="false"
                             android:visibility="gone"
+                            android:nestedScrollingEnabled="false"
                             />
 
                         <TextView
@@ -286,12 +287,13 @@
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:layout_width="match_parent"
-                            android:layout_height="100dp"
+                            android:layout_height="wrap_content"
                             android:minHeight="100dp"
                             android:id="@+id/log_pics"
                             android:padding="10dp"
                             android:focusable="false"
                             android:visibility="gone"
+                            android:nestedScrollingEnabled="false"
                             />
 
                         <TextView
@@ -354,9 +356,13 @@
 
                 </androidx.cardview.widget.CardView>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"/>
+
             </LinearLayout>
 
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
 
