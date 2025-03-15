@@ -11,5 +11,19 @@
     <color name="themeLightGreen">#A8D49C</color>
     <color name="themeBlue">#4095E5</color>
     <color name="themeRed">#FF0000</color>
-    <color name="iconGrey">#BEBEBE</color>
+    <color name="icon_grey">#BEBEBE</color>
+    <color name="text_grey_wzc">#BEBEBE</color>
+    <color name="mass_text_grey_wzc">#444444</color>
+    <color name="general_grey_wzc">#9a9a9a</color>
+    <color name="text_search_color_wzc">#CFffffff</color>
+    <color name="cover_gray_wzc">#2E000000</color>
+    <color name="cover_white_wzc">#aaffffff</color>
+    <color name="bg_grey_wzc">#efefef</color>
+    <color name="text_black_wzc">#101010</color>
+    <color name="line_black_wzc">#4f4f4f</color>
+    <color name="line_grey_wzc">#BBBBBB</color>
+    <color name="status_2_wzc">#81B337</color>
+    <color name="status_3_wzc">#FCCA00</color>
+    <color name="status_4_wzc">#E99D42</color>
+    <color name="status_5_wzc">#BD3124</color>
 </resources>

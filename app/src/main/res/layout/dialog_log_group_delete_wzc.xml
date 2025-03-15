@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:layout_margin="20dp"
+    app:cardElevation="5dp"
+    app:cardCornerRadius="30dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delete_group_wzc"
+            android:textColor="@color/themeRed"
+            android:textSize="28sp"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="15dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="您真的要删除[origin]分组吗？"
+            android:textColor="@color/black"
+            android:id="@+id/delete_text"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/group_delete_hint_1_wzc"
+            android:textColor="@color/themeRed"
+            android:textSize="14sp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="end">
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:text="@string/cancel_wzc"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:id="@+id/cancel"
+                android:paddingBottom="5dp"/>
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:textColor="@color/themeRed"
+                android:textSize="18sp"
+                android:text="@string/make_sure_wzc"
+                android:gravity="center"
+                android:id="@+id/make_sure"
+                android:paddingBottom="5dp"
+                android:layout_marginStart="10dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+</androidx.cardview.widget.CardView>

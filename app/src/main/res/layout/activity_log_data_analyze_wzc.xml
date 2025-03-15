@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LogDataAnalyzeWzc"
+    android:background="@color/bg_grey_wzc">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingTop="16dp"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        app:contentInsetStart="9dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/toolbar">
+
+        <ImageButton
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:padding="11dp"
+            android:layout_gravity="start"
+            android:src="@drawable/back_wzc"
+            android:scaleType="fitCenter"
+            android:background="@android:color/transparent"
+            android:id="@+id/back_btn"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/analyzer_title_wzc"
+            android:textColor="@color/text_black_wzc"
+            android:textSize="22sp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="9dp"
+            />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_black_wzc"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        android:id="@+id/dividing_line_1"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/dividing_line_1">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="150dp"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="0dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/ai_analyze_bg"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ai_analyze_title_wzc"
+                android:textColor="@color/themeDarkGreen"
+                android:textSize="20sp"
+                android:layout_marginTop="15dp"
+                android:id="@+id/ai_analyze_title"
+                app:layout_constraintTop_toTopOf="@id/ai_analyze_bg"
+                app:layout_constraintStart_toStartOf="@id/ai_analyze_bg"
+                app:layout_constraintEnd_toEndOf="@id/ai_analyze_bg"
+                app:layout_constraintHorizontal_bias="0.5"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="80dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:paddingBottom="5dp"
+                android:text="点击获取AI分析"
+                android:gravity="center"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@id/ai_analyze_title"
+                app:layout_constraintStart_toStartOf="@id/ai_analyze_bg"
+                app:layout_constraintEnd_toEndOf="@id/ai_analyze_bg"
+                app:layout_constraintHorizontal_bias="0.5"
+                />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="0dp"
+                app:layout_constraintTop_toBottomOf="@id/ai_analyze_bg"
+                android:id="@+id/status_diagram_bg"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/status_diagram_title_wzc"
+                android:textColor="@color/themeDarkGreen"
+                android:textSize="20sp"
+                android:id="@+id/status_diagram_title"
+                android:layout_marginTop="15dp"
+                app:layout_constraintTop_toTopOf="@id/status_diagram_bg"
+                app:layout_constraintStart_toStartOf="@id/status_diagram_bg"
+                app:layout_constraintEnd_toEndOf="@id/status_diagram_bg"
+                app:layout_constraintHorizontal_bias="0.5"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="370dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:paddingBottom="5dp"
+                android:text="点击获取状态分析"
+                android:gravity="center"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@id/status_diagram_title"
+                app:layout_constraintStart_toStartOf="@id/status_diagram_bg"
+                app:layout_constraintEnd_toEndOf="@id/status_diagram_bg"
+                app:layout_constraintHorizontal_bias="0.5"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/status_diagram_title"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:visibility="gone"
+                android:focusable="false"
+                android:id="@+id/year_controller">
+
+                <ImageButton
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/back_wzc"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="17dp"
+                    android:id="@+id/minus_year" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0000年"
+                    android:textColor="@color/text_black_wzc"
+                    android:textSize="19sp"
+                    android:id="@+id/year_display"
+                    android:layout_centerInParent="true"
+                    android:paddingBottom="3dp"
+                    />
+
+                <ImageButton
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/back_wzc"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="17dp"
+                    android:rotation="180"
+                    android:id="@+id/plus_year"
+                    android:layout_alignParentEnd="true"
+                    />
+
+            </RelativeLayout>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:layout_width="match_parent"
+                android:layout_height="320dp"
+                android:layout_marginTop="60dp"
+                app:layout_constraintTop_toBottomOf="@id/status_diagram_title"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:visibility="gone"
+                android:focusable="false"
+                android:id="@+id/status_diagram"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/status_diagram_bg"
+                android:id="@+id/other_data_diagrams"
+                />
+
+            <!--  此列表控件仅保留，供v1.1升级时完善功能  -->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

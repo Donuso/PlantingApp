@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NewPersonalLabelActivityWzc"
+    android:background="@color/bg_grey_wzc">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingTop="16dp"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        app:contentInsetStart="9dp"
+        android:id="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="@id/main">
+        <ImageButton
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:padding="11dp"
+            android:layout_gravity="start"
+            android:src="@drawable/back_wzc"
+            android:scaleType="fitCenter"
+            android:background="@android:color/transparent"
+            android:id="@+id/back_btn"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_new_diy_label_wzc"
+            android:textColor="@color/text_black_wzc"
+            android:textSize="19sp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            />
+
+        <ImageButton
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="6dp"
+            android:paddingEnd="12dp"
+            android:layout_gravity="end"
+            android:src="@drawable/icon_help_wzc"
+            android:scaleType="fitCenter"
+            android:background="@android:color/transparent"
+            android:id="@+id/help_btn"
+            android:layout_marginEnd="9dp"
+            />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_black_wzc"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        android:id="@+id/dividing_line_1"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:id="@+id/buttons_bg"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/dividing_line_1"
+        android:paddingStart="15dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="135dp"
+            android:layout_height="45dp"
+            android:id="@+id/status_bg"
+            app:cardElevation="5dp"
+            app:cardCornerRadius="50dp"
+            app:cardBackgroundColor="@color/themeDarkGreen"
+            >
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/icon_status_white_wzc"
+                android:scaleType="fitCenter"
+                android:layout_marginTop="12.5dp"
+                android:layout_marginStart="14dp"
+                android:id="@+id/status_icon"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="20dp"
+                android:paddingEnd="0dp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:text="@string/diy_label_type_status_wzc"
+                android:id="@+id/status_text_touch"
+                />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="165dp"
+            android:layout_height="45dp"
+            android:id="@+id/data_bg"
+            app:cardElevation="5dp"
+            app:cardCornerRadius="50dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            >
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/icon_data_green_wzc"
+                android:scaleType="fitCenter"
+                android:layout_marginTop="12.5dp"
+                android:layout_marginStart="14dp"
+                android:id="@+id/data_icon"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="20dp"
+                android:paddingEnd="0dp"
+                android:gravity="center"
+                android:textColor="@color/themeDarkGreen"
+                android:textSize="18sp"
+                android:text="@string/diy_label_type_data_wzc"
+                android:id="@+id/data_text"
+                />
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/buttons_bg"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="25dp"
+        android:id="@+id/data_input_module">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="@string/new_label_name_subtitle_wzc"
+                android:textColor="@color/themeDarkGreen"
+                android:textSize="18sp"
+                android:gravity="center_vertical"
+                android:paddingStart="20dp"
+                android:paddingEnd="0dp"
+                android:paddingTop="10dp"
+                android:layout_marginTop="5dp"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:maxLines="1"
+                android:hint="@string/new_diy_label_name_wzc"
+                android:textSize="18sp"
+                android:textColorHint="@color/text_grey_wzc"
+                android:background="@android:color/transparent"
+                android:id="@+id/label_name"
+                android:textColor="@color/text_black_wzc"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="19dp"
+                android:layout_marginEnd="19dp"
+                android:background="@color/line_grey_wzc"
+                android:translationY="-6dp"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="90dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:text="@string/new_label_unit_subtitle_wzc"
+                android:textColor="@color/themeDarkGreen"
+                android:textSize="18sp"
+                android:gravity="center_vertical"
+                android:paddingStart="20dp"
+                android:paddingEnd="0dp"
+                android:paddingTop="10dp"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:maxLines="1"
+                android:hint="@string/new_diy_label_unit_wzc"
+                android:textSize="18sp"
+                android:textColorHint="@color/text_grey_wzc"
+                android:background="@android:color/transparent"
+                android:textColor="@color/text_black_wzc"
+                android:id="@+id/unit"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="19dp"
+                android:layout_marginEnd="19dp"
+                android:background="@color/line_grey_wzc"
+                android:translationY="-6dp"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:cardCornerRadius="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:cardElevation="20dp"
+        android:translationY="-20dp"
+        android:id="@+id/cancel_module"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/make_sure_wzc"
+            android:textColor="@color/themeDarkGreen"
+            android:textSize="20sp"
+            android:id="@+id/cancel_text"
+            />
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

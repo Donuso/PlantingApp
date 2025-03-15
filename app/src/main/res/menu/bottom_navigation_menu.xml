@@ -6,7 +6,7 @@
         android:title="主页" />
     <item
         android:id="@+id/navigation_logs"
-        android:icon="@drawable/main_icon"
+        android:icon="@drawable/icon_log_wzc"
         android:title="日志" />
     <item
         android:id="@+id/navigation_todos"

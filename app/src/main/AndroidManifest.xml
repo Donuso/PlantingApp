@@ -14,8 +14,30 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".MainSwitchActivity"
+            android:name=".NewPersonalLabelActivityWzc"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".NewLabelActivityWzc"
+            android:exported="true"></activity>
+        <activity
+            android:name=".LogDataAnalyzeWzc"
             android:exported="true" />
+        <activity
+            android:name=".DatePickerActivityWzc"
+            android:exported="true"></activity>
+        <activity
+            android:name=".LogActivityWzc"
+            android:exported="true">
+
+        </activity>
+        <activity
+            android:name=".MainSwitchActivity"
+            android:exported="true"></activity>
     </application>
 
 </manifest>
