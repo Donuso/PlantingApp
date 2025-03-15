@@ -26,4 +26,6 @@
     <color name="status_3_wzc">#FCCA00</color>
     <color name="status_4_wzc">#E99D42</color>
     <color name="status_5_wzc">#BD3124</color>
+    <color name="iconGrey">#BEBEBE</color>
+    <color name="icon_light_green_yzr">#e0e9e2</color>
 </resources>

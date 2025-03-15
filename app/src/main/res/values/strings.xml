@@ -54,4 +54,9 @@
     <string name="status_3_wzc">一般</string>
     <string name="status_4_wzc">较差</string>
     <string name="status_5_wzc">差</string>
+    <string name="edit_personal_info_yzr">点击此处修改个人信息</string>
+    <string name="todo_finished_times_yzr">待办完成次数</string>
+    <string name="log_count_yzr">已记录条目数</string>
+    <string name="alter_password_yzr">修改密码</string>
+    <string name="settings_yzr">设置</string>
 </resources>

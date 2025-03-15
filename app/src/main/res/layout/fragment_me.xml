@@ -1,14 +1,311 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.MeFragment">
+    android:background="@drawable/bg_res_5"
+    android:orientation="vertical"
+    tools:context=".fragments.MeFragment"
+    android:paddingTop="45dp"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!-- 用户头像区域 -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/avatar">
+
+        <ImageView
+            android:id="@+id/user_avatar"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/main_icon"
+            android:padding="40dp"
+            />
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- 用户昵称区域 -->
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="0dp"
+        android:layout_marginStart="120dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/avatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/personal_module">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="vertical"
+            android:gravity="bottom">
+
+            <TextView
+                android:id="@+id/user_nickname"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:text="用户昵称"
+                android:paddingStart="17dp"
+                android:paddingEnd="0dp"
+                android:textColor="#222222"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:gravity="start|bottom"
+                android:maxLines="1"/>
+
+            <TextView
+                android:id="@+id/user_nickname_hint"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="17dp"
+                android:paddingEnd="0dp"
+                android:text="@string/edit_personal_info_yzr"
+                android:textColor="#9a9a9a"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- 已记录条目数和待办完成次数区域 -->
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="0dp"
+        app:layout_constraintTop_toBottomOf="@id/avatar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/todo_module"
+        android:id="@+id/log_counts"
+        app:layout_constraintDimensionRatio="1:1">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <ImageView
+                    android:id="@+id/record_icon"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="1dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/icon_record_yzr"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <TextView
+                    android:id="@+id/record_count1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="15dp"
+                    android:textColor="@color/themeDarkGreen"
+                    android:textSize="40sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:maxLines="1"/>
+
+                <TextView
+                    android:id="@+id/record_count2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginStart="4dp"
+                    android:text="条"
+                    android:textColor="@color/themeDarkGreen"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/record_count1"
+                    />
+
+                <TextView
+                    android:id="@+id/record_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/log_count_yzr"
+                    android:textColor="@color/themeDarkGreen"
+                    android:textSize="18sp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="0dp"
+        app:layout_constraintTop_toBottomOf="@id/personal_module"
+        app:layout_constraintStart_toEndOf="@id/log_counts"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/todo_module"
+        app:layout_constraintDimensionRatio="1:1">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/todo_icon"
+                android:layout_width="125dp"
+                android:layout_height="115dp"
+                android:paddingEnd="10dp"
+                android:paddingStart="5dp"
+                android:paddingBottom="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_finished_todo_yzr"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:id="@+id/todo_count1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                android:text="10"
+                android:textColor="@color/themeDarkGreen"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:maxLines="1"/>
+
+            <TextView
+                android:id="@+id/todo_count2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                android:layout_marginStart="4dp"
+                android:text="次"
+                android:textColor="@color/themeDarkGreen"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/todo_count1"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+
+            <TextView
+                android:id="@+id/todo_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/todo_finished_times_yzr"
+                android:textColor="@color/themeDarkGreen"
+                android:textSize="18sp"
+                android:layout_marginStart="15dp"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- 修改密码按钮 -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/change_password_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="0dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/log_counts">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            >
+            <ImageView
+                android:id="@+id/arrow_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="end|center_vertical"
+                android:src="@drawable/icon_go_yzr"
+                android:layout_marginEnd="20dp"
+                />
+
+            <TextView
+                android:id="@+id/change_password"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:text="@string/alter_password_yzr"
+                android:textColor="#444444"
+                android:textSize="19sp"
+                android:gravity="start|center_vertical"
+                android:paddingStart="20dp"
+                android:paddingEnd="0dp"/>
+
+        </FrameLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- 设置按钮 -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="0dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/change_password_card_view">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <ImageView
+                android:id="@+id/arrow_icon_settings"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/icon_go_yzr"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="20dp"
+                />
+
+            <TextView
+                android:id="@+id/settings"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:text="@string/settings_yzr"
+                android:textColor="#444444"
+                android:textSize="19sp"
+                android:paddingStart="20dp"
+                android:paddingEnd="0dp"
+                android:gravity="start|center_vertical"
+                />
+
+        </FrameLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
