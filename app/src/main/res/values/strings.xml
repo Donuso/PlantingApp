@@ -59,4 +59,16 @@
     <string name="log_count_yzr">已记录条目数</string>
     <string name="alter_password_yzr">修改密码</string>
     <string name="settings_yzr">设置</string>
+    <string name="password_edit_title_yzr">修改密码</string>
+    <string name="input_origin_password_title_yzr">输入原密码</string>
+    <string name="input_origin_password_here_hint">在此输入原密码</string>
+    <string name="input_new_password_title_yzr">输入新密码</string>
+    <string name="input_new_password_hint_yzr">在此输入新密码</string>
+    <string name="new_password_format_hint_yzr">*至少8位的字母与数字混合，不含特殊符号</string>
+    <string name="input_new_password_title_2_yzr">再次输入新密码</string>
+    <string name="input_new_password_hint_2_yzr">在此再次输入新密码</string>
+    <string name="alter_personal_info_title_yzr">修改个人信息</string>
+    <string name="alter_avatar_title_yzr">头像｜点击修改</string>
+    <string name="alter_name_title_yzr">昵称｜点击修改</string>
+    <string name="alter_name_hint_yzr">在这里填写你的昵称</string>
 </resources>

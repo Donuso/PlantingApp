@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.ViewOutlineProvider
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.appbar.MaterialToolbar
@@ -16,18 +18,14 @@ class ChangePasswordActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_change_password)
 
-
-
-        val toolbar: MaterialToolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-
+        val back = findViewById<ImageButton>(R.id.back_btn)
         val oldPasswordEdit: EditText = findViewById(R.id.old_password_edit)
         val newPasswordEdit: EditText = findViewById(R.id.new_password_edit)
         val confirmPasswordEdit: EditText = findViewById(R.id.confirm_password_edit)
-        val confirmCardView: Button = findViewById(R.id.confirm_button)
+        val confirmCardView: TextView = findViewById(R.id.confirm_button)
 
-        toolbar.setNavigationOnClickListener {
-            onBackPressed()
+        back.setOnClickListener{
+            finish()
         }
 
         confirmCardView.setOnClickListener {

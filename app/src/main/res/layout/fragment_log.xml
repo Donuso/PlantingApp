@@ -8,11 +8,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- 此处作为背景的image view仅供开发方便，实际开发完成时需要删除   -->
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/bg_res_1"
-        android:scaleType="centerCrop" />
+<!--    <ImageView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:src="@drawable/bg_res_1"-->
+<!--        android:scaleType="centerCrop" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
