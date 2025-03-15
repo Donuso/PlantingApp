@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.TodoFragment"
-    android:background="#8BC34A"
+    android:background="@drawable/bg_res_2"
     android:padding="16dp">
 
     <LinearLayout
@@ -31,13 +31,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="搜索植物信息..."
-            android:background="@drawable/edit_text_background"
-            android:padding="12dp"
-            android:layout_marginBottom="16dp"/>
+            android:background="@drawable/edit_text_search_background"
+            android:padding="8dp"
+            android:layout_marginBottom="16dp"
+            android:drawableStart="@drawable/searchs"
+            android:drawablePadding="8dp"/>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="350dp"
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="4dp"
@@ -54,7 +56,8 @@
                     android:text="今日进度"
                     android:textSize="23sp"
                     android:textColor="#120F0F"
-                    android:paddingBottom="8dp"/>
+                    android:paddingBottom="8dp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -66,17 +69,30 @@
                 <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="给[data]喷洒农药"/>
+                    android:text="给[data]喷洒农药"
+                    android:button="@drawable/round_checkbox"
+                    android:layout_marginBottom="8dp"/>
 
                 <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="给[data]施肥"/>
+                    android:text="给[data]施肥"
+                    android:button="@drawable/round_checkbox"
+                    android:layout_marginBottom="8dp"/>
 
                 <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="给[data]灌溉"/>
+                    android:text="给[data]灌溉"
+                    android:button="@drawable/round_checkbox"
+                    android:layout_marginTop="8dp"/>
+                <!-- 分割线 -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#181616"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -90,23 +106,37 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="喷洒农药"
-                    android:checked="true"/>
+                    android:checked="true"
+                    android:button="@drawable/round_checkbox"
+                    android:layout_marginBottom="8dp"/>
 
                 <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="给[data]喷洒农药"
-                    android:checked="true"/>
+                    android:checked="true"
+                    android:button="@drawable/round_checkbox"
+                    android:layout_marginBottom="8dp"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <Button
+            android:id="@+id/buttonmanagealltodo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="管理所有待办"
             android:background="@drawable/rounded_spinner"
-            android:textColor="#516B34"
             android:drawableRight="@drawable/arrow_left"
-            android:paddingRight="10dp"/>
+            android:paddingRight="10dp"
+            android:text="管理所有待办"
+            android:textColor="#516B34" />
+
+        <Button
+            android:id="@+id/buttonnewtodo"
+            android:layout_width="wrap_content"
+            android:layout_height="72dp"
+            android:layout_marginLeft="300dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/xinzeng" />
     </LinearLayout>
+
 </FrameLayout>

@@ -12,4 +12,6 @@
     <color name="themeBlue">#4095E5</color>
     <color name="themeRed">#FF0000</color>
     <color name="iconGrey">#BEBEBE</color>
+    <color name="colorPrimary">#FF4081</color>
+    <color name="colorAccent">#FF4081</color>
 </resources>

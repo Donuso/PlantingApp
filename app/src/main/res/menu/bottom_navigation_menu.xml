@@ -10,7 +10,7 @@
         android:title="日志" />
     <item
         android:id="@+id/navigation_todos"
-        android:icon="@drawable/main_icon"
+        android:icon="@drawable/icon_time"
         android:title="待办" />
     <item
         android:id="@+id/navigation_me"
