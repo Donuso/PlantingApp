@@ -16,7 +16,6 @@ import com.example.plantingapp.ChangePasswordActivity
 
 class MeFragment : Fragment() {
 
-    private lateinit var enlargedImageView: ImageView
     private lateinit var userAvatar: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,26 +28,10 @@ class MeFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_me, container, false)
 
-        // 找到放大图片的 ImageView
-        enlargedImageView = view.findViewById(R.id.enlarged_image_view)
-
         // 找到用户头像的 ImageView
         userAvatar = view.findViewById(R.id.user_avatar)
 
-        // 为用户头像添加点击事件监听器
-        userAvatar.setOnClickListener {
-            // 显示放大后的图片
-            enlargedImageView.setImageDrawable(userAvatar.drawable)
-            enlargedImageView.visibility = View.VISIBLE
-        }
-
-        // 为放大图片的 ImageView 添加点击事件监听器
-        enlargedImageView.setOnClickListener {
-            // 隐藏放大后的图片
-            enlargedImageView.visibility = View.GONE
-        }
-
-        val changePasswordCardView = view.findViewById<CardView>(R.id.change_password_card_view)
+        val changePasswordCardView = view.findViewById<TextView>(R.id.change_password)
         changePasswordCardView.setOnClickListener {
             // 处理修改密码的逻辑，比如跳转到修改密码页面
             val intent = Intent(requireContext(), ChangePasswordActivity::class.java)

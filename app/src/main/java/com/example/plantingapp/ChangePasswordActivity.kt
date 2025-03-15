@@ -28,9 +28,6 @@ class ChangePasswordActivity : AppCompatActivity() {
 
         toolbar.setNavigationOnClickListener {
             onBackPressed()
-            val intent = Intent(this, MeActivity::class.java)
-            startActivity(intent)
-            finish()
         }
 
         confirmCardView.setOnClickListener {

@@ -1,5 +1,6 @@
 package com.example.plantingapp
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.TextView
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+
 import com.example.plantingapp.R
 
 class ModifyActivity : AppCompatActivity() {
@@ -21,10 +23,6 @@ class ModifyActivity : AppCompatActivity() {
 
         toolbar.setNavigationOnClickListener {
             onBackPressed()
-            // 创建一个 Intent 用于启动 MeActivity
-            val intent = Intent(this, MeActivity::class.java)
-            startActivity(intent)
-            finish() // 关闭当前的 ModifyActivity
         }
 
         val avatarTitle: TextView = findViewById(R.id.avatar_title)
