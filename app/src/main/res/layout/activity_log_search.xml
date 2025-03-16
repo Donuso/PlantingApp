@@ -19,7 +19,7 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/back_icon"
+                android:src="@drawable/icon_back_zhj"
                 android:id="@+id/backToHome"
                 />
             <EditText
@@ -33,7 +33,7 @@
             <ImageView
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:src="@drawable/search_icon"
+                android:src="@drawable/icon_search_zhj"
                 android:id="@+id/Search"
                 />
         </LinearLayout>

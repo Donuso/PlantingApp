@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.widget.TextView
+import com.example.plantingapp.fragments.MainFragment
 import kotlin.concurrent.thread
 
 class SplashActivity : AppCompatActivity() {
@@ -18,7 +19,7 @@ class SplashActivity : AppCompatActivity() {
             // 判断消息的类型，如果是0x101，则执行跳转逻辑
             if (msg.what==0x101){
                 // 创建一个Intent对象，用于跳转到LoginActivity，
-                val intent= Intent(this@SplashActivity,AppHomeShow::class.java)
+                val intent= Intent(this@SplashActivity,MainSwitchActivity::class.java)
                 startActivity(intent)
             }
         }

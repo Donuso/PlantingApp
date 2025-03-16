@@ -7,6 +7,7 @@ import com.example.plantingapp.fragments.LogFragment
 import com.example.plantingapp.fragments.MainFragment
 import com.example.plantingapp.fragments.MeFragment
 import com.example.plantingapp.fragments.TodoFragment
+import com.example.plantingapp.fragments.WeatherFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainSwitchActivity : AppCompatActivity() {
@@ -32,7 +33,7 @@ class MainSwitchActivity : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_logs -> {
-                    replaceFragment(LogFragment())
+                    replaceFragment(WeatherFragment())
                     true
                 }
                 R.id.navigation_me -> {

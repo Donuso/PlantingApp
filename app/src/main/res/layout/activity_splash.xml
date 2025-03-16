@@ -13,7 +13,7 @@
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/appicon"
+            android:src="@drawable/icon_app_zhj"
             android:layout_gravity="center"
             />
     </LinearLayout>

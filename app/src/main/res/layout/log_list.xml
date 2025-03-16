@@ -21,7 +21,7 @@
     <ImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:src="@drawable/detail_icon"
+        android:src="@drawable/icon_detail_zhj"
         />
 
     
