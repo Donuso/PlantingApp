@@ -48,4 +48,6 @@ dependencies {
     implementation("com.google.android.flexbox:flexbox:3.0.0")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation("com.github.Dimezis:BlurView:version-2.0.6")
+    implementation ("com.squareup.okhttp3:okhttp:4.9.3")
+    implementation ("com.google.android.gms:play-services-location:21.0.1")
 }

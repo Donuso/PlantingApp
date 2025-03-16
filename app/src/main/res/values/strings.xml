@@ -71,4 +71,9 @@
     <string name="alter_avatar_title_yzr">头像｜点击修改</string>
     <string name="alter_name_title_yzr">昵称｜点击修改</string>
     <string name="alter_name_hint_yzr">在这里填写你的昵称</string>
+    <string name="apptile_zhj">忆植</string>
+    <string name="RelatedLog_zhj">相关日志</string>
+    <string name="RelatedAgency_zhj">相关代办</string>
+    <string name="login_zhj">登录</string>
+    <string name="register_zhj">注册</string>
 </resources>
