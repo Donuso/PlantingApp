@@ -31,10 +31,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="搜索植物信息..."
-            android:background="@drawable/edit_text_search_background"
+            android:background="@drawable/shape_edit_text_search_background_chl"
             android:padding="8dp"
             android:layout_marginBottom="16dp"
-            android:drawableStart="@drawable/searchs"
+            android:drawableStart="@drawable/icon_searchs_chl"
             android:drawablePadding="8dp"/>
 
         <androidx.cardview.widget.CardView
@@ -70,21 +70,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="给[data]喷洒农药"
-                    android:button="@drawable/round_checkbox"
+                    android:button="@drawable/shape_round_checkbox_chl"
                     android:layout_marginBottom="8dp"/>
 
                 <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="给[data]施肥"
-                    android:button="@drawable/round_checkbox"
+                    android:button="@drawable/shape_round_checkbox_chl"
                     android:layout_marginBottom="8dp"/>
 
                 <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="给[data]灌溉"
-                    android:button="@drawable/round_checkbox"
+                    android:button="@drawable/shape_round_checkbox_chl"
                     android:layout_marginTop="8dp"/>
                 <!-- 分割线 -->
                 <View
@@ -107,7 +107,7 @@
                     android:layout_height="wrap_content"
                     android:text="喷洒农药"
                     android:checked="true"
-                    android:button="@drawable/round_checkbox"
+                    android:button="@drawable/shape_round_checkbox_chl"
                     android:layout_marginBottom="8dp"/>
 
                 <CheckBox
@@ -115,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:text="给[data]喷洒农药"
                     android:checked="true"
-                    android:button="@drawable/round_checkbox"
+                    android:button="@drawable/shape_round_checkbox_chl"
                     android:layout_marginBottom="8dp"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -124,8 +124,8 @@
             android:id="@+id/buttonmanagealltodo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_spinner"
-            android:drawableRight="@drawable/arrow_left"
+            android:background="@drawable/shape_rounded_spinner_chl"
+            android:drawableRight="@drawable/icon_arrow_left_chl"
             android:paddingRight="10dp"
             android:text="管理所有待办"
             android:textColor="#516B34" />
@@ -136,7 +136,7 @@
             android:layout_height="72dp"
             android:layout_marginLeft="300dp"
             android:layout_marginTop="15dp"
-            android:background="@drawable/xinzeng" />
+            android:background="@drawable/icon_new_todo_chl" />
     </LinearLayout>
 
 </FrameLayout>

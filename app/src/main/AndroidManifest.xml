@@ -16,8 +16,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PlantingApp"
         tools:targetApi="31">
+
         <activity
-            android:name=".allToDo"
+            android:name=".AIChatActivity"
+            android:exported="true" >
+
+        </activity>
+        <activity
+            android:name=".AllToDoActivity"
             android:exported="false" />
         <activity
             android:name=".NewTodoActivity"
@@ -31,10 +37,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <activity
-            android:name=".ExampleActivity"
-            android:exported="true" />
     </application>
 
 </manifest>

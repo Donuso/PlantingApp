@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.example.plantingapp.fragments.LogFragment
 import com.example.plantingapp.fragments.MainFragment
 import com.example.plantingapp.fragments.MeFragment
+import com.example.plantingapp.fragments.TodoFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 /*

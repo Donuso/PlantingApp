@@ -1,18 +1,19 @@
 package com.example.plantingapp
 
-import android.content.Intent
+import android.content.Context
 import android.os.Bundle
-import android.view.MenuItem
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.PopupMenu
+import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 
-class allToDo : AppCompatActivity() {
+class AllToDoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -72,25 +73,31 @@ class allToDo : AppCompatActivity() {
     }
 
     private fun showPopupMenu(view: View) {
-        val popupMenu = PopupMenu(this, view)
-        popupMenu.menuInflater.inflate(R.menu.menu_options, popupMenu.menu)
+        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val popupView = inflater.inflate(R.layout.popup_menu_layout, null)
 
-        popupMenu.setOnMenuItemClickListener { item: MenuItem ->
-            when (item.itemId) {
-                R.id.action_about -> {
-                    showDeleteIcons()
+        val popupWindow = PopupWindow(
+            popupView,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            true
+        )
 
-                    true
-                }
-                R.id.action_settings -> {
-                    showDisableIcons()
-                    true
-                }
-                else -> false
-            }
+        
+
+        // 设置点击事件
+        popupView.findViewById<Button>(R.id.action_settings).setOnClickListener {
+            showDisableIcons()
+            popupWindow.dismiss()
         }
 
-        popupMenu.show()
+        popupView.findViewById<Button>(R.id.action_about).setOnClickListener {
+            showDeleteIcons()
+            popupWindow.dismiss()
+        }
+
+        // 显示 PopupWindow
+        popupWindow.showAsDropDown(view)
     }
 
     private fun showDeleteIcons() {

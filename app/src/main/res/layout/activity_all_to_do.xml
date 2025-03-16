@@ -18,7 +18,7 @@
             android:id="@+id/backtoDo"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/leftarrows"/>
+            android:background="@drawable/icon_leftarrows1_chl"/>
         <TextView
             android:id="@+id/title"
             android:layout_width="0dp"
@@ -33,7 +33,7 @@
             android:id="@+id/menu_caidan"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/caidan"
+            android:background="@drawable/icon_menu_chl"
             android:padding="8dp" />
     </LinearLayout>
 
@@ -84,7 +84,7 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
                 <LinearLayout
-                    android:layout_width="290dp"
+                    android:layout_width="263dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center_vertical">
@@ -115,16 +115,17 @@
                         android:id="@+id/delete_todo1"
                         android:layout_width="30dp"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/delete"
+                        android:src="@drawable/icon_delete_chl"
                         android:padding="8dp"
                         android:visibility="gone"/>
                     <ImageView
                         android:id="@+id/tingyong"
-                        android:layout_width="30dp"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/tingyong1"
+                        android:layout_width="60dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/icon_stop_chl"
                         android:padding="8dp"
-                        android:visibility="gone"/>
+                        android:visibility="gone"
+                        />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -187,7 +188,7 @@
         android:textColor="#D30D0D"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
-        android:background="@drawable/rounded_spinner"
+        android:background="@drawable/shape_rounded_spinner_chl"
         android:visibility="gone"/>
 
 

@@ -27,7 +27,7 @@
                 android:id="@+id/back"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/leftarrows"/>
+                android:background="@drawable/icon_leftarrows1_chl"/>
 
             <!-- 标题 -->
             <TextView
@@ -113,25 +113,20 @@
                     android:textStyle="bold"
                     android:textSize="17sp"/>
 
-                <LinearLayout
-                    android:layout_width="230dp"
+
+                <Switch
+                    android:id="@+id/switchcompat"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="20sp"
-                    >
-                    <Switch
-                        android:id="@+id/switchcompat"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:checked="false"
-                        android:showText="true"
-                        android:textOn="结束日期选择"
-                        android:textOff="永不结束"
-                        android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:thumb="@drawable/custom_switch_thumb"
-                        android:track="@drawable/custom_switch_track" />
-                </LinearLayout>
+                    android:checked="false"
+                    android:showText="true"
+                    android:textOn="结束日期选择"
+                    android:textOff="永不结束"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:thumb="@drawable/shape_custom_switch_thumb_chl"
+                    android:track="@drawable/shape_custom_switch_track_chl"
+                    />
                 <Button
                     android:id="@+id/date_button"
                     android:layout_width="match_parent"
@@ -140,7 +135,7 @@
                     android:enabled="false"
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/custom_button_bg"
+                    android:background="@drawable/shape_custom_button_bg_chl"
                     android:textColor="#B60A680A"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="8dp"
@@ -211,7 +206,7 @@
                     android:layout_height="50dp"
                     android:textAlignment="center"
                     android:padding="16dp"
-                    android:background="@drawable/spinner_border"
+                    android:background="@drawable/shape_spinner_border_chl"
                     /> <!-- 设置边框背景 -->
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -221,7 +216,7 @@
             android:id="@+id/confirm_button"
             android:layout_width="380dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_spinner"
+            android:background="@drawable/shape_rounded_spinner_chl"
             android:text="确认"
             android:textColor="#B60A680A"
             android:layout_gravity="center"

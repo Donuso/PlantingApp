@@ -42,7 +42,7 @@
             android:id="@+id/delete_todo"
             android:layout_width="30dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/delete"
+            android:src="@drawable/icon_delete_chl"
             android:padding="8dp"
             android:visibility="gone"/>
 
@@ -50,7 +50,7 @@
             android:id="@+id/tingyong"
             android:layout_width="30dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/tingyong1"
+            android:src="@drawable/icon_stop_chl"
             android:padding="8dp"
             android:visibility="gone"/>
     </LinearLayout>

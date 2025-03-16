@@ -2,7 +2,7 @@
 <resources>
     <!-- 定义一个自定义样式 -->
     <style name="RoundedDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:windowBackground">@drawable/dialog_background</item>
+        <item name="android:windowBackground">@drawable/shape_dialog_background_chl</item>
     </style>
     <style name="CustomSwitchCompat">
         <item name="android:thumbTint">@color/colorAccent</item>
@@ -11,5 +11,8 @@
         <item name="android:thumbTextPadding">8dp</item>
 
     </style>
-
+    <!-- res/values/styles.xml -->
+    <style name="CustomPopupMenu" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@drawable/shape_rounded_menu_background_chl</item>
+    </style>
 </resources>
