@@ -26,8 +26,6 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/main_icon"
-            android:padding="40dp"
             />
 
     </androidx.cardview.widget.CardView>

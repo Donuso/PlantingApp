@@ -528,7 +528,7 @@
                     <ImageView
                         android:layout_width="75dp"
                         android:layout_height="75dp"
-                        android:src="@drawable/icon_main_zhj"
+                        android:src="@drawable/icon_main"
                         android:layout_marginStart="15dp"
                         android:layout_marginEnd="10dp"
                         android:paddingTop="22dp"
