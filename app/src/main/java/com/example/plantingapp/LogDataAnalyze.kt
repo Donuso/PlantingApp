@@ -1,12 +1,14 @@
 package com.example.plantingapp
 
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 
-class NewPersonalLabelActivityWzc : AppCompatActivity() {
+class LogDataAnalyze : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_persenal_label_wzc)
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_log_data_analyze_wzc)
 
     }
 }

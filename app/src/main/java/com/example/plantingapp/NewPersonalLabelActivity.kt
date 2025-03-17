@@ -3,10 +3,10 @@ package com.example.plantingapp
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
-class DatePickerActivityWzc : AppCompatActivity() {
+class NewPersonalLabelActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_date_picker_wzc)
+        setContentView(R.layout.activity_new_persenal_label_wzc)
 
     }
 }

@@ -1,13 +1,11 @@
 package com.example.plantingapp
 
-import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
 
-class LogActivityWzc : AppCompatActivity() {
+class LogSearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_log_wzc)
-
-
+        setContentView(R.layout.activity_log_search)
     }
 }
