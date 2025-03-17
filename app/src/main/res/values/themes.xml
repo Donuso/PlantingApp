@@ -24,4 +24,5 @@
     <style name="AppThemeHalfStatusBar" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowTranslucentStatus">true</item>
     </style>
+
 </resources>

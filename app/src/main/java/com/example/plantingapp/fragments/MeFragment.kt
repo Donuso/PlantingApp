@@ -13,11 +13,13 @@ import android.widget.ImageView
 import com.example.plantingapp.ModifyActivity
 import com.example.plantingapp.ChangePasswordActivity
 
+/*
+* 此fragment对应“我”的入口
+* */
 
 class MeFragment : Fragment() {
 
     private lateinit var userAvatar: ImageView
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

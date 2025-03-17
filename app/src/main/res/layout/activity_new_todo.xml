@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#B6E6E5E5"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="30dp">
+
+        <!-- 标题和返回按钮的容器 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="16dp">
+
+            <!-- 返回按钮 -->
+            <Button
+                android:id="@+id/back"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/icon_leftarrows1_chl"/>
+
+            <!-- 标题 -->
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="新增待办"
+                android:textColor="#120202"
+                android:textSize="23sp"
+                android:textStyle="bold"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+        <!-- 分割线 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#181616"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- 使用CardView包裹待办内容EditText -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="待办内容|必填|不超过15个字"
+                    android:textColor="#B60A680A"
+                    android:textStyle="bold"
+                    android:textSize="17sp"/>
+
+                <EditText
+                    android:id="@+id/todo_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="请输入待办的内容"
+                    android:maxLength="15"
+                    android:padding="16dp"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="14dp"
+                    android:layout_marginTop="8dp"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- 使用CardView包裹结束时间 -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="15dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/end_time_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="结束时间|必填"
+                    android:textColor="#B60A680A"
+                    android:textStyle="bold"
+                    android:textSize="17sp"/>
+
+
+                <Switch
+                    android:id="@+id/switchcompat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:showText="true"
+                    android:textOn="结束日期选择"
+                    android:textOff="永不结束"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:thumb="@drawable/shape_custom_switch_thumb_chl"
+                    android:track="@drawable/shape_custom_switch_track_chl"
+                    />
+                <Button
+                    android:id="@+id/date_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="37dp"
+                    android:text="选择日期"
+                    android:enabled="false"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/shape_custom_button_bg_chl"
+                    android:textColor="#B60A680A"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:gravity="start" />
+                <EditText
+                    android:id="@+id/end_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="20xx年xx月xx日"
+                    android:visibility="gone" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="提醒时间间隔|必填|可填写1~365天"
+                    android:textColor="#B60A680A"
+                    android:textStyle="bold"
+                    android:textSize="17sp"/>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/reminder_interval"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:padding="16dp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="天"
+                        android:textSize="20sp"
+                        android:textColor="#040303"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- 使用CardView包裹绑定植物组 -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="15dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="绑定植物组|选填"
+                    android:textStyle="bold"
+                    android:textSize="17sp"/>
+
+                <Spinner
+                    android:id="@+id/plant_group_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:textAlignment="center"
+                    android:padding="16dp"
+                    android:background="@drawable/shape_spinner_border_chl"
+                    /> <!-- 设置边框背景 -->
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- 确认按钮 -->
+        <Button
+            android:id="@+id/confirm_button"
+            android:layout_width="380dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_rounded_spinner_chl"
+            android:text="确认"
+            android:textColor="#B60A680A"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"/>
+
+    </LinearLayout>
+</FrameLayout>

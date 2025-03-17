@@ -4,17 +4,19 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> &lt;!&ndash; <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> &ndash;&gt;
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         tools:targetApi="31"
-        android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+        android:theme="@style/AppTheme">
         <activity
             android:name=".NewPersonalLabelActivityWzc"
             android:exported="true"
@@ -27,7 +29,7 @@
             android:exported="true" >
         </activity>
         <activity
-            android:name=".MainSwitchActivity"
+            android:name=".AIChatActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,7 +39,6 @@
         <activity
             android:name=".NewLabelActivityWzc"
             android:exported="true">
-
         </activity>
         <activity
             android:name=".LogDataAnalyzeWzc"
@@ -68,7 +69,16 @@
         </activity>
         <activity
             android:name=".LogSearch"
-            android:exported="true" >
+            android:exported="true" />
+        <activity
+            android:name=".AllToDoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".NewTodoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainSwitchActivity"
+            android:exported="true">
         </activity>
     </application>
 
