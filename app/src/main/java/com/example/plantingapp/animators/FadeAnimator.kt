@@ -7,7 +7,7 @@ import android.animation.TimeInterpolator
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 
-class FadeAnimator(private var targetView: View? = null) {
+class FadeAnimator(private var targetView: View) {
     private var duration: Long = 300L
     private var interpolator: TimeInterpolator = AccelerateDecelerateInterpolator()
     private var isAnimating = false
@@ -32,7 +32,7 @@ class FadeAnimator(private var targetView: View? = null) {
 
     // 启动动画
     fun start(visible: Boolean) {
-        targetView?.let { view ->
+        targetView.let { view ->
             if (isAnimating) cancel() // 如果正在动画，先取消之前的动画
 
             val startAlpha = if (visible) 0f else view.alpha
@@ -56,14 +56,12 @@ class FadeAnimator(private var targetView: View? = null) {
 
             animator.start()
             isAnimating = true
-        } ?: run {
-            throw IllegalStateException("Target view is not set. Please call setTargetView() before start().")
         }
     }
 
     // 取消正在进行的动画
     private fun cancel() {
-        targetView?.animate()?.cancel()
+        targetView.animate()?.cancel()
         isAnimating = false
     }
 }
