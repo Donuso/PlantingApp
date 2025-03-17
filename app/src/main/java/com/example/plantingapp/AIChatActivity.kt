@@ -8,9 +8,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.plantingapp.Msg
-import com.example.plantingapp.MsgAdapter
-import com.example.plantingapp.R
+import com.example.plantingapp.adapter.MsgAdapter
+import com.example.plantingapp.item.MsgItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,7 +23,7 @@ import org.json.JSONObject
 import java.util.concurrent.TimeUnit
 
 class AIChatActivity : AppCompatActivity(), View.OnClickListener {
-    private val msgList = ArrayList<Msg>()
+    private val msgItemList = ArrayList<MsgItem>()
     private var adapter: MsgAdapter? = null
     private lateinit var recyclerView: RecyclerView
     private lateinit var send: Button
@@ -49,7 +48,7 @@ class AIChatActivity : AppCompatActivity(), View.OnClickListener {
 
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
-        adapter = MsgAdapter(msgList)
+        adapter = MsgAdapter(msgItemList)
         recyclerView.adapter = adapter
         send.setOnClickListener(this)
     }
@@ -59,10 +58,10 @@ class AIChatActivity : AppCompatActivity(), View.OnClickListener {
             send -> {
                 val content = inputText.text.toString()
                 if (content.isNotEmpty()) {
-                    val msg = Msg(content, Msg.TYPE_SENT)
-                    msgList.add(msg)
-                    adapter?.notifyItemInserted(msgList.size - 1)
-                    recyclerView.scrollToPosition(msgList.size - 1)
+                    val msgItem = MsgItem(content, MsgItem.TYPE_SENT)
+                    msgItemList.add(msgItem)
+                    adapter?.notifyItemInserted(msgItemList.size - 1)
+                    recyclerView.scrollToPosition(msgItemList.size - 1)
                     inputText.setText("")
                     sendMessageToAI(content)
                 }
@@ -91,26 +90,26 @@ class AIChatActivity : AppCompatActivity(), View.OnClickListener {
 
                 withContext(Dispatchers.Main) {
                     if (aiResponse != null) {
-                        val msg = Msg(aiResponse, Msg.TYPE_RECEIVED)
-                        msgList.add(msg)
-                        adapter?.notifyItemInserted(msgList.size - 1)
-                        recyclerView.scrollToPosition(msgList.size - 1)
+                        val msgItem = MsgItem(aiResponse, MsgItem.TYPE_RECEIVED)
+                        msgItemList.add(msgItem)
+                        adapter?.notifyItemInserted(msgItemList.size - 1)
+                        recyclerView.scrollToPosition(msgItemList.size - 1)
                     } else {
                         // 如果 AI 回复为空，显示错误消息
-                        val msg = Msg("Failed to get AI response", Msg.TYPE_RECEIVED)
-                        msgList.add(msg)
-                        adapter?.notifyItemInserted(msgList.size - 1)
-                        recyclerView.scrollToPosition(msgList.size - 1)
+                        val msgItem = MsgItem("Failed to get AI response", MsgItem.TYPE_RECEIVED)
+                        msgItemList.add(msgItem)
+                        adapter?.notifyItemInserted(msgItemList.size - 1)
+                        recyclerView.scrollToPosition(msgItemList.size - 1)
                     }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
                 withContext(Dispatchers.Main) {
                     // 显示网络错误消息
-                    val msg = Msg("Network error: ${e.message}", Msg.TYPE_RECEIVED)
-                    msgList.add(msg)
-                    adapter?.notifyItemInserted(msgList.size - 1)
-                    recyclerView.scrollToPosition(msgList.size - 1)
+                    val msgItem = MsgItem("Network error: ${e.message}", MsgItem.TYPE_RECEIVED)
+                    msgItemList.add(msgItem)
+                    adapter?.notifyItemInserted(msgItemList.size - 1)
+                    recyclerView.scrollToPosition(msgItemList.size - 1)
                 }
             }
         }
@@ -134,7 +133,7 @@ class AIChatActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun initMsg() {
-        val msg1 = Msg("Hello! How can I assist you today?", Msg.TYPE_RECEIVED)
-        msgList.add(msg1)
+        val msgItem1 = MsgItem("Hello! How can I assist you today?", MsgItem.TYPE_RECEIVED)
+        msgItemList.add(msgItem1)
     }
 }

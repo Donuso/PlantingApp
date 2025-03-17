@@ -1,12 +1,14 @@
-package com.example.plantingapp
+package com.example.plantingapp.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.plantingapp.R
+import com.example.plantingapp.item.MsgItem
 
-class MsgAdapter(val msgList:List<Msg>):RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MsgAdapter(val msgItemList:List<MsgItem>):RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     inner class LeftViewHolder(view:View):RecyclerView.ViewHolder(view){
         val leftMsg:TextView=view.findViewById(R.id.leftmsg)
     }
@@ -15,11 +17,11 @@ class MsgAdapter(val msgList:List<Msg>):RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     override fun getItemViewType(position: Int): Int {
-        val msg=msgList[position]
+        val msg=msgItemList[position]
         return msg.type
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)=if(viewType==Msg.TYPE_RECEIVED) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)=if(viewType== MsgItem.TYPE_RECEIVED) {
         val view =LayoutInflater.from(parent.context).inflate(R.layout.msg_left_item,parent,false)
         LeftViewHolder(view)
     }else{
@@ -28,13 +30,13 @@ class MsgAdapter(val msgList:List<Msg>):RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val msg=msgList[position]
+        val msg=msgItemList[position]
         when(holder){
-            is LeftViewHolder->holder.leftMsg.text=msg.content
-            is RightViewHolder->holder.rightMsg.text=msg.content
+            is LeftViewHolder ->holder.leftMsg.text=msg.content
+            is RightViewHolder ->holder.rightMsg.text=msg.content
             else->throw IllegalArgumentException()
         }
     }
 
-    override fun getItemCount()=msgList.size
+    override fun getItemCount()=msgItemList.size
 }
