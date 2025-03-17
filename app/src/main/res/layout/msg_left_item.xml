@@ -15,7 +15,7 @@ android:padding="10dp">
         android:id="@+id/leftmsg"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:textColor="#fff"
+        android:textColor="#181818"
         />
 </LinearLayout>
 
