@@ -21,6 +21,7 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONException
 import org.json.JSONObject
+import java.util.concurrent.TimeUnit
 
 class AIChatActivity : AppCompatActivity(), View.OnClickListener {
     private val msgList = ArrayList<Msg>()
@@ -29,7 +30,12 @@ class AIChatActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var send: Button
     private lateinit var inputText: EditText
 
-    private val client = OkHttpClient()
+    private val client = OkHttpClient.Builder()
+        .connectTimeout(60, TimeUnit.SECONDS) // 连接超时时间
+        .readTimeout(60, TimeUnit.SECONDS)   // 读取超时时间
+        .writeTimeout(60, TimeUnit.SECONDS)  // 写入超时时间
+        .build()
+
     private val mediaType = "application/json; charset=utf-8".toMediaType()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,11 +70,10 @@ class AIChatActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-
     private fun sendMessageToAI(message: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val json = """{"model": "llama3.2", "prompt": "$message"}"""
+                val json = """{"model": "llama3.2", "prompt": "$message", "stream": false}"""
                 val body = json.toRequestBody(mediaType)
                 val request = Request.Builder()
                     .url("http://10.0.2.2:11434/api/generate") // 替换为实际的 Ollama 服务器 URL
@@ -127,8 +132,6 @@ class AIChatActivity : AppCompatActivity(), View.OnClickListener {
             "General error: ${e.message}"
         }.also { println("Parsed response: $it") }
     }
-
-
 
     private fun initMsg() {
         val msg1 = Msg("Hello! How can I assist you today?", Msg.TYPE_RECEIVED)
