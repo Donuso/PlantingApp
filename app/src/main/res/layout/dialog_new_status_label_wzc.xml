@@ -189,7 +189,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/black"
                 android:hint="@string/label_extra_input_wzc"
                 android:id="@+id/extra_input"

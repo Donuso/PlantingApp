@@ -78,7 +78,7 @@
         android:paddingStart="15dp">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="135dp"
+            android:layout_width="120dp"
             android:layout_height="45dp"
             android:id="@+id/status_bg"
             app:cardElevation="5dp"
@@ -103,7 +103,7 @@
                 android:paddingEnd="0dp"
                 android:gravity="center"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:text="@string/diy_label_type_status_wzc"
                 android:id="@+id/status_text_touch"
                 />
@@ -111,7 +111,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:layout_width="165dp"
+            android:layout_width="150dp"
             android:layout_height="45dp"
             android:id="@+id/data_bg"
             app:cardElevation="5dp"
@@ -137,7 +137,7 @@
                 android:paddingEnd="0dp"
                 android:gravity="center"
                 android:textColor="@color/themeDarkGreen"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:text="@string/diy_label_type_data_wzc"
                 android:id="@+id/data_text"
                 />
@@ -166,7 +166,7 @@
                 android:layout_height="40dp"
                 android:text="@string/new_label_name_subtitle_wzc"
                 android:textColor="@color/themeDarkGreen"
-                android:textSize="18sp"
+                android:textSize="17sp"
                 android:gravity="center_vertical"
                 android:paddingStart="20dp"
                 android:paddingEnd="0dp"
@@ -181,7 +181,7 @@
                 android:layout_marginEnd="25dp"
                 android:maxLines="1"
                 android:hint="@string/new_diy_label_name_wzc"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColorHint="@color/text_grey_wzc"
                 android:background="@android:color/transparent"
                 android:id="@+id/label_name"
@@ -214,7 +214,7 @@
                 android:layout_height="45dp"
                 android:text="@string/new_label_unit_subtitle_wzc"
                 android:textColor="@color/themeDarkGreen"
-                android:textSize="18sp"
+                android:textSize="17sp"
                 android:gravity="center_vertical"
                 android:paddingStart="20dp"
                 android:paddingEnd="0dp"
@@ -228,7 +228,7 @@
                 android:layout_marginEnd="25dp"
                 android:maxLines="1"
                 android:hint="@string/new_diy_label_unit_wzc"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColorHint="@color/text_grey_wzc"
                 android:background="@android:color/transparent"
                 android:textColor="@color/text_black_wzc"

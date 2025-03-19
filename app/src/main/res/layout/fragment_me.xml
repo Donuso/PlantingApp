@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_res_5"
+    android:background="@drawable/bg_res_6"
     android:orientation="vertical"
     tools:context=".fragments.MeFragment"
     android:paddingTop="45dp"
@@ -51,12 +51,12 @@
             <TextView
                 android:id="@+id/user_nickname"
                 android:layout_width="match_parent"
-                android:layout_height="65dp"
+                android:layout_height="68dp"
                 android:text="用户昵称"
                 android:paddingStart="17dp"
                 android:paddingEnd="0dp"
                 android:textColor="#222222"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:textStyle="bold"
                 android:gravity="start|bottom"
                 android:maxLines="1"/>
@@ -125,7 +125,7 @@
                     android:id="@+id/record_count2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="35dp"
+                    android:layout_marginTop="38dp"
                     android:layout_marginStart="4dp"
                     android:text="条"
                     android:textColor="@color/themeDarkGreen"
@@ -141,7 +141,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/log_count_yzr"
                     android:textColor="@color/themeDarkGreen"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:layout_marginStart="15dp"
                     android:layout_marginBottom="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -199,7 +199,7 @@
                 android:id="@+id/todo_count2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="35dp"
+                android:layout_marginTop="38dp"
                 android:layout_marginStart="4dp"
                 android:text="次"
                 android:textColor="@color/themeDarkGreen"
@@ -216,7 +216,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/todo_finished_times_yzr"
                 android:textColor="@color/themeDarkGreen"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:layout_marginStart="15dp"
                 android:layout_marginBottom="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -231,7 +231,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/change_password_card_view"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         app:cardCornerRadius="25dp"
         app:cardElevation="0dp"
         android:layout_marginTop="20dp"
@@ -239,7 +239,7 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="match_parent"
             >
             <ImageView
                 android:id="@+id/arrow_icon"
@@ -248,6 +248,7 @@
                 android:layout_gravity="end|center_vertical"
                 android:src="@drawable/icon_go_yzr"
                 android:layout_marginEnd="20dp"
+                android:padding="2dp"
                 />
 
             <TextView
@@ -257,7 +258,7 @@
                 android:layout_gravity="start"
                 android:text="@string/alter_password_yzr"
                 android:textColor="#444444"
-                android:textSize="19sp"
+                android:textSize="16sp"
                 android:gravity="start|center_vertical"
                 android:paddingStart="20dp"
                 android:paddingEnd="0dp"/>
@@ -269,7 +270,7 @@
     <!-- 设置按钮 -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         app:cardCornerRadius="25dp"
         app:cardElevation="0dp"
         android:layout_marginTop="20dp"
@@ -287,6 +288,7 @@
                 android:src="@drawable/icon_go_yzr"
                 android:layout_gravity="end|center_vertical"
                 android:layout_marginEnd="20dp"
+                android:padding="2dp"
                 />
 
             <TextView
@@ -296,7 +298,7 @@
                 android:layout_gravity="start"
                 android:text="@string/settings_yzr"
                 android:textColor="#444444"
-                android:textSize="19sp"
+                android:textSize="16sp"
                 android:paddingStart="20dp"
                 android:paddingEnd="0dp"
                 android:gravity="start|center_vertical"

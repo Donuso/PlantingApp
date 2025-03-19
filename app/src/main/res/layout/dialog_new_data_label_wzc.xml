@@ -45,16 +45,27 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="original"
-                android:textSize="18sp"
-                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textColor="@color/mass_text_grey_wzc"
                 android:hint="@string/hint_name_input_wzc"
                 android:id="@+id/alter_name_input"
-                android:textColorHint="@color/text_grey_wzc"/>
+                android:textColorHint="@color/text_grey_wzc"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@android:color/transparent"
+                android:maxLines="1"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/line_grey_wzc"
+                android:translationY="-8dp"
+                />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="10dp"/>
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -67,12 +78,22 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="original"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/black"
                 android:hint="@string/hint_note_input_wzc"
                 android:id="@+id/alter_note_input"
-                android:textColorHint="@color/text_grey_wzc"/>
+                android:textColorHint="@color/text_grey_wzc"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@android:color/transparent"
+                android:maxLines="1"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/line_grey_wzc"
+                android:translationY="-8dp"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"

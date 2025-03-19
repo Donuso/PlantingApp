@@ -127,7 +127,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/black"
                 android:hint="@string/alter_name_hint_yzr"
                 android:id="@+id/nickname_edit"

@@ -1,141 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.TodoFragment"
-    android:background="@drawable/bg_res_2"
-    android:padding="16dp">
+    tools:context=".fragments.TodoFragment">
 
-    <LinearLayout
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:src="@drawable/bg_res_1"
+        android:scaleType="centerCrop" />
+
+    <!--    标题-->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:text="@string/todo_title_chl"
+        android:textSize="33sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingStart="20dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="0dp"
+        android:gravity="center_vertical"
+        android:id="@+id/title"
+        />
+
+    <!--  搜索框  -->
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="@color/text_search_color_wzc"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        android:id="@+id/search_bar_bg"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:id="@+id/search_bar">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_search_wzc"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="0dp"
+                android:text="@string/search_text_wzc"
+                android:textColor="@color/text_grey_wzc"
+                />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:id="@+id/search_touch_area"/>
+
+    </androidx.cardview.widget.CardView>
+    
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/search_bar_bg"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!--    活动列表项    -->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="待办"
-                android:textSize="30sp"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:paddingBottom="16dp"/>
-        </LinearLayout>
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/search_bar_bg">
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="搜索植物信息..."
-            android:background="@drawable/shape_edit_text_search_background_chl"
-            android:padding="8dp"
-            android:layout_marginBottom="16dp"
-            android:drawableStart="@drawable/icon_searchs_chl"
-            android:drawablePadding="8dp"/>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="4dp"
-            android:backgroundTint="#FFFFFF">
-
-            <LinearLayout
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="今日进度"
-                    android:textSize="23sp"
-                    android:textColor="#120F0F"
-                    android:paddingBottom="8dp"
-                    android:textStyle="bold"/>
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/white"
+                android:layout_margin="20dp"
+                >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="未完成"
-                    android:textColor="#000000"
-                    android:paddingBottom="8dp"/>
-
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="给[data]喷洒农药"
-                    android:button="@drawable/shape_round_checkbox_chl"
-                    android:layout_marginBottom="8dp"/>
-
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="给[data]施肥"
-                    android:button="@drawable/shape_round_checkbox_chl"
-                    android:layout_marginBottom="8dp"/>
-
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="给[data]灌溉"
-                    android:button="@drawable/shape_round_checkbox_chl"
-                    android:layout_marginTop="8dp"/>
-                <!-- 分割线 -->
-                <View
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#181616"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"/>
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="20dp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:paddingBottom="10dp">
+
+<!--                    子标题文本-->
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/today_todos_chl"
+                        android:textSize="22sp"
+                        android:textColor="#120F0F"
+                        android:paddingBottom="8dp"
+                        android:textStyle="bold"/>
+
+<!--                    未完成 列表头-->
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/unfinished_todos_subtitle_chl"
+                        android:textColor="@color/mass_text_grey_wzc"
+                        android:textSize="16sp"
+                        android:id="@+id/unfinished_subtitle"/>
+
+<!--                    列表项-->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/main_page_todos"
+                        />
+<!--                    请使用 item_main_page_todo_finished_flag_chl 和 item_todos_main_page_chl 作为子项-->
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+<!--            管理所有待办 入口-->
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                app:cardElevation="5dp"
+                app:cardCornerRadius="25dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="30dp">
+                
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/icon_continue_chl"
+                    android:rotation="180"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginEnd="20dp"
+                    android:padding="2dp"
+                    />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="已完成"
-                    android:textColor="#516B34"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="8dp"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/manage_all_todos_chl"
+                    android:id="@+id/manage_all_todos"
+                    android:gravity="start|center_vertical"
+                    android:textSize="16sp"
+                    android:textColor="@color/themeDarkGreen"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="0dp"
+                    />
 
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="喷洒农药"
-                    android:checked="true"
-                    android:button="@drawable/shape_round_checkbox_chl"
-                    android:layout_marginBottom="8dp"/>
+            </androidx.cardview.widget.CardView>
 
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="给[data]喷洒农药"
-                    android:checked="true"
-                    android:button="@drawable/shape_round_checkbox_chl"
-                    android:layout_marginBottom="8dp"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </LinearLayout>
+        
+    </ScrollView>
 
-        <Button
-            android:id="@+id/buttonmanagealltodo"
+    <!--    底部添加按钮 -->
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="5dp"
+        app:cardBackgroundColor="@color/themeDarkGreen"
+        android:id="@+id/add_log_group_display">
+
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shape_rounded_spinner_chl"
-            android:drawableRight="@drawable/icon_arrow_left_chl"
-            android:paddingRight="10dp"
-            android:text="管理所有待办"
-            android:textColor="#516B34" />
+            android:layout_height="match_parent"
+            android:paddingTop="22dp"
+            android:paddingBottom="19dp"
+            android:paddingStart="22dp"
+            android:paddingEnd="20dp"
+            android:src="@drawable/icon_new_todo_chl"
+            android:scaleType="fitCenter"
+            android:id="@+id/new_todo"/>
 
-        <Button
-            android:id="@+id/buttonnewtodo"
-            android:layout_width="wrap_content"
-            android:layout_height="72dp"
-            android:layout_marginLeft="300dp"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/icon_new_todo_chl" />
-    </LinearLayout>
-</FrameLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

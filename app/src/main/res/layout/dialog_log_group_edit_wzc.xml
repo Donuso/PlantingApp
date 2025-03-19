@@ -56,7 +56,7 @@
                 android:layout_width="120dp"
                 android:layout_height="50dp"
                 android:inputType="numberDecimal"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:text="12345.1"
                 android:textColor="@color/text_black_wzc"
                 android:hint="@string/hint_unit_input_wzc"
@@ -85,7 +85,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginBottom="3dp"
             android:text="cm/unit"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="@color/themeDarkGreen"
             android:id="@+id/unit_name"
             />
@@ -102,7 +102,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/black"
                 android:hint="@string/label_extra_input_wzc"
                 android:id="@+id/extra_input"

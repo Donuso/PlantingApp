@@ -4,109 +4,100 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:minHeight="90dp"
     app:cardCornerRadius="30dp"
-    >
+    app:cardElevation="0dp"
+    android:layout_marginBottom="25dp">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-        <LinearLayout
-            android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:src="@drawable/icon_main"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="27dp"
+            android:background="@android:color/transparent"
+            android:id="@+id/plantPhoto"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:text="植物名称"
+            android:textSize="18sp"
+            android:textColor="@color/mass_text_grey_wzc"
+            android:layout_marginTop="15dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:id="@+id/plantName"
+            app:layout_constraintStart_toEndOf="@id/plantPhoto"
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
-            <!--  part 1 - icon/cover      -->
-            <ImageView
-                android:layout_width="75dp"
-                android:layout_height="100dp"
-                android:src="@drawable/icon_main"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="10dp"
-                android:paddingTop="22dp"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:background="@android:color/transparent"
-                android:id="@+id/log_group_cover"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已种植n天"
+            android:textSize="15sp"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:id="@+id/group_days"
+            app:layout_constraintStart_toEndOf="@id/plantPhoto"
+            app:layout_constraintTop_toBottomOf="@id/plantName"
+            android:layout_marginBottom="15dp"
+            />
 
-            <!--   part 2 - texts    -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="115dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="n天前修改"
+            android:textSize="15sp"
+            android:textColor="@color/text_grey_wzc"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="1dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:id="@+id/group_last_modified_time"
+            app:layout_constraintTop_toBottomOf="@id/group_days"
+            app:layout_constraintStart_toEndOf="@id/plantPhoto"
+            />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="植物名称"
-                    android:textSize="20sp"
-                    android:textColor="@color/black"
-                    android:layout_marginTop="15dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:id="@+id/group_name"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="已种植n天"
-                    android:textSize="17sp"
-                    android:textColor="@color/text_grey_wzc"
-                    android:layout_marginTop="2dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:id="@+id/group_days"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="n天前修改"
-                    android:textSize="17sp"
-                    android:textColor="@color/text_grey_wzc"
-                    android:layout_marginTop="2dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:id="@+id/group_last_modified_time"
-                    />
-
-            </LinearLayout>
-
-
-            <!--   part 3 - action button    -->
-            <ImageButton
-                android:layout_width="60dp"
-                android:layout_height="115dp"
-                android:layout_marginEnd="15dp"
-                android:background="@android:color/transparent"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
-                android:paddingEnd="20dp"
-                android:paddingStart="5dp"
-                android:id="@+id/action_button"
-                android:src="@drawable/icon_activator_wzc"
-                android:scaleType="fitCenter"
-                />
-        </LinearLayout>
-
-        <!--   part 4 - hint    -->
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="25dp"
             android:text="备注：example"
             android:id="@+id/log_group_hint"
             android:paddingStart="25dp"
-            android:textSize="17sp"
+            android:paddingEnd="20dp"
+            android:textSize="14sp"
             android:textColor="@color/text_grey_wzc"
-            android:translationY="-10dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:focusable="false"
             android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/plantPhoto"
+            android:translationY="-5dp"
             />
-    </LinearLayout>
+
+        <ImageButton
+            android:layout_width="110dp"
+            android:layout_height="100dp"
+            android:background="@android:color/transparent"
+            android:padding="33dp"
+            android:src="@drawable/icon_activator_wzc"
+            android:scaleType="fitCenter"
+            android:id="@+id/group_enter_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

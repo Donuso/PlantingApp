@@ -87,7 +87,7 @@
         android:text="@string/subtitle_recently_used_label_wzc"
         app:layout_constraintTop_toBottomOf="@id/dividing_line_1"
         android:gravity="center"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textColor="@color/general_grey_wzc"
         android:id="@+id/subtitle"
         />
@@ -129,7 +129,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="75dp"
         android:orientation="horizontal"
         android:id="@+id/buttons_bg"
         android:layout_marginStart="20dp"
@@ -146,11 +146,11 @@
             app:cardBackgroundColor="@color/themeDarkGreen"
             >
             <TextView
-                android:layout_width="80dp"
-                android:layout_height="45dp"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
                 android:gravity="center"
                 android:textColor="@color/white"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:text="@string/label_type_status_wzc"
                 android:id="@+id/status_text"
                 />
@@ -166,11 +166,11 @@
             android:layout_marginEnd="15dp"
             >
             <TextView
-                android:layout_width="120dp"
-                android:layout_height="45dp"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
                 android:gravity="center"
                 android:textColor="@color/themeDarkGreen"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:text="@string/label_type_data_wzc"
                 android:id="@+id/data_text"
                 />
@@ -184,11 +184,11 @@
             app:cardCornerRadius="50dp"
             >
             <TextView
-                android:layout_width="100dp"
-                android:layout_height="45dp"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
                 android:gravity="center"
                 android:textColor="@color/themeDarkGreen"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:text="@string/label_type_diy_wzc"
                 android:id="@+id/diy_text"
                 />
@@ -205,7 +205,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="290dp"
         >
 
         <androidx.cardview.widget.CardView
@@ -231,7 +231,6 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:visibility="gone"
-                    android:focusable="false"
                     />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -252,14 +251,13 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:textSize="19sp"
+                    android:textSize="16sp"
                     android:gravity="center"
                     android:text="@string/temporarily_no_diy_labels"
                     android:textColor="@color/general_grey_wzc"
                     android:paddingTop="20dp"
                     android:id="@+id/temporarily_no_diy_labels"
                     android:visibility="gone"
-                    android:focusable="false"
                     />
 
                 <ImageView
@@ -271,26 +269,24 @@
                     app:layout_constraintTop_toTopOf="@id/add_diy_cover"
                     app:layout_constraintBottom_toBottomOf="@id/add_diy_cover"
                     app:layout_constraintStart_toStartOf="@id/new_diy_text"
-                    android:paddingTop="13dp"
-                    android:paddingBottom="10dp"
-                    android:visibility="gone"
-                    android:focusable="false"/>
+                    android:paddingTop="14dp"
+                    android:paddingBottom="12dp"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/new_diy_text"
-                    android:layout_width="210dp"
+                    android:layout_width="180dp"
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:text="@string/new_diy_label_wzc"
-                    android:textSize="19sp"
+                    android:textSize="16sp"
                     android:textColor="@color/themeDarkGreen"
                     app:layout_constraintTop_toTopOf="@id/add_diy_cover"
                     app:layout_constraintBottom_toBottomOf="@id/add_diy_cover"
                     app:layout_constraintStart_toStartOf="@id/add_diy_cover"
                     app:layout_constraintEnd_toEndOf="@id/add_diy_cover"
                     android:layout_marginEnd="8dp"
-                    android:visibility="gone"
-                    android:focusable="false"/>
+                    android:visibility="gone" />
 
                 <View
                     android:layout_width="match_parent"
@@ -299,7 +295,6 @@
                     android:id="@+id/add_diy_cover"
                     app:layout_constraintTop_toBottomOf="@id/temporarily_no_diy_labels"
                     android:visibility="gone"
-                    android:focusable="false"
                     />
 
                 <View
@@ -326,8 +321,8 @@
         >
 
         <androidx.cardview.widget.CardView
-            android:layout_width="164dp"
-            android:layout_height="44dp"
+            android:layout_width="154dp"
+            android:layout_height="40dp"
             app:cardCornerRadius="30dp"
             android:layout_marginTop="75dp"
             android:layout_marginEnd="55dp"
@@ -340,7 +335,7 @@
                 android:gravity="center"
                 android:textColor="@color/themeRed"
                 android:text="@string/delete_diy_label_wzc"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:id="@+id/edit_log_group"
                 />
         </androidx.cardview.widget.CardView>
