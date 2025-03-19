@@ -7,7 +7,7 @@
     android:padding="16dp">
 
     <LinearLayout
-        android:layout_width="290dp"
+        android:layout_width="263dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_vertical">
@@ -16,7 +16,7 @@
             android:id="@+id/todo_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="待办标题"
+            android:text="待办1"
             android:layout_marginTop="8dp"
             android:clickable="true"
             android:focusable="true"
@@ -28,6 +28,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="创建于 xxxx年xx月xx日"
+            android:textSize="14sp"
+            android:textColor="#888888"
+            android:layout_marginTop="4dp"/>
+
+        <TextView
+            android:id="@+id/reminder_interval_display"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="提醒时间间隔：天"
             android:textSize="14sp"
             android:textColor="#888888"
             android:layout_marginTop="4dp"/>
@@ -48,8 +57,8 @@
 
         <ImageView
             android:id="@+id/tingyong"
-            android:layout_width="30dp"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
             android:src="@drawable/icon_stop_chl"
             android:padding="8dp"
             android:visibility="gone"/>

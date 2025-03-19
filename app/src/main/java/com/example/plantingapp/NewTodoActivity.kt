@@ -10,9 +10,6 @@ import android.widget.EditText
 import android.widget.Switch
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.plantingapp.fragments.TodoFragment
 import java.util.Calendar
 
 class NewTodoActivity : AppCompatActivity() {
@@ -23,6 +20,9 @@ class NewTodoActivity : AppCompatActivity() {
 
         val switchCompat = findViewById<Switch>(R.id.switchcompat)
         val dateButton = findViewById<Button>(R.id.date_button)
+        val todoContentEditText = findViewById<EditText>(R.id.todo_content)
+        val reminderIntervalEditText = findViewById<EditText>(R.id.reminder_interval)
+        val confirmButton = findViewById<Button>(R.id.confirm_button)
 
         switchCompat.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener {
             override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
@@ -36,6 +36,19 @@ class NewTodoActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.back).setOnClickListener {
             finish() // 结束当前Activity，返回上一个界面
+        }
+
+        confirmButton.setOnClickListener {
+            val todoContent = todoContentEditText.text.toString()
+            val selectedDate = dateButton.text.toString()
+            val reminderInterval = reminderIntervalEditText.text.toString()
+
+            val intent = Intent()
+            intent.putExtra("todo_content", todoContent)
+            intent.putExtra("selected_date", selectedDate)
+            intent.putExtra("reminder_interval", reminderInterval)
+            setResult(RESULT_OK, intent)
+            finish()
         }
     }
 

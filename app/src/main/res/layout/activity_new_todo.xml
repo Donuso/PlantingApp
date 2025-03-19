@@ -130,7 +130,7 @@
                 <Button
                     android:id="@+id/date_button"
                     android:layout_width="match_parent"
-                    android:layout_height="37dp"
+                    android:layout_height="50dp"
                     android:text="选择日期"
                     android:enabled="false"
                     android:layout_gravity="center"

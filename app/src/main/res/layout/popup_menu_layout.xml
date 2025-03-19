@@ -1,9 +1,7 @@
-<!-- res/layout/popup_menu_layout.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-
     android:padding="8dp">
 
     <Button
@@ -20,8 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="删除待办"
-
         android:background="@drawable/shape_rounded_menu_item_background_chl"
         android:textColor="#000000"
-        android:padding="16dp" />
+        android:padding="16dp"
+        android:layout_marginTop="10dp" />
 </LinearLayout>
