@@ -93,7 +93,7 @@ class TengapiFragment : Fragment() {
                 } else {
                     Toast.makeText(activity, "需要定位权限才能获取当地天气", Toast.LENGTH_SHORT).show()
                     // 使用默认城市作为回退方案
-                    sendRequestOkHttp("佛山")
+                    sendRequestOkHttp("广州")
                 }
             }
         }
@@ -129,7 +129,7 @@ class TengapiFragment : Fragment() {
                     }
                     else -> {
                         Toast.makeText(activity, "定位失败: $reason", Toast.LENGTH_SHORT).show()
-                        sendRequestOkHttp("佛山") // 失败时使用默认城市
+                        sendRequestOkHttp("广州") // 失败时使用默认城市
                     }
                 }
                 // 停止定位防止重复请求
