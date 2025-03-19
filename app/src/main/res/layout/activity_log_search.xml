@@ -3,93 +3,110 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingHorizontal="15dp"
-    android:paddingVertical="30dp"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
     >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
         >
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/icon_back_zhj"
+            android:id="@+id/backToHome"
+            android:paddingStart="7dp"
+            android:paddingEnd="7dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="9dp"
+            />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="@string/search_hint_zhj"
+            android:background="@android:color/transparent"
+            android:textSize="16sp"
+            android:paddingStart="5dp"
+            android:paddingBottom="6dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            />
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/icon_search_green_wzc"
+            android:id="@+id/Search"
+            android:paddingStart="7dp"
+            android:paddingEnd="7dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="9dp"
+            />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/line_grey_wzc" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/icon_back_zhj"
-                android:id="@+id/backToHome"
-                />
-            <EditText
-                android:layout_width="0dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="输入搜索内容..."
-                android:background="@android:color/transparent"
-                android:textSize="20dp"
-                />
-            <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:src="@drawable/icon_search_zhj"
-                android:id="@+id/Search"
-                />
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                android:id="@+id/relatedLog"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/RelatedLog_zhj"
+                    android:textSize="18sp"
+                    android:gravity="center"
+                    android:textColor="@color/themeDarkGreen"
+                    />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/log_list"
+                    />
+<!--                使用 item_log_list_zhj -->
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                android:id="@+id/relatedAgency"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/RelatedAgency_zhj"
+                    android:textSize="18sp"
+                    android:gravity="center"
+                    android:textColor="@color/themeDarkGreen"
+                    />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/todo_list"
+                    />
+            </LinearLayout>
+
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#B0B0B0" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp"
-        android:id="@+id/relatedLog"
-        >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/RelatedLog_zhj"
-            android:textSize="20dp"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:textColor="@color/themeDarkGreen"
 
-            />
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/log_list"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp"
-        android:id="@+id/relatedAgency"
-        >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/RelatedAgency_zhj"
-            android:textSize="20dp"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:textColor="@color/themeDarkGreen"
-            />
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/todo_list"
-            />
-    </LinearLayout>
-
-
-
+    </ScrollView>
 
 </LinearLayout>

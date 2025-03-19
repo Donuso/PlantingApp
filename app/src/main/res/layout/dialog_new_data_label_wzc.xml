@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="340dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:cardCornerRadius="30dp"
+        android:layout_margin="20dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardElevation="5dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="示例文本"
+                android:textColor="@color/themeBlue"
+                android:textSize="28sp"
+                android:id="@+id/label_title"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hint_name_wzc"
+                android:textColor="@color/themeBlue"
+                android:textSize="18sp"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textSize="16sp"
+                android:textColor="@color/mass_text_grey_wzc"
+                android:hint="@string/hint_name_input_wzc"
+                android:id="@+id/alter_name_input"
+                android:textColorHint="@color/text_grey_wzc"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@android:color/transparent"
+                android:maxLines="1"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/line_grey_wzc"
+                android:translationY="-8dp"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hint_note_wzc"
+                android:textColor="@color/themeBlue"
+                android:textSize="18sp"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:hint="@string/hint_note_input_wzc"
+                android:id="@+id/alter_note_input"
+                android:textColorHint="@color/text_grey_wzc"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@android:color/transparent"
+                android:maxLines="1"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/line_grey_wzc"
+                android:translationY="-8dp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="end">
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/cancel_wzc"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:id="@+id/cancel"
+                    android:paddingBottom="5dp"/>
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/themeBlue"
+                    android:textSize="18sp"
+                    android:text="@string/make_sure_wzc"
+                    android:gravity="center"
+                    android:id="@+id/make_sure"
+                    android:paddingBottom="5dp"
+                    android:layout_marginStart="10dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

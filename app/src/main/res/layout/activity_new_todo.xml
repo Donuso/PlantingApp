@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/bg_grey_wzc"
+    >
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingTop="16dp"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        app:contentInsetStart="9dp"
+        android:id="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageButton
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:padding="11dp"
+            android:layout_gravity="start"
+            android:src="@drawable/icon_back_wzc"
+            android:scaleType="fitCenter"
+            android:background="@android:color/transparent"
+            android:id="@+id/back_btn"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/new_todo_chl"
+            android:textColor="@color/text_black_wzc"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="9dp"
+            android:id="@+id/log_group_name"
+            />
+    </androidx.appcompat.widget.Toolbar>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_black_wzc"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:id="@+id/dividing_line"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:cardElevation="0dp"
+        app:layout_constraintTop_toBottomOf="@id/dividing_line"
+        android:id="@+id/todo_name_area">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="待办内容｜必填｜不超过15个字"
+                android:textColor="@color/themeDarkGreen"
+                android:textSize="18sp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textSize="16sp"
+                android:textColor="@color/mass_text_grey_wzc"
+                android:hint="请输入待办的内容"
+                android:id="@+id/todo_content"
+                android:textColorHint="@color/general_grey_wzc"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@android:color/transparent"
+                android:maxLines="1"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/line_grey_wzc"
+                android:translationY="-8dp"
+                />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintTop_toBottomOf="@id/todo_name_area"
+        android:id="@+id/todo_time_picker">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/end_time_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="结束时间|必填"
+                android:textColor="#B60A680A"
+                android:textStyle="bold"
+                android:textSize="17sp"/>
+
+
+            <Switch
+                android:id="@+id/switchcompat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:showText="true"
+                android:textOn="结束日期选择"
+                android:textOff="永不结束"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:thumb="@drawable/shape_custom_switch_thumb_chl"
+                android:track="@drawable/shape_custom_switch_track_chl"
+                />
+            <Button
+                android:id="@+id/date_button"
+                android:layout_width="match_parent"
+                android:layout_height="37dp"
+                android:text="选择日期"
+                android:enabled="false"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/shape_custom_button_bg_chl"
+                android:textColor="#B60A680A"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp"
+                android:gravity="start" />
+            <EditText
+                android:id="@+id/end_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="20xx年xx月xx日"
+                android:visibility="gone" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="提醒时间间隔|必填|可填写1~365天"
+                android:textColor="#B60A680A"
+                android:textStyle="bold"
+                android:textSize="17sp"/>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/reminder_interval"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:padding="16dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="天"
+                    android:textSize="20sp"
+                    android:textColor="#040303"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="220dp"
+            android:layout_height="44dp"
+            android:layout_gravity="center"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/line_black_wzc"
+            app:strokeWidth="1dp"
+            app:cardCornerRadius="25dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="85dp"
+                android:layout_height="34dp"
+                android:layout_gravity="center_vertical"
+                app:strokeColor="@color/themeDarkGreen"
+                app:strokeWidth="1dp"
+                app:cardCornerRadius="22dp"
+                android:layout_marginStart="6dp"
+                android:id="@+id/left_view_never_stop"
+                app:cardElevation="0dp"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="永不结束"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:textColor="@color/themeDarkGreen"/>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="120dp"
+                android:layout_height="34dp"
+                android:layout_gravity="center_vertical"
+                app:cardBackgroundColor="@color/themeDarkGreen"
+                app:cardCornerRadius="22dp"
+                android:layout_marginStart="6dp"
+                android:id="@+id/left_view_pick_time"
+                app:cardElevation="0dp"
+                android:visibility="gone"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="选择结束时间"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"/>
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:backgroundTint="@color/themeDarkGreen"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/test"
+            />
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardElevation="0dp"
+        app:layout_constraintTop_toBottomOf="@id/todo_time_picker"
+        android:id="@+id/group_binder">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="绑定植物组|选填"
+                android:textStyle="bold"
+                android:textSize="17sp"/>
+
+            <Spinner
+                android:id="@+id/plant_group_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textAlignment="center"
+                android:padding="16dp"
+                android:background="@drawable/shape_spinner_border_chl"
+                /> <!-- 设置边框背景 -->
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:cardCornerRadius="50dp"
+        android:layout_marginStart="20dp"
+        app:cardElevation="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/make_sure_wzc"
+            android:textColor="@color/themeDarkGreen"
+            android:textSize="20sp"
+            android:id="@+id/cancel_touch_layer"
+            />
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

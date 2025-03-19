@@ -2,19 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/navigation_main"
-        android:icon="@drawable/icon_main_zhj"
+        android:icon="@drawable/icon_main"
         android:title="主页" />
     <item
         android:id="@+id/navigation_logs"
-        android:icon="@drawable/icon_main_zhj"
+        android:icon="@drawable/icon_log_wzc"
         android:title="日志" />
     <item
         android:id="@+id/navigation_todos"
-        android:icon="@drawable/icon_main_zhj"
+        android:icon="@drawable/icon_time_chl"
         android:title="待办" />
     <item
         android:id="@+id/navigation_me"
-        android:icon="@drawable/icon_main_zhj"
+        android:icon="@drawable/icon_me_yzr"
         android:title="我" />
-    <!-- 请将自己负责的入口对应的图标放入，此处仅填充示例内容   -->
 </menu>

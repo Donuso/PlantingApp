@@ -4,26 +4,82 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-        android:usesCleartextTraffic="true"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".NewPersonalLabelActivity"
+            android:exported="true"
+            >
+
+        </activity>
+        <activity
+            android:name=".ChangePasswordActivity"
+            android:exported="true" >
+        </activity>
+        <activity
+            android:name=".ModifyActivity"
+            android:exported="true" >
+        </activity>
+        <activity
+            android:name=".AIChatActivity"
+            android:exported="true" >
+
+        </activity>
+        <activity
+            android:name=".NewLabelActivity"
+            android:exported="true">
+
+        </activity>
+        <activity
+            android:name=".LogDataAnalyzeActivity"
+            android:exported="true" >
+
+        </activity>
+        <activity
+            android:name=".DatePickerActivity"
+            android:exported="true">
+
+        </activity>
+        <activity
+            android:name=".LogActivity"
+            android:exported="true">
+
+        </activity>
         <activity
             android:name=".RegisterActivity"
-            android:exported="false" />
+            android:exported="true">
+
+        </activity>
         <activity
             android:name=".LoginActivity"
             android:exported="true">
+
         </activity>
         <activity
             android:name=".SplashActivity"
+            android:exported="true" >
+
+        </activity>
+        <activity
+            android:name=".LogSearchActivity"
+            android:exported="true" >
+
+        </activity>
+        <activity
+            android:name=".AllToDoActivity"
+            android:exported="true" />
+        <activity
+            android:name=".NewTodoActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,13 +87,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LogSearch"
-            android:exported="true" >
-        </activity>
-        <activity
             android:name=".MainSwitchActivity"
-            android:exported="true" >
-
+            android:exported="true">
         </activity>
     </application>
 

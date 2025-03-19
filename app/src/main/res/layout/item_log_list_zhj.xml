@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="5dp">
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="植物分组名称1"
+            android:textSize="16sp"
+            android:id="@+id/text"
+            android:maxLines="1"
+            android:textColor="@color/mass_text_grey_wzc"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="20dp"
+            android:textSize="14sp"
+            android:text="xxxx年xx月xx日"
+            android:id="@+id/time"
+            android:maxLines="1"
+            android:layout_marginBottom="1dp"
+            />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/icon_detail_zhj"
+            android:paddingStart="10dp"
+            android:paddingEnd="4dp"
+            android:paddingBottom="5dp"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_grey_wzc"
+        android:layout_gravity="bottom"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:id="@+id/touch_layer"/>
+
+</FrameLayout>
+
