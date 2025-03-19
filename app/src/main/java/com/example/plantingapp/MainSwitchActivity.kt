@@ -8,12 +8,15 @@ import androidx.activity.enableEdgeToEdge
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.plantingapp.fragments.AsapiFragment
 import com.example.plantingapp.fragments.LogFragment
 import com.example.plantingapp.fragments.MainFragment
 import com.example.plantingapp.fragments.MeFragment
+import com.example.plantingapp.fragments.TengapiFragment
 import com.example.plantingapp.fragments.TodoFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.example.plantingapp.fragments.WeatherFragment
+import com.example.plantingapp.fragments.YuanFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 /*
 * 这是fragment的框架显示页
@@ -47,7 +50,7 @@ class MainSwitchActivity : AppCompatActivity() {
                     return@setOnItemSelectedListener true
                 }
                 R.id.navigation_logs -> {
-                    switchFragment(LogFragment())
+                    switchFragment(TengapiFragment())
                     return@setOnItemSelectedListener true
                 }
                 R.id.navigation_todos -> {
