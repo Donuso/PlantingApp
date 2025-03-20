@@ -210,6 +210,7 @@
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 android:layout_marginEnd="15dp"
+                                android:id="@+id/weatherPhoto"
                                 />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -258,7 +259,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/currentTemperature"
-                                android:text="22℃"
+                                android:text="——℃"
                                 android:textSize="25sp"
                                 android:textColor="@color/mass_text_grey_wzc"
                                 app:layout_constraintBottom_toBottomOf="parent"
@@ -271,7 +272,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/temperature_range"
-                                android:text="11℃~23℃"
+                                android:text="--℃~--℃"
                                 android:textSize="14sp"
                                 android:textColor="@color/mass_text_grey_wzc"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -323,7 +324,7 @@
                             android:layout_width="55dp"
                             android:layout_height="wrap_content"
                             android:id="@+id/rain"
-                            android:text="1100mm"
+                            android:text="--mm"
                             android:maxLines="1"
                             android:gravity="end"
                             android:textColor="@color/mass_text_grey_wzc"
@@ -367,7 +368,7 @@
                             android:layout_width="40dp"
                             android:layout_height="wrap_content"
                             android:id="@+id/moisture"
-                            android:text="90%"
+                            android:text="--%"
                             android:gravity="center"
                             android:textSize="15sp"
                             android:layout_marginStart="77dp"
@@ -413,7 +414,7 @@
                             android:layout_width="40dp"
                             android:layout_height="wrap_content"
                             android:id="@+id/wind"
-                            android:text="1.1级"
+                            android:text="--级"
                             android:gravity="center"
                             android:textSize="15sp"
                             android:layout_marginStart="77dp"
@@ -451,7 +452,7 @@
                             android:layout_width="40dp"
                             android:layout_height="wrap_content"
                             android:id="@+id/nextClimate"
-                            android:text="小暑"
+                            android:text="--"
                             android:gravity="center"
                             android:textSize="15sp"
                             android:layout_marginStart="78dp"
@@ -532,6 +533,7 @@
                     app:cardCornerRadius="20dp"
                     app:cardElevation="0dp"
                     android:visibility="gone"
+                    android:id="@+id/loadingCardView"
                     >
 
                     <TextView
@@ -541,6 +543,7 @@
                         android:textColor="@color/themeDarkGreen"
                         android:text="点击加载天气"
                         android:gravity="center"
+                        android:id="@+id/loadingWeather"
                         android:visibility="gone"
                         />
 
@@ -550,6 +553,7 @@
                         android:orientation="horizontal"
                         android:gravity="center"
                         android:visibility="visible"
+                        android:id="@+id/loadingWeatherAgain"
                         >
                         <TextView
                             android:layout_width="wrap_content"
@@ -559,6 +563,7 @@
                             android:gravity="center"
                             android:textSize="21sp"
                             android:layout_marginStart="13dp"
+
                             />
                         <ImageView
                             android:layout_marginStart="5dp"

@@ -26,7 +26,7 @@ class NewTodoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_todo)
 
-        val switchCompat = findViewById<Switch>(R.id.switchcompat)
+//        val switchCompat = findViewById<Switch>(R.id.switchcompat)
         val dateButton = findViewById<Button>(R.id.date_button)
         val testbtn = findViewById<Button>(R.id.test)
         val NeverStop = findViewById<MaterialCardView>(R.id.left_view_never_stop)
@@ -64,11 +64,11 @@ class NewTodoActivity : AppCompatActivity() {
             }
         }
 
-        switchCompat.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener {
-            override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-                dateButton.isEnabled = isChecked
-            }
-        })
+//        switchCompat.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener {
+//            override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+//                dateButton.isEnabled = isChecked
+//            }
+//        })
 
         dateButton.setOnClickListener {
             showDatePickerDialog()

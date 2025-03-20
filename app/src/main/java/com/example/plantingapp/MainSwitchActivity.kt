@@ -50,7 +50,7 @@ class MainSwitchActivity : AppCompatActivity() {
                     return@setOnItemSelectedListener true
                 }
                 R.id.navigation_logs -> {
-                    switchFragment(TengapiFragment())
+                    switchFragment(LogFragment())
                     return@setOnItemSelectedListener true
                 }
                 R.id.navigation_todos -> {

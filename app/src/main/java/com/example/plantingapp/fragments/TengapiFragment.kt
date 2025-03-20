@@ -168,7 +168,7 @@ class TengapiFragment : Fragment() {
             try {
                 val response: Response = client.newCall(request).execute()
                 val responsedata: String? = response.body?.string()
-                Log.i("WeatherFragment", responsedata.toString())
+                Log.i("Test_weather", responsedata.toString())
                 if (responsedata != null) {
                     getdata(responsedata)
                 } else {

@@ -8,7 +8,9 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Location
+import android.net.ConnectivityManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,12 +19,16 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import com.example.plantingapp.animators.FadeAnimator
 import com.tencent.map.geolocation.TencentLocation
 import com.tencent.map.geolocation.TencentLocationListener
 import com.tencent.map.geolocation.TencentLocationManager
@@ -31,6 +37,10 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import org.json.JSONObject
+import java.time.LocalDate
+import kotlin.math.roundToInt
+
+
 
 class MainFragment : Fragment() {
 
@@ -45,6 +55,13 @@ class MainFragment : Fragment() {
     private lateinit var RainTextView: TextView
     private lateinit var NextClimateTextView: TextView
     private lateinit var TemperatureTextView: TextView
+    private lateinit var LoadingCardView: CardView
+    private lateinit var LoadingWeather: TextView
+    private lateinit var LoadingWeatherAgain: LinearLayout
+    private lateinit var WeatherPhoto: ImageView
+    private lateinit var AttentionCardView: CardView
+    private lateinit var Attention: TextView
+    private lateinit var layerAnimator: FadeAnimator
 
     //SharedPreferences文件
     private lateinit var sharedPreferences: SharedPreferences
@@ -68,20 +85,25 @@ class MainFragment : Fragment() {
         WindTextView = view.findViewById(R.id.wind)
         RainTextView = view.findViewById(R.id.rain)
         TemperatureTextView = view.findViewById(R.id.currentTemperature)
+        LoadingCardView = view.findViewById(R.id.loadingCardView)
+        LoadingWeather = view.findViewById(R.id.loadingWeather)
+        LoadingWeatherAgain = view.findViewById(R.id.loadingWeatherAgain)
+        AttentionCardView = view.findViewById(R.id.attentionCardView)
+        Attention = view.findViewById(R.id.attention)
+        WeatherPhoto = view.findViewById(R.id.weatherPhoto)
+        NextClimateTextView = view.findViewById(R.id.nextClimate)
+        layerAnimator = FadeAnimator(LoadingCardView).setDuration(200)
 
 
         // 初始化定位SDK
         initLocation()
-
         return view
     }
 
     private fun initLocation() {
         // 必须设置用户同意隐私政策（需要在用户同意后调用）
         TencentLocationManager.setUserAgreePrivacy(true)
-
         locationManager = TencentLocationManager.getInstance(requireContext())
-
         // 检查定位权限
         if (checkLocationPermission()) {
             startLocation()
@@ -122,8 +144,8 @@ class MainFragment : Fragment() {
                     startLocation()
                 } else {
                     Toast.makeText(activity, "需要定位权限才能获取当地天气", Toast.LENGTH_SHORT).show()
-                    // 使用默认城市作为回退方案
-                    sendRequestOkHttp("广州")
+                    //重新获取权限
+                    PermissionRety()
                 }
             }
         }
@@ -138,28 +160,42 @@ class MainFragment : Fragment() {
             .setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_ADMIN_AREA) // 获取城市级别
 
         val listener = object : TencentLocationListener {
-            override fun onLocationChanged(
-                location: TencentLocation?,
-                error: Int,
-                reason: String?
-            ) {
+            override fun onLocationChanged(location: TencentLocation?, error: Int, reason: String?) {
                 when (error) {
                     TencentLocation.ERROR_OK -> {
                         location?.let {
-                            Log.d("LocationResult", "原始城市名称: ${it.city}")
-                            Log.d("LocationDebug", "定位成功详情: " +
-                                    "城市=${it.city} " +
-                                    "区=${it.district} " +
-                                    "经度=${it.longitude} " +
-                                    "纬度=${it.latitude}")
-                            val processedCity = it.city.replace("市", "") // 去除市字后缀
-                            Log.d("LocationResult", "处理后城市: $processedCity")
-                            sendRequestOkHttp(processedCity)
+                            val city = it.city
+                            if (city != null) {
+                                Log.d("LocationResult", "原始城市名称: $city")
+                                Log.d("LocationDebug", "定位成功详情: " +
+                                        "城市=$city " +
+                                        "区=${it.district} " +
+                                        "经度=${it.longitude} " +
+                                        "纬度=${it.latitude}")
+                                val processedCity = city.replace("市", "") // 去除市字后缀
+                                Log.d("LocationResult", "处理后城市: $processedCity")
+                                sendRequestOkHttp(processedCity)
+                                requireActivity().runOnUiThread{
+                                    layerAnimator.start(false)
+                                }
+                            } else {
+                                activity?.runOnUiThread {
+                                    Toast.makeText(activity, "定位失败: 无法获取城市信息", Toast.LENGTH_SHORT).show()
+                                    LocationRetry() // 显示定位重试按钮
+                                }
+                            }
+                        } ?: run {
+                            activity?.runOnUiThread {
+                                Toast.makeText(activity, "定位失败: 位置信息为空", Toast.LENGTH_SHORT).show()
+                                LocationRetry() // 显示定位重试按钮
+                            }
                         }
                     }
                     else -> {
-                        Toast.makeText(activity, "定位失败: $reason", Toast.LENGTH_SHORT).show()
-                        sendRequestOkHttp("广州") // 失败时使用默认城市
+                        activity?.runOnUiThread {
+                            Toast.makeText(activity, "定位失败: $reason", Toast.LENGTH_SHORT).show()
+                            LocationRetry() // 显示定位重试按钮
+                        }
                     }
                 }
                 // 停止定位防止重复请求
@@ -188,8 +224,21 @@ class MainFragment : Fragment() {
         }
     }
 
+    private fun isNetworkAvailable(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connectivityManager.activeNetworkInfo
+        return networkInfo != null && networkInfo.isConnected
+    }
+
     // 以下原有方法保持不变，只需要修改sendRequestOkHttp的调用方式
     private fun sendRequestOkHttp(city: String) {
+        if (!isNetworkAvailable(requireContext())) {
+            activity?.runOnUiThread {
+                Toast.makeText(activity, "网络不可用，请检查网络连接", Toast.LENGTH_SHORT).show()
+                WeatherRetry(city) // 显示天气重试按钮
+            }
+            return
+        }
         Thread {
             val client = OkHttpClient()
             val request: Request = Request.Builder()
@@ -197,37 +246,68 @@ class MainFragment : Fragment() {
                 .build()
             try {
                 val response: Response = client.newCall(request).execute()
+                Log.i("Response", "1")
                 val responsedata: String? = response.body?.string()
-                Log.i("WeatherFragment", responsedata.toString())
+                Log.i("Responsedata", "1")
                 if (responsedata != null) {
                     getdata(responsedata)
+                    Log.i("getdata", "1")
                 } else {
                     activity?.runOnUiThread {
                         Toast.makeText(activity, "获取数据失败", Toast.LENGTH_SHORT).show()
+                        Log.i("fail", "1")
+                        WeatherRetry(city) // 显示天气重试按钮
                     }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
                 activity?.runOnUiThread {
-                    Toast.makeText(activity, "网络请求错误", Toast.LENGTH_SHORT).show()
+                    if (isAdded && !isDetached) { // 确保 Fragment 仍然附加到 Activity
+                        Toast.makeText(activity, "网络请求错误: ${e.message}", Toast.LENGTH_SHORT).show()
+                        WeatherRetry(city) // 显示天气重试按钮
+                    }
                 }
             }
         }.start()
     }
 
+
     private fun getdata(res: String) {
         val jsondata = JSONObject(res)
 
         val city: String = jsondata.optString("city")
-        var data = ""
         if (city.isNotEmpty()) {
             val wea = jsondata.optString("wea")
-            val tem = jsondata.optString("tem")
-            val tem1 = jsondata.optString("tem1")
-            val tem2 = jsondata.optString("tem2")
+            var tem = jsondata.optString("tem")
+            var tem1 = jsondata.optString("tem1")
+            var tem2 = jsondata.optString("tem2")
             val win_speed = jsondata.optString("win_speed")
             val humidity = jsondata.optString("humidity")
             val rain_pcpn = jsondata.optString("rain_pcpn")
+            val wea_img = jsondata.optString("wea_img")
+            val temFloat = tem.toFloatOrNull() ?: 0.0f
+            val temInt = temFloat.roundToInt()
+            tem = temInt.toString()
+            val tem1Float = tem1.toFloatOrNull() ?: 0.0f
+            val tem1Int = tem1Float.roundToInt()
+            tem1 = tem1Int.toString()
+            val tem2Float = tem2.toFloatOrNull() ?: 0.0f
+            val tem2Int = tem2Float.roundToInt()
+            tem2 = tem2Int.toString()
+            val nextTerm = getNextSolarTerm()
+            // 解析 alarm 数组
+            val alarmArray = jsondata.optJSONArray("alarm")
+            val alarmTitles = mutableListOf<String>()
+            if (alarmArray != null) {
+                for (i in 0 until alarmArray.length()) {
+                    val alarmObject = alarmArray.getJSONObject(i)
+                    val alarmTitle = alarmObject.optString("alarm_title")
+                    if (alarmTitle.isNotEmpty()) {
+                        alarmTitles.add(alarmTitle)
+                    }
+                }
+            }
+
 
             // 存储到 SharedPreferences
             requireActivity().getSharedPreferences(preferenceFileName, Context.MODE_PRIVATE).apply {
@@ -240,6 +320,9 @@ class MainFragment : Fragment() {
                     putString("win_speed", win_speed)
                     putString("humidity", humidity)
                     putString("rain_pcpn",rain_pcpn)
+                    putString("nextTerm",nextTerm)
+                    putString("wea_img",wea_img)
+                    putString("alarm_titles", alarmTitles.joinToString(", "))
                     apply()
                 }
             }
@@ -247,16 +330,130 @@ class MainFragment : Fragment() {
         loadWeatherData()
     }
 
-    private fun loadWeatherData() {
-        val prefs = requireActivity().getSharedPreferences(preferenceFileName, Context.MODE_PRIVATE)
-        AreaTextView.text = prefs.getString("city", "--")
-        TemperatureTextView.text = "${prefs.getString("tem", "--")}℃"
-        TemperatureRangeTextView.text = "${prefs.getString("tem1", "--")}℃~${prefs.getString("tem2", "--")}℃"
-        MoistureTextView.text = "${prefs.getString("humidity", "--")}%"
-        WeatherTextView.text = prefs.getString("wea", "-- --")
-        WindTextView.text = prefs.getString("win_speed", "--")
-        RainTextView.text = "${prefs.getString("rain_pcpn", "--")}mm"
+    fun getNextSolarTerm(): String {
+        val solarTerms = listOf(
+            "立春" to LocalDate.of(2025, 2, 4),
+            "雨水" to LocalDate.of(2025, 2, 19),
+            "惊蛰" to LocalDate.of(2025, 3, 6),
+            "春分" to LocalDate.of(2025, 3, 20),
+            "清明" to LocalDate.of(2025, 4, 5),
+            "谷雨" to LocalDate.of(2025, 4, 20),
+            "立夏" to LocalDate.of(2025, 5, 6),
+            "小满" to LocalDate.of(2025, 5, 21),
+            "芒种" to LocalDate.of(2025, 6, 6),
+            "夏至" to LocalDate.of(2025, 6, 22),
+            "小暑" to LocalDate.of(2025, 7, 7),
+            "大暑" to LocalDate.of(2025, 7, 23),
+            "立秋" to LocalDate.of(2025, 8, 8),
+            "处暑" to LocalDate.of(2025, 8, 23),
+            "白露" to LocalDate.of(2025, 9, 8),
+            "秋分" to LocalDate.of(2025, 9, 23),
+            "寒露" to LocalDate.of(2025, 10, 8),
+            "霜降" to LocalDate.of(2025, 10, 24),
+            "立冬" to LocalDate.of(2025, 11, 8),
+            "小雪" to LocalDate.of(2025, 11, 23),
+            "大雪" to LocalDate.of(2025, 12, 7),
+            "冬至" to LocalDate.of(2025, 12, 22)
+        )
+        val currentDate = LocalDate.now()
+        var nextTerm = ""
+        var found = false
 
+        for ((term, date) in solarTerms) {
+            if (currentDate < date && !found) {
+                nextTerm = term
+                found = true
+            }
+        }
+
+        // 如果没有找到下一个节气（理论上不会发生，因为节气是循环的，且列表是完整的），
+        // 可以返回第一个节气作为备选（假设列表是按顺序且循环的）
+        if (nextTerm.isEmpty()) {
+            nextTerm = solarTerms.first().first // 返回第一个节气作为下一年的第一个节气（循环处理）
+        }
+
+        return nextTerm
+    }
+
+
+    private fun loadWeatherData() {
+
+        val prefs = requireActivity().getSharedPreferences(preferenceFileName, Context.MODE_PRIVATE)
+        Log.i("Response","2")
+        requireActivity().runOnUiThread(){
+            AreaTextView.text = prefs.getString("city", "--")
+            Log.i("Response","3")
+            TemperatureTextView.text = "${prefs.getString("tem", "--")}℃"
+            Log.i("Response","4")
+            TemperatureRangeTextView.text = "${prefs.getString("tem1", "--")}℃~${prefs.getString("tem2", "--")}℃"
+            Log.i("Response","5")
+            MoistureTextView.text = "${prefs.getString("humidity", "--")}%"
+            Log.i("Response","6")
+            WeatherTextView.text = prefs.getString("wea", "-- --")
+            Log.i("Response","7")
+            LoadingWeatherIcon(prefs)
+            WindTextView.text = prefs.getString("win_speed", "--")
+            Log.i("Response","8")
+            RainTextView.text = "${prefs.getString("rain_pcpn", "--")}mm"
+            Log.i("Response","9")
+            NextClimateTextView.text = prefs.getString("nextTerm", "--")
+            val alarmTitle = prefs.getString("alarm_title",null)
+            if (alarmTitle != null){
+                AttentionCardView.setVisibility(View.VISIBLE)
+                Attention.text = alarmTitle
+            }
+        }
+    }
+
+    private fun LoadingWeatherIcon(prefs: SharedPreferences){
+        val weaImgValue = prefs.getString("wea_img", null)
+        when (weaImgValue){
+            "qing" -> {
+                WeatherPhoto.setImageResource(R.drawable.icon_sun_zhj)
+            }
+            "yin" -> {
+                WeatherPhoto.setImageResource(R.drawable.icon_cloudy_zhj)
+            }
+            "yun" -> {
+                WeatherPhoto.setImageResource(R.drawable.icon_cloud_zhj)
+            }
+            "shachen" -> {
+                WeatherPhoto.setImageResource(R.drawable.icon_dusty_zhj)
+            }
+            "yu" -> {
+                WeatherPhoto.setImageResource(R.drawable.icon_rainy_zhj)
+            }
+            "xue" -> {
+                WeatherPhoto.setImageResource(R.drawable.icon_snowy_zhj)
+            }
+            "wu" -> {
+                WeatherPhoto.setImageResource(R.drawable.icon_foggy_zhj)
+            }
+            "bingbao" -> {
+                WeatherPhoto.setImageResource(R.drawable.icon_hail_icon)
+            }
+            "lei" -> {
+                WeatherPhoto.setImageResource(R.drawable.icon_thunder_zhj)
+            }
+        }
+    }
+    private fun PermissionRety(){
+        LoadingCardView.setVisibility(View.VISIBLE)
+        LoadingCardView.setOnClickListener {
+            requestLocationPermission()
+        }
+    }
+    private fun LocationRetry(){
+        layerAnimator.start(true)
+        LoadingCardView.setOnClickListener {
+            startLocation()
+        }
+    }
+    private fun WeatherRetry(city: String){
+        LoadingCardView.setVisibility(View.VISIBLE)
+        LoadingCardView.setOnClickListener {
+            sendRequestOkHttp(city)
+        }
     }
 
     companion object {
