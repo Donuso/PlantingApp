@@ -1,101 +1,149 @@
 package com.example.plantingapp
 
-import android.app.DatePickerDialog
-import android.content.Intent
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.MaterialDatePicker
+import java.text.SimpleDateFormat
+import java.util.Locale
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
-import android.widget.CompoundButton
-import android.widget.DatePicker
-import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.Switch
-import androidx.activity.enableEdgeToEdge
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.core.content.ContextCompat
 import com.example.plantingapp.animators.ExpandAnimator
-import com.example.plantingapp.animators.FadeAnimator
-import com.example.plantingapp.fragments.TodoFragment
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.datepicker.DateValidatorPointForward
 import java.util.Calendar
 
 class NewTodoActivity : AppCompatActivity() {
+
+    private lateinit var changeButton: MaterialCardView
+    private lateinit var neverStop: MaterialCardView
+    private lateinit var chooseToPick: MaterialCardView
+    private lateinit var simulateDateButton: MaterialCardView
+    private lateinit var back:ImageButton
+    private lateinit var endTimeText:TextView
+    private lateinit var pickUpHint:TextView
+
+    private lateinit var animeNS:ExpandAnimator
+    private lateinit var animeTP:ExpandAnimator
+
+    private var ifNeverStop = true
+    private val neverStopDisplacement = 147f
+    private val chooseToPickDisplacement = 106f
+    private var greyLine:Int = 0
+    private var greyText:Int = 0
+    private var themeDarkGreen:Int = 0
+    private var pickedTime = MaterialDatePicker.todayInUtcMilliseconds() + 24 * 60 * 60 * 1000
+    private var pickedTimeText = "----"
+    private val dateFormat = SimpleDateFormat("yyyy年MM月dd日", Locale.getDefault())
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_todo)
+        initAll()
 
-//        val switchCompat = findViewById<Switch>(R.id.switchcompat)
-        val dateButton = findViewById<Button>(R.id.date_button)
-        val testbtn = findViewById<Button>(R.id.test)
-        val NeverStop = findViewById<MaterialCardView>(R.id.left_view_never_stop)
-        val TimePicker = findViewById<MaterialCardView>(R.id.left_view_pick_time)
-        var ifNeverStop = true
-
-        val AnimeFadeNS = FadeAnimator(NeverStop).setDuration(200)
-        val AnimeExNS = ExpandAnimator(this,NeverStop).setDuration(200)
-
-        val AnimeFadeTP = FadeAnimator(TimePicker).setDuration(200)
-        val AnimeExTP = ExpandAnimator(this,TimePicker).setDuration(200)
-
-        val shortDis = 147f
-        val shortDisPx = Utils.dpToPx(this,shortDis).toFloat()
-        val longDis = 105f
-        val longDisPx = Utils.dpToPx(this,longDis).toFloat()
-
-        testbtn.setOnClickListener{
-            if(ifNeverStop){
-                NeverStop.translationX = 0f
-                TimePicker.translationX = 0f
-                ifNeverStop = false
-                AnimeFadeNS.start(false)
-                AnimeExNS.setMoveDirection(1,shortDis).start()
-                AnimeFadeTP.start(true)
-                AnimeExTP.setMoveDirection(1,longDis).start()
-            }else{
-                NeverStop.translationX = 50f
-                TimePicker.translationX = 50f
-                ifNeverStop = true
-                AnimeFadeTP.start(false)
-                AnimeExTP.setMoveDirection(1,-longDis).start()
-                AnimeFadeNS.start(true)
-                AnimeExNS.setMoveDirection(1,-shortDis).start()
-            }
+        changeButton.setOnClickListener{
+            simulateSwitchCompat()
+            ifNeverStop = !ifNeverStop
+            simulateDateButton.isClickable = !ifNeverStop
         }
-
-//        switchCompat.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener {
-//            override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-//                dateButton.isEnabled = isChecked
-//            }
-//        })
-
-        dateButton.setOnClickListener {
-            showDatePickerDialog()
+        simulateDateButton.setOnClickListener {
+            showMaterialDatePicker()
         }
-
-        findViewById<ImageButton>(R.id.back_btn).setOnClickListener {
+        simulateDateButton.isClickable = false
+        back.setOnClickListener {
             finish() // 结束当前Activity，返回上一个界面
         }
     }
 
-    private fun showDatePickerDialog() {
-        val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
+    private fun initAll(){
+        changeButton = findViewById(R.id.fake_switch_compat)
+        neverStop = findViewById(R.id.left_view_never_stop)
+        chooseToPick = findViewById(R.id.left_view_pick_time)
+        simulateDateButton = findViewById(R.id.sim_date_button)
+        back = findViewById(R.id.back_btn)
+        endTimeText = findViewById(R.id.end_time)
+        pickUpHint = findViewById(R.id.pick_up_hint)
 
-        DatePickerDialog(
-            this,
-            { _: DatePicker, selectedYear: Int, selectedMonth: Int, selectedDay: Int ->
-                val selectedDate = "${selectedYear}年${selectedMonth + 1}月${selectedDay}日"
-                // 更新 Button 的文本为所选日期
-                val dateButton = findViewById<Button>(R.id.date_button)
-                dateButton.text = selectedDate
-            },
-            year,
-            month,
-            day
-        ).show()
+        animeNS = ExpandAnimator(this,neverStop)
+            .setIfFade(true)
+            .setRateType(ExpandAnimator.iOSRatio)
+            .setDuration(500)
+        animeTP = ExpandAnimator(this,chooseToPick)
+            .setIfFade(true)
+            .setRateType(ExpandAnimator.iOSRatio)
+            .setDuration(500)
+
+        themeDarkGreen = ContextCompat.getColor(this,R.color.themeDarkGreen)
+        greyText = ContextCompat.getColor(this,R.color.general_grey_wzc)
+        greyLine = ContextCompat.getColor(this, R.color.line_grey_wzc)
+    }
+
+    private fun simulateSwitchCompat(){
+        if(ifNeverStop){ // 打开日期选择
+            if (pickedTimeText == "----"){
+                pickUpHint.text = getString(R.string.allow_pick_up_time_chl)
+            }else{
+                pickUpHint.text = getString(R.string.picked_time_chl)
+            }
+            simulateDateButton.strokeColor = themeDarkGreen
+            pickUpHint.setTextColor(themeDarkGreen)
+            endTimeText.setTextColor(themeDarkGreen)
+            endTimeText.text = pickedTimeText
+            animeNS.setMoveDirection(1,neverStopDisplacement)
+                .setFade(1f,0f)
+                .start()
+            animeTP.setMoveDirection(1,chooseToPickDisplacement)
+                .setFade(0f,1f)
+                .start()
+        }else{ // 关闭
+            pickUpHint.text = getString(R.string.stop_pick_up_time_chl)
+            pickUpHint.setTextColor(greyText)
+            endTimeText.setTextColor(greyText)
+            endTimeText.text = getString(R.string.no_time_chl)
+            simulateDateButton.strokeColor = greyLine
+            animeTP.setMoveDirection(1,-neverStopDisplacement)
+                .setFade(1f,0f)
+                .start()
+            animeNS.setMoveDirection(1,-chooseToPickDisplacement)
+                .setFade(0f,1f)
+                .start()
+        }
+    }
+
+    private fun showMaterialDatePicker() {
+        val calendar = Calendar.getInstance()
+        val todayMillis = calendar.timeInMillis
+
+        val constraints = CalendarConstraints.Builder()
+            .setValidator(DateValidatorPointForward.from(todayMillis + 24 * 60 * 60 * 1000)) // 今天之后（不包括今天）
+            .build()
+
+        // 配置日期选择器
+        val builder = MaterialDatePicker.Builder.datePicker()
+            .setTitleText("选择结束日期") // 可自定义标题
+            .setTheme(R.style.ThemeOverlay_App_MaterialDatePicker) // 使用自定义主题（可选）
+            .setSelection(pickedTime) // 默认选择明天
+            .setCalendarConstraints(constraints)
+
+        val datePicker = builder.build()
+
+        // 设置监听器
+        datePicker.addOnPositiveButtonClickListener { selectedDateMillis ->
+            val selectedCalendar = Calendar.getInstance()
+            selectedCalendar.timeInMillis = selectedDateMillis
+            val selectedDate = dateFormat.format(selectedCalendar.time)
+            endTimeText.text = selectedDate
+            pickedTimeText = selectedDate
+            pickedTime = selectedDateMillis
+            pickUpHint.text = getString(R.string.picked_time_chl)
+        }
+
+        // 设置取消监听器（可选）
+        datePicker.addOnNegativeButtonClickListener {
+            // 用户取消选择时的操作
+        }
+
+        datePicker.show(supportFragmentManager, "MATERIAL_DATE_PICKER")
     }
 }

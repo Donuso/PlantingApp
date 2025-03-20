@@ -178,12 +178,6 @@
                 android:textStyle="bold"
                 android:gravity="center"
                 android:textColor="@color/white0.9_zhj"
-                />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/transparent"
                 android:id="@+id/confirmLogin"
                 />
 

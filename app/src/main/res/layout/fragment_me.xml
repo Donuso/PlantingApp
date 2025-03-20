@@ -7,7 +7,7 @@
     android:background="@drawable/bg_res_6"
     android:orientation="vertical"
     tools:context=".fragments.MeFragment"
-    android:paddingTop="45dp"
+    android:paddingTop="35dp"
     android:paddingStart="20dp"
     android:paddingEnd="20dp">
 
