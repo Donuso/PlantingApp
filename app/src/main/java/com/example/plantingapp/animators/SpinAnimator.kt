@@ -12,6 +12,8 @@ class SpinAnimator(private var targetView: View) {
     private var interpolator: TimeInterpolator = LinearInterpolator()
     private var isAnimating = false
     private var animator: ObjectAnimator? = null
+    private var isInfinite = true  // 无限循环开关，默认为 true
+    private var rotationDegrees = 360f  // 旋转度数，默认为 360 度
 
     // 链式调用方法设置目标视图
     fun setTargetView(view: View): SpinAnimator {
@@ -31,20 +33,36 @@ class SpinAnimator(private var targetView: View) {
         return this
     }
 
-    // 启动无限旋转动画
+    // 链式调用方法设置无限循环开关
+    fun setInfinite(isInfinite: Boolean): SpinAnimator {
+        this.isInfinite = isInfinite
+        return this
+    }
+
+    // 链式调用方法设置旋转度数
+    fun setRotationDegrees(degrees: Float): SpinAnimator {
+        this.rotationDegrees = degrees
+        return this
+    }
+
+    // 启动旋转动画
     fun start() {
         targetView.let { view ->
             if (isAnimating) stop() // 如果正在动画，先停止
 
             // 计算当前旋转角度作为起始值
             val currentRotation = view.rotation
-            val endRotation = currentRotation + 360f
+            val endRotation = currentRotation + rotationDegrees
 
             animator = ObjectAnimator.ofFloat(view, "rotation", currentRotation, endRotation).apply {
                 this.duration = this@SpinAnimator.duration
                 this.interpolator = this@SpinAnimator.interpolator
-                repeatCount = ObjectAnimator.INFINITE   // 无限循环
-                repeatMode = ObjectAnimator.RESTART     // 每次从头开始
+                if (isInfinite) {
+                    repeatCount = ObjectAnimator.INFINITE   // 无限循环
+                    repeatMode = ObjectAnimator.RESTART     // 每次从头开始
+                } else {
+                    repeatCount = 0  // 不循环
+                }
 
                 // 监听动画取消事件
                 addListener(object : AnimatorListenerAdapter() {

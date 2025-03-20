@@ -24,14 +24,9 @@ class MainSwitchActivity : AppCompatActivity() {
     private val fragmentManager: FragmentManager by lazy { supportFragmentManager }
     private lateinit var bottomNavigationView: BottomNavigationView
 
-//    private var originalStatusBarColor: Int = 0xffffff
-//    private var alterStatusBarColor: Int = 0xffffff
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_switch)
-//        originalStatusBarColor = ContextCompat.getColor(this, R.color.themeDarkGreen)
-//        alterStatusBarColor = ContextCompat.getColor(this, R.color.themeLightGreen)
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
         switchFragment(MainFragment())

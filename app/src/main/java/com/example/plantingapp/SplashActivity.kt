@@ -29,7 +29,7 @@ class SplashActivity : AppCompatActivity() {
                     activity.startActivity(
                         Intent(
                             activity,
-                            MainSwitchActivity::class.java
+                            LoginActivity::class.java
                         )
                     )
                 }
