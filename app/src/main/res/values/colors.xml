@@ -36,4 +36,7 @@
     <color name="yellow_zhj">#fffdba</color>
     <color name="colorPrimary">#FF4081</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="ripple_green_wzc">#44016f34</color>
+    <color name="grey_title_chl">#6c6c6c</color>
+    <color name="grey_line_chl">#cecece</color>
 </resources>

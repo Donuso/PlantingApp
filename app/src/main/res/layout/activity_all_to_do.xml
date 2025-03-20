@@ -1,196 +1,385 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_marginTop="70dp"
-    android:padding="16dp">
+    android:background="@color/bg_grey_wzc">
 
-    <!-- 省略其他部分 -->
-    <LinearLayout
+    <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:padding="16dp">
-        <Button
+        android:layout_height="60dp"
+        android:paddingTop="16dp"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        app:contentInsetStart="9dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/toolbar">
+        <ImageButton
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:padding="11dp"
+            android:layout_gravity="start"
+            android:src="@drawable/icon_back_wzc"
+            android:scaleType="fitCenter"
+            android:background="@android:color/transparent"
             android:id="@+id/backtoDo"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/icon_leftarrows1_chl"/>
+            />
         <TextView
-            android:id="@+id/title"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="所有待办"
-            android:textColor="#120202"
-            android:textSize="23sp"
-            android:textStyle="bold"
-            android:gravity="center" />
-        <ImageView
-            android:id="@+id/menu_caidan"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/icon_menu_chl"
-            android:padding="8dp" />
-    </LinearLayout>
+            android:text="@string/All_todos_title_chl"
+            android:textColor="@color/text_black_wzc"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="9dp"
+            android:id="@+id/title"
+            />
+        <ImageButton
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="14dp"
+            android:paddingStart="13dp"
+            android:paddingEnd="13dp"
+            android:layout_gravity="end"
+            android:src="@drawable/icon_menu_btn_black_wzc"
+            android:scaleType="fitCenter"
+            android:background="@android:color/transparent"
+            android:id="@+id/menu"
+            android:layout_marginEnd="9dp"
+            />
+    </androidx.appcompat.widget.Toolbar>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#181616"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"/>
+        android:background="@color/line_black_wzc"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:id="@+id/division"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="点击待办即可修改其信息"
-        android:textSize="14sp"
-        android:textColor="#888888"
+        android:text="@string/hint_subtitle"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp"
+        android:textColor="@color/general_grey_wzc"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp"/>
+        app:layout_constraintTop_toBottomOf="@id/division"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/hint_subtitle"/>
 
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardViewEnabled"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="15dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp">
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/hint_subtitle"
+        app:layout_constraintBottom_toBottomOf="parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp"
-            android:layout_marginBottom="16dp">
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="已启用"
-                android:textSize="20sp"
-                android:textColor="#B60A680A"
-                android:textStyle="bold"/>
-
-            <LinearLayout
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardViewEnabled"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-                <LinearLayout
-                    android:layout_width="263dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center_vertical">
-                    <TextView
-                        android:id="@+id/todo1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="待办1"
-                        android:layout_marginTop="8dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:textStyle="bold"
-                        android:textColor="#161515"/>
-                    <TextView
-                        android:id="@+id/todo1_details"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="创建于 xxxx年xx月xx日"
-                        android:textSize="14sp"
-                        android:textColor="#888888"
-                        android:layout_marginTop="4dp"/>
-                </LinearLayout>
+                android:minHeight="150dp"
+                app:cardCornerRadius="25dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/themeDarkGreen"
+                app:strokeWidth="1dp"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/no_enabled_todo_rightnow_chl"
+                    android:gravity="center"
+                    android:paddingTop="15dp"
+                    android:id="@+id/no_enabled_todos"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:id="@+id/delete_todo1"
-                        android:layout_width="30dp"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/icon_delete_chl"
-                        android:padding="8dp"
-                        android:visibility="gone"/>
-                    <ImageView
-                        android:id="@+id/tingyong"
-                        android:layout_width="60dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/icon_stop_chl"
-                        android:padding="8dp"
-                        android:visibility="gone"
+                        android:text="@string/enable_todo_subtitle_chl"
+                        android:textSize="18sp"
+                        android:textColor="@color/themeDarkGreen"
                         />
+<!--                    实际的数据应该存放在列表布局中-->
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:visibility="gone"
+                        android:id="@+id/enabled_todos"
+                        />
+<!--                    下面是一个用于测试的布局-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <include layout="@layout/item_todo_enabled_chl"/>
+                        <include layout="@layout/item_todo_enabled_chl"/>
+                        <include layout="@layout/item_todo_enabled_chl"/>
+                    </LinearLayout>
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:gravity="center_vertical">-->
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="263dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:orientation="vertical"-->
+<!--                            android:gravity="center_vertical">-->
+<!--                            <TextView-->
+<!--                                android:id="@+id/todo1"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="待办1"-->
+<!--                                android:layout_marginTop="8dp"-->
+<!--                                android:clickable="true"-->
+<!--                                android:focusable="true"-->
+<!--                                android:textStyle="bold"-->
+<!--                                android:textColor="#161515"/>-->
+<!--                            <TextView-->
+<!--                                android:id="@+id/todo1_details"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="创建于 xxxx年xx月xx日"-->
+<!--                                android:textSize="14sp"-->
+<!--                                android:textColor="#888888"-->
+<!--                                android:layout_marginTop="4dp"/>-->
+<!--                        </LinearLayout>-->
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:orientation="horizontal">-->
+<!--                            <ImageView-->
+<!--                                android:id="@+id/delete_todo1"-->
+<!--                                android:layout_width="30dp"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:src="@drawable/icon_delete_chl"-->
+<!--                                android:padding="8dp"-->
+<!--                                android:visibility="gone"/>-->
+<!--                            <ImageView-->
+<!--                                android:id="@+id/tingyong"-->
+<!--                                android:layout_width="60dp"-->
+<!--                                android:layout_height="50dp"-->
+<!--                                android:src="@drawable/icon_stop_chl"-->
+<!--                                android:padding="8dp"-->
+<!--                                android:visibility="gone"-->
+<!--                                />-->
+<!--                        </LinearLayout>-->
+<!--                    </LinearLayout>-->
                 </LinearLayout>
-            </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewDisabled"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="150dp"
+                app:cardCornerRadius="25dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:cardElevation="0dp"
+                android:layout_marginBottom="40dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/no_invalid_todos_rightnow_chl"
+                    android:gravity="center"
+                    android:paddingTop="25dp"
+                    android:id="@+id/no_invalid_todos"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp"
+
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/invalid_todo_subtitle_chl"
+                        android:textColor="@color/grey_title_chl"
+                        android:textSize="18sp"/>
+<!--                    实际的数据应该存放在列表布局中-->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:visibility="gone"
+                        android:id="@+id/invalid_todos"
+                        />
+<!--                    下面是一个用于测试的布局-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <include layout="@layout/item_todo_invalid_chl"/>
+                        <include layout="@layout/item_todo_invalid_chl"/>
+                        <include layout="@layout/item_todo_invalid_chl"/>
+                        <include layout="@layout/item_todo_invalid_chl"/>
+                        <include layout="@layout/item_todo_invalid_chl"/>
+                        <include layout="@layout/item_todo_invalid_chl"/>
+                    </LinearLayout>
+<!--                    <TextView-->
+<!--                        android:id="@+id/todo5"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="待办5"-->
+<!--                        android:layout_marginTop="8dp"-->
+<!--                        android:clickable="true"-->
+<!--                        android:focusable="true"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:textColor="#161515"/>-->
+<!--                    <TextView-->
+<!--                        android:id="@+id/todo5_details"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="创建于 xxxx年xx月xx日"-->
+<!--                        android:textSize="14sp"-->
+<!--                        android:textColor="#888888"-->
+<!--                        android:layout_marginTop="4dp"/>-->
+<!--                    <TextView-->
+<!--                        android:id="@+id/todo5_disabled_details"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="停用于 xxxx年xx月xx日"-->
+<!--                        android:textSize="14sp"-->
+<!--                        android:textColor="#888888"-->
+<!--                        android:layout_marginTop="4dp"/>-->
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
         </LinearLayout>
+
+    </ScrollView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="5dp"
+        app:cardBackgroundColor="@color/themeDarkGreen"
+        android:id="@+id/add_todo_module">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="22dp"
+            android:paddingBottom="19dp"
+            android:paddingStart="22dp"
+            android:paddingEnd="20dp"
+            android:src="@drawable/icon_new_todo_chl"
+            android:scaleType="fitCenter"
+            android:id="@+id/new_todo"/>
+
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardViewDisabled"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="15dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="已停用"
-                android:textStyle="bold"
-                android:textSize="20sp"/>
-            <TextView
-                android:id="@+id/todo5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="待办5"
-                android:layout_marginTop="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:textStyle="bold"
-                android:textColor="#161515"/>
-            <TextView
-                android:id="@+id/todo5_details"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="创建于 xxxx年xx月xx日"
-                android:textSize="14sp"
-                android:textColor="#888888"
-                android:layout_marginTop="4dp"/>
-            <TextView
-                android:id="@+id/todo5_disabled_details"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="停用于 xxxx年xx月xx日"
-                android:textSize="14sp"
-                android:textColor="#888888"
-                android:layout_marginTop="4dp"/>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-    <!-- 取消按钮 -->
-    <Button
-        android:id="@+id/buttonCancelDelete"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        app:cardCornerRadius="50dp"
+        android:layout_marginStart="20dp"
+        app:cardElevation="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:text="取消"
-        android:textColor="#D30D0D"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/shape_rounded_spinner_chl"
-        android:visibility="gone"/>
+        android:translationY="100dp"
+        android:id="@+id/cancel_module"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/finish_chl"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:id="@+id/cancel_text"
+            />
+    </androidx.cardview.widget.CardView>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="end"
+        android:background="@color/cover_gray_wzc"
+        android:id="@+id/options_layer"
+        android:visibility="gone"
+        >
 
-    <!-- 省略其他部分 -->
-</LinearLayout>
+        <androidx.cardview.widget.CardView
+            android:layout_width="104dp"
+            android:layout_height="40dp"
+            app:cardCornerRadius="30dp"
+            android:layout_marginTop="75dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/white"
+            app:cardElevation="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/themeRed"
+                android:text="@string/delete_todo_chl"
+                android:textSize="16sp"
+                android:id="@+id/delete_todo"
+                />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="151dp"
+            android:layout_height="40dp"
+            app:cardCornerRadius="30dp"
+            android:layout_marginEnd="40dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardElevation="5dp"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/themeBlue"
+                android:text="@string/alter_todos_chl"
+                android:textSize="16sp"
+                android:id="@+id/alter_todos"
+                />
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

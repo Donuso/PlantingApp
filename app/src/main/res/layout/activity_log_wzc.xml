@@ -382,6 +382,7 @@
             android:layout_marginTop="75dp"
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="10dp"
+            app:cardElevation="5dp"
             android:background="@color/white">
 
             <TextView
@@ -401,6 +402,7 @@
             app:cardCornerRadius="30dp"
             android:layout_marginEnd="40dp"
             app:cardBackgroundColor="@color/white"
+            app:cardElevation="5dp"
             >
 
             <TextView

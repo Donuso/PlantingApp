@@ -121,6 +121,18 @@
                         android:paddingBottom="8dp"
                         android:textStyle="bold"/>
 
+<!--                    无启用待办时显示-->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:text="@string/no_enabled_todo_rightnow_chl"
+                        android:gravity="center"
+                        android:paddingBottom="15dp"
+                        android:textSize="14sp"
+                        android:textColor="@color/general_grey_wzc"
+                        android:id="@+id/no_todo_reminder"
+                        />
+
 <!--                    未完成 列表头-->
 
                     <TextView
@@ -129,13 +141,15 @@
                         android:text="@string/unfinished_todos_subtitle_chl"
                         android:textColor="@color/mass_text_grey_wzc"
                         android:textSize="16sp"
-                        android:id="@+id/unfinished_subtitle"/>
+                        android:id="@+id/unfinished_subtitle"
+                        android:visibility="gone"/>
 
 <!--                    列表项-->
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/main_page_todos"
+                        android:visibility="gone"
                         />
 <!--                    请使用 item_main_page_todo_finished_flag_chl 和 item_todos_main_page_chl 作为子项-->
 

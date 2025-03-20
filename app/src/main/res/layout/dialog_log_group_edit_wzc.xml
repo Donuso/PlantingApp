@@ -1,177 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:cardCornerRadius="30dp"
-    android:layout_margin="20dp"
-    app:layout_constraintTop_toTopOf="parent"
-    app:cardElevation="5dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    >
-    <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_height="340dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="280dp"
+        android:layout_height="300dp"
+        app:cardCornerRadius="30dp"
+        android:layout_margin="20dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardElevation="5dp"
         >
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_marginStart="20dp"
             android:layout_marginTop="30dp"
-            android:layout_marginEnd="20dp"
-            android:id="@+id/title_area"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/unit_data_area"
-            >
+            android:layout_marginEnd="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="示例文本"
-                android:textColor="@color/themeDarkGreen"
+                android:textColor="@color/themeBlue"
                 android:textSize="28sp"
                 android:id="@+id/label_title"
                 />
 
             <View
                 android:layout_width="match_parent"
+                android:layout_height="15dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hint_name_wzc"
+                android:textColor="@color/themeBlue"
+                android:textSize="18sp"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textSize="16sp"
+                android:textColor="@color/mass_text_grey_wzc"
+                android:hint="@string/hint_name_input_wzc"
+                android:id="@+id/alter_name_input"
+                android:textColorHint="@color/text_grey_wzc"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@android:color/transparent"
+                android:maxLines="1"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/line_grey_wzc"
+                android:translationY="-8dp"
+                />
+
+            <View
+                android:layout_width="match_parent"
                 android:layout_height="10dp"/>
 
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginEnd="20dp"
-            app:layout_constraintTop_toBottomOf="@id/title_area"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/extra_area"
-            android:id="@+id/unit_data_area">
-
-            <EditText
-                android:layout_width="120dp"
-                android:layout_height="50dp"
-                android:inputType="numberDecimal"
-                android:textSize="16sp"
-                android:text="12345.1"
-                android:textColor="@color/text_black_wzc"
-                android:hint="@string/hint_unit_input_wzc"
-                android:id="@+id/unit_input"
-                android:textColorHint="@color/general_grey_wzc"
-                android:background="@android:color/transparent"
-                android:layout_marginStart="30dp"
-                android:maxLines="1"/>
-
-            <View
-                android:layout_width="130dp"
-                android:layout_height="1dp"
-                android:layout_marginStart="20dp"
-                android:background="@color/line_grey_wzc"
-                android:translationY="-8dp"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hint_note_wzc"
+                android:textColor="@color/themeBlue"
+                android:textSize="18sp"
                 />
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/title_area"
-            app:layout_constraintStart_toEndOf="@id/unit_data_area"
-            app:layout_constraintBottom_toTopOf="@id/extra_area"
-            android:layout_marginStart="5dp"
-            android:layout_marginBottom="3dp"
-            android:text="cm/unit"
-            android:textSize="16sp"
-            android:textColor="@color/themeDarkGreen"
-            android:id="@+id/unit_name"
-            />
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/unit_data_area"
-            app:layout_constraintBottom_toTopOf="@id/hint"
-            android:id="@+id/extra_area">
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:textSize="16sp"
                 android:textColor="@color/black"
-                android:hint="@string/label_extra_input_wzc"
-                android:id="@+id/extra_input"
-                android:textColorHint="@color/general_grey_wzc"
+                android:hint="@string/hint_note_input_wzc"
+                android:id="@+id/alter_note_input"
+                android:textColorHint="@color/text_grey_wzc"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:background="@android:color/transparent"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp"
                 android:maxLines="1"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
                 android:background="@color/line_grey_wzc"
                 android:translationY="-8dp"
                 />
 
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="end">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/hint_label_change_wzc"
-            android:id="@+id/hint"
-            app:layout_constraintTop_toBottomOf="@id/extra_area"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/button_area"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:textSize="14sp"
-            android:textColor="@color/themeDarkGreen"
-            />
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/cancel_wzc"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:id="@+id/cancel"
+                    android:paddingBottom="5dp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="end"
-            app:layout_constraintTop_toBottomOf="@id/hint"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:id="@+id/button_area">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/themeBlue"
+                    android:textSize="18sp"
+                    android:text="@string/make_sure_wzc"
+                    android:gravity="center"
+                    android:id="@+id/make_sure"
+                    android:paddingBottom="5dp"
+                    android:layout_marginStart="10dp"/>
 
-            <TextView
-                android:layout_width="60dp"
-                android:layout_height="50dp"
-                android:text="@string/cancel_wzc"
-                android:textSize="18sp"
-                android:textColor="@color/black"
-                android:gravity="center"
-                android:id="@+id/cancel"
-                android:paddingBottom="5dp"/>
-
-            <TextView
-                android:layout_width="60dp"
-                android:layout_height="50dp"
-                android:textColor="@color/themeDarkGreen"
-                android:textSize="18sp"
-                android:text="@string/make_sure_wzc"
-                android:gravity="center"
-                android:id="@+id/make_sure"
-                android:paddingBottom="5dp"
-                android:layout_marginStart="10dp"/>
+            </LinearLayout>
 
         </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
-</androidx.cardview.widget.CardView>
-
+</androidx.constraintlayout.widget.ConstraintLayout>
