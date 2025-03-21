@@ -7,7 +7,7 @@
     android:padding="16dp">
 
     <LinearLayout
-        android:layout_width="263dp"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_vertical">

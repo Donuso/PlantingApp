@@ -98,6 +98,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp">
         <LinearLayout
+            android:id="@+id/disabled_todos_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -108,32 +109,6 @@
                 android:text="已停用"
                 android:textStyle="bold"
                 android:textSize="20sp"/>
-            <TextView
-                android:id="@+id/todo5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="待办5"
-                android:layout_marginTop="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:textStyle="bold"
-                android:textColor="#161515"/>
-            <TextView
-                android:id="@+id/todo5_details"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="创建于 xxxx年xx月xx日"
-                android:textSize="14sp"
-                android:textColor="#888888"
-                android:layout_marginTop="4dp"/>
-            <TextView
-                android:id="@+id/todo5_disabled_details"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="停用于 xxxx年xx月xx日"
-                android:textSize="14sp"
-                android:textColor="#888888"
-                android:layout_marginTop="4dp"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
     <!-- 取消按钮 -->
