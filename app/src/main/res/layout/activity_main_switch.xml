@@ -38,17 +38,30 @@
             android:paddingTop="15dp"
             app:itemIconTint="@color/bottom_navigation_colors"
             app:itemTextColor="@color/bottom_navigation_colors"
+            app:elevation="0dp"
             />
 
     </LinearLayout>
 
-    <View
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
+        app:cardCornerRadius="50dp"
+        android:layout_marginStart="20dp"
         android:layout_gravity="bottom"
-        android:id="@+id/log_group_options_cover_wzc"
-        android:background="@color/cover_gray_wzc"
-        android:visibility="gone"
-        android:focusable="false"
-        />
+        app:cardElevation="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:translationY="100dp"
+        android:id="@+id/cancel_module">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/cancel_wzc"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:id="@+id/cancel_text"
+            />
+    </androidx.cardview.widget.CardView>
 </FrameLayout>

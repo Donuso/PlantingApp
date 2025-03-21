@@ -3,10 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
-    android:layout_margin="20dp"
-    app:cardElevation="5dp"
-    app:cardCornerRadius="30dp">
+    android:layout_height="290dp"
+    app:cardElevation="0dp"
+    app:cardCornerRadius="30dp"
+    app:cardBackgroundColor="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:text="@string/new_group_wzc"
             android:textColor="@color/themeDarkGreen"
-            android:textSize="28sp"
+            android:textSize="22sp"
             />
 
         <View
@@ -33,11 +33,11 @@
             android:layout_height="wrap_content"
             android:text="@string/hint_name_wzc"
             android:textColor="@color/themeDarkGreen"
-            android:textSize="18sp"
+            android:textSize="17sp"
             />
 
         <EditText
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:textSize="16sp"
             android:textColor="@color/black"
@@ -47,7 +47,8 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:background="@android:color/transparent"
-            android:maxLines="1"/>
+            android:maxLines="1"
+            android:ems="17"/>
 
         <View
             android:layout_width="match_parent"
@@ -65,11 +66,11 @@
             android:layout_height="wrap_content"
             android:text="@string/hint_note_wzc"
             android:textColor="@color/themeDarkGreen"
-            android:textSize="18sp"
+            android:textSize="17sp"
             />
 
         <EditText
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:textSize="16sp"
             android:textColor="@color/black"
@@ -79,7 +80,8 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:background="@android:color/transparent"
-            android:maxLines="1"/>
+            android:maxLines="1"
+            android:ems="17"/>
 
         <View
             android:layout_width="match_parent"
@@ -96,9 +98,9 @@
 
             <TextView
                 android:layout_width="60dp"
-                android:layout_height="match_parent"
+                android:layout_height="60dp"
                 android:text="@string/cancel_wzc"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/black"
                 android:gravity="center"
                 android:id="@+id/cancel"
@@ -106,9 +108,9 @@
 
             <TextView
                 android:layout_width="60dp"
-                android:layout_height="match_parent"
+                android:layout_height="60dp"
                 android:textColor="@color/themeDarkGreen"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:text="@string/make_sure_wzc"
                 android:gravity="center"
                 android:id="@+id/make_sure"

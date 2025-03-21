@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.plantingapp"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -56,4 +56,6 @@ dependencies {
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.google.code.gson:gson:2.10.1")
+    implementation ("com.github.esafirm:android-image-picker:2.4.5")
+    implementation("com.github.bumptech.glide:glide:3.7.0")
 }

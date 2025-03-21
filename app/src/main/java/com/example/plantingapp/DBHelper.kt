@@ -15,7 +15,9 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
                 userId INTEGER,
                 groupName TEXT NOT NULL CHECK(LENGTH(groupName) <= 15),
                 remark TEXT CHECK(LENGTH(remark) <= 15),
-                coverImageUri TEXT DEFAULT 'default'
+                coverImageUri TEXT DEFAULT 'default',
+                lastModified INTEGER,
+                createdTime INTEGER NOT NULL
             );
         """.trimIndent()
 
