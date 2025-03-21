@@ -7,24 +7,16 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.location.Location
 import android.net.ConnectivityManager
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -64,6 +56,7 @@ class MainFragment : Fragment() {
     //SharedPreferences文件
     private lateinit var sharedPreferences: SharedPreferences
     private val preferenceFileName = "weather_info"
+    private var isFirstLoad = true
 
 
     override fun onCreateView(
@@ -93,8 +86,8 @@ class MainFragment : Fragment() {
         layerAnimator = FadeAnimator(LoadingCardView).setDuration(200)
 
 
-        // 初始化定位SDK
-        initLocation()
+        // 初始化定位SDK，但是被移动到onResume方法中
+//        initLocation()
         return view
     }
 
@@ -150,7 +143,6 @@ class MainFragment : Fragment() {
     }
 
     private fun startLocation() {
-        if (isLocationStarted) return
 
         val request = TencentLocationRequest.create()
             .setInterval(30000) // 定位间隔
@@ -173,8 +165,12 @@ class MainFragment : Fragment() {
                                 val processedCity = city.replace("市", "") // 去除市字后缀
                                 Log.d("LocationResult", "处理后城市: $processedCity")
                                 sendRequestOkHttp(processedCity)
-                                requireActivity().runOnUiThread{
-                                    layerAnimator.start(false)
+                                if(LoadingCardView.visibility == View.VISIBLE){
+                                    requireActivity().runOnUiThread{
+                                        layerAnimator.start(false)
+                                    }
+                                } else {
+
                                 }
                             } else {
                                 activity?.runOnUiThread {
@@ -198,7 +194,6 @@ class MainFragment : Fragment() {
                 }
                 // 停止定位防止重复请求
                 locationManager.removeUpdates(this)
-                isLocationStarted = false
             }
 
             override fun onStatusUpdate(
@@ -251,7 +246,6 @@ class MainFragment : Fragment() {
                 if (responsedata != null) {
                     Log.i("kong", "1")
                     getdata(responsedata)
-
                 } else {
                     activity?.runOnUiThread {
                         Toast.makeText(activity, "获取数据失败", Toast.LENGTH_SHORT).show()
@@ -333,7 +327,7 @@ class MainFragment : Fragment() {
     private fun loadWeatherData() {
         val prefs = requireActivity().getSharedPreferences(preferenceFileName, Context.MODE_PRIVATE)
         Log.i("Response","2")
-        requireActivity().runOnUiThread(){
+        requireActivity().runOnUiThread{
             AreaTextView.text = prefs.getString("city", "--")
             TemperatureTextView.text = "${prefs.getString("tem", "--")}℃"
             TemperatureRangeTextView.text = "${prefs.getString("tem1", "--")}℃~${prefs.getString("tem2", "--")}℃"
@@ -406,9 +400,38 @@ class MainFragment : Fragment() {
 //        private const val REQUEST_CODE_LOCATION = 1001
 //    }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onPause() {
+        super.onPause()
         // 释放定位资源
         locationManager.removeUpdates(null)
     }
+
+
+    override fun onResume() {
+        super.onResume()
+        if (isFirstLoad) {
+            // 首次加载：触发定位和天气请求
+            initLocation() // 初始化定位（会触发天气请求）
+            isFirstLoad = false // 标志位置为 false，后续不再触发
+        } else {
+            val prefs = requireActivity().getSharedPreferences(preferenceFileName, Context.MODE_PRIVATE)
+            AreaTextView.text = prefs.getString("city", "--")
+            TemperatureTextView.text = "${prefs.getString("tem", "--")}℃"
+            TemperatureRangeTextView.text = "${prefs.getString("tem1", "--")}℃~${prefs.getString("tem2", "--")}℃"
+            MoistureTextView.text = "${prefs.getString("humidity", "--")}%"
+            WeatherTextView.text = prefs.getString("wea", "-- --")
+            LoadingWeatherIcon(prefs)
+            WindTextView.text = prefs.getString("win_speed", "--")
+            RainTextView.text = "${prefs.getString("rain_pcpn", "--")}mm"
+            NextClimateTextView.text = prefs.getString("nextTerm", "--")
+            val alarmTitle = prefs.getString("alarm_title",null)
+            if (alarmTitle != null){
+                AttentionCardView.setVisibility(View.VISIBLE)
+                Attention.text = alarmTitle
+            }
+        }
+    }
+
+
+
 }
