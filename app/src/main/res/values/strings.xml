@@ -123,4 +123,5 @@
     <string name="back_to_main_chl">返回主页</string>
     <string name="ai_chat_hint_chl">输入想咨询的问题...</string>
     <string name="hint_ai_generating_chl">思考中...</string>
+    <string name="on_zhj">打开</string>
 </resources>
