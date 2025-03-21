@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupWindow
@@ -17,6 +18,9 @@ import androidx.appcompat.app.AppCompatActivity
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
+import com.example.plantingapp.animators.ExpandAnimator
 
 class AllToDoActivity : AppCompatActivity() {
     private lateinit var enabledCardViewLayout: LinearLayout
@@ -26,10 +30,29 @@ class AllToDoActivity : AppCompatActivity() {
         private const val REQUEST_CODE_NEW_TODO = 1
     }
 
+    private lateinit var optionLayer: LinearLayout
+    private lateinit var cancel: TextView
+    private lateinit var cancelModule: CardView
+    private lateinit var addTodoModule: CardView
+    private lateinit var addTodo: ImageView
+    private lateinit var deleteTodo: TextView
+    private lateinit var alterTodo: TextView
+    private lateinit var menu: ImageButton
+    private lateinit var hint:TextView
+
+    private lateinit var optionAnimator: ExpandAnimator
+    private lateinit var cancelAnimator: ExpandAnimator
+    private lateinit var addModuleAnimator: ExpandAnimator
+    private lateinit var menuAnimator: ExpandAnimator
+
+    private val cancelDisplacement = 120f
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_all_to_do)
+
+        initAll()
+        addOnListeners()
 
         enabledCardViewLayout = findViewById(R.id.enabled_todos_layout)
         disabledCardViewLayout = findViewById(R.id.disabled_todos_layout)
@@ -51,23 +74,79 @@ class AllToDoActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.backtoDo).setOnClickListener {
             finish() // 结束当前Activity，返回上一个界面
-        }
 
-        val menuCaidan = findViewById<ImageView>(R.id.menu_caidan)
-        menuCaidan.setOnClickListener { view ->
-            showPopupMenu(view)
-        }
-
-        // 为每个删除图标添加点击监听器
-        setupDeleteIconListeners()
-
-        // 处理取消按钮的点击事件
-        findViewById<Button>(R.id.buttonCancelDelete).setOnClickListener {
-            hideDeleteIcons()
-            hideDisableIcons()
-        }
     }
 
+    private fun initAll(){
+        optionLayer = findViewById(R.id.options_layer)
+        cancel = findViewById(R.id.cancel_text)
+        cancelModule = findViewById(R.id.cancel_module)
+        addTodoModule = findViewById(R.id.add_todo_module)
+        addTodo = findViewById(R.id.new_todo)
+        deleteTodo = findViewById(R.id.delete_todo)
+        alterTodo = findViewById(R.id.alter_todos)
+        menu = findViewById(R.id.menu)
+        hint = findViewById(R.id.hint_subtitle)
+
+        optionAnimator = ExpandAnimator(this,optionLayer)
+            .setIfFade(true)
+            .setDuration(100)
+        cancelAnimator = ExpandAnimator(this,cancelModule)
+            .setDuration(500)
+        addModuleAnimator = ExpandAnimator(this,addTodoModule)
+            .setIfFade(true)
+            .setDuration(200)
+        menuAnimator = ExpandAnimator(this,menu)
+            .setIfFade(true)
+            .setDuration(200)
+    }
+
+    private fun addOnListeners(){
+        findViewById<ImageButton>(R.id.backtoDo).setOnClickListener {
+            finish()
+        }
+        menu.setOnClickListener {
+            showMenu()
+        }
+        optionLayer.setOnClickListener{
+            hideMenu()
+        }
+        cancel.setOnClickListener{
+            hideCancel()
+        }
+        deleteTodo.setOnClickListener{
+            hint.text = "点击待办即可删除"
+            hint.setTextColor(
+                ContextCompat.getColor(
+                this,
+                R.color.themeRed
+            ))
+            hideMenu()
+            cancel.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.themeRed
+                )
+            )
+            showCancel()
+        }
+        alterTodo.setOnClickListener{
+            hint.text = "点击按钮以停用/复用待办"
+            hint.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.themeBlue
+                ))
+            hideMenu()
+            cancel.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.themeBlue
+                )
+            )
+            showCancel()
+        }
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_NEW_TODO && resultCode == RESULT_OK) {
@@ -144,81 +223,37 @@ class AllToDoActivity : AppCompatActivity() {
         Toast.makeText(this, "待办事项已停用", Toast.LENGTH_SHORT).show()
     }
 
-    private fun setupDeleteIconListeners() {
-        // 可以遍历所有待办事项的删除图标添加点击事件
+
+    private fun showMenu() { optionAnimator.setFade(0f,1f).start() }
+
+    private fun hideMenu() { optionAnimator.setFade(1f,0f).start() }
+
+    private fun showCancel(){
+        cancelAnimator.setMoveDirection(2,-cancelDisplacement)
+            .setRateType(ExpandAnimator.iOSRatio)
+            .setDuration(500)
+            .start()
+        addModuleAnimator.setFade(1f,0f)
+            .start()
+        menuAnimator.setFade(1f,0f)
+            .start()
     }
 
-    private fun showPopupMenu(view: View) {
-        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val popupView = inflater.inflate(R.layout.popup_menu_layout, null)
-
-        val popupWindow = PopupWindow(
-            popupView,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            true
+    private fun hideCancel(){
+        hint.text = getString(R.string.hint_subtitle)
+        hint.setTextColor(
+            ContextCompat.getColor(
+                this,
+                R.color.general_grey_wzc
+            )
         )
-
-        // 设置点击事件
-        popupView.findViewById<Button>(R.id.action_settings).setOnClickListener {
-            showDisableIcons()
-            popupWindow.dismiss()
-        }
-
-        popupView.findViewById<Button>(R.id.action_about).setOnClickListener {
-            showDeleteIcons()
-            popupWindow.dismiss()
-        }
-
-        // 显示 PopupWindow
-        popupWindow.showAsDropDown(view)
-    }
-
-    private fun showDeleteIcons() {
-        // 显示所有删除图标
-        for (i in 0 until enabledCardViewLayout.childCount) {
-            val todoView = enabledCardViewLayout.getChildAt(i)
-            if (todoView is LinearLayout) {
-                val deleteIcon = todoView.findViewById<ImageView>(R.id.delete_todo)
-                deleteIcon.visibility = View.VISIBLE
-            }
-        }
-        findViewById<Button>(R.id.buttonCancelDelete).visibility = View.VISIBLE
-    }
-
-    private fun showDisableIcons() {
-        // 显示所有停用图标
-        for (i in 0 until enabledCardViewLayout.childCount) {
-            val todoView = enabledCardViewLayout.getChildAt(i)
-            if (todoView is LinearLayout) {
-                val disableIcon = todoView.findViewById<ImageView>(R.id.tingyong)
-                disableIcon.visibility = View.VISIBLE
-            }
-        }
-        findViewById<Button>(R.id.buttonCancelDelete).visibility = View.VISIBLE
-    }
-
-    private fun hideDeleteIcons() {
-        // 隐藏所有删除图标
-        for (i in 0 until enabledCardViewLayout.childCount) {
-            val todoView = enabledCardViewLayout.getChildAt(i)
-            if (todoView is LinearLayout) {
-                val deleteIcon = todoView.findViewById<ImageView>(R.id.delete_todo)
-                deleteIcon.visibility = View.GONE
-            }
-        }
-        findViewById<Button>(R.id.buttonCancelDelete).visibility = View.GONE
-    }
-
-    private fun hideDisableIcons() {
-        // 隐藏所有停用图标
-        for (i in 0 until enabledCardViewLayout.childCount) {
-            val todoView = enabledCardViewLayout.getChildAt(i)
-            if (todoView is LinearLayout) {
-                val disableIcon = todoView.findViewById<ImageView>(R.id.tingyong)
-                disableIcon.visibility = View.GONE
-            }
-        }
-        findViewById<Button>(R.id.buttonCancelDelete).visibility = View.GONE
+        cancelAnimator.setMoveDirection(2,cancelDisplacement)
+            .setRateType(ExpandAnimator.linearRatio)
+            .setDuration(150)
+            .start()
+        addModuleAnimator.setFade(0f,1f)
+            .start()
+        menuAnimator.setFade(0f,1f)
+            .start()
     }
 }

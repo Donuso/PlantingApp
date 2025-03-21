@@ -8,11 +8,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- 此处作为背景的image view仅供开发方便，实际开发完成时需要删除   -->
-<!--    <ImageView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:src="@drawable/bg_res_1"-->
-<!--        android:scaleType="centerCrop" />-->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/bg_res_1"
+        android:scaleType="centerCrop" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -55,8 +55,9 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 app:cardCornerRadius="25dp"
+                app:cardElevation="0dp"
                 app:cardBackgroundColor="@color/text_search_color_wzc">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -69,7 +70,6 @@
                         android:layout_height="24dp"
                         android:background="@android:color/transparent"
                         android:scaleType="fitCenter"
-                        android:id="@+id/search_bar_icon"
                         android:src="@drawable/icon_search_wzc"
                         />
                     <TextView
@@ -79,10 +79,14 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="0dp"
                         android:text="@string/search_text_wzc"
-                        android:id="@+id/search_bar_text"
                         android:textColor="@color/text_grey_wzc"
                         />
                 </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:id="@+id/search_touch_area"/>
 
             </androidx.cardview.widget.CardView>
 
@@ -114,19 +118,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 />
-            
-            <androidx.recyclerview.widget.RecyclerView
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/log_group_list"/>
+                android:layout_height="match_parent">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/log_group_list"
+                        />
+
+            </ScrollView>
+
             
         </LinearLayout>
 
     </LinearLayout>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="88dp"
-        android:layout_height="88dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="15dp"
@@ -159,8 +170,8 @@
         >
 
         <androidx.cardview.widget.CardView
-            android:layout_width="149dp"
-            android:layout_height="44dp"
+            android:layout_width="139dp"
+            android:layout_height="40dp"
             app:cardCornerRadius="30dp"
             android:layout_marginTop="75dp"
             android:layout_marginEnd="40dp"
@@ -173,14 +184,14 @@
                 android:gravity="center"
                 android:textColor="@color/themeBlue"
                 android:text="@string/edit_log_group_wzc"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:id="@+id/edit_log_group"
                 />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:layout_width="114dp"
-            android:layout_height="44dp"
+            android:layout_width="104dp"
+            android:layout_height="40dp"
             app:cardCornerRadius="30dp"
             android:layout_marginEnd="40dp"
             app:cardBackgroundColor="@color/white"
@@ -192,7 +203,7 @@
                 android:gravity="center"
                 android:textColor="@color/themeRed"
                 android:text="@string/delete_log_group_wzc"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:id="@+id/delete_log_group"
                 />
         </androidx.cardview.widget.CardView>

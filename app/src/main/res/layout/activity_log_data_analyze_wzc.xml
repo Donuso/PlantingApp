@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LogDataAnalyze"
+    tools:context=".LogDataAnalyzeActivity"
     android:background="@color/bg_grey_wzc">
 
     <androidx.appcompat.widget.Toolbar
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:text="@string/analyzer_title_wzc"
             android:textColor="@color/text_black_wzc"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:layout_gravity="center"
             android:layout_marginBottom="9dp"
             />
@@ -55,8 +55,11 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/dividing_line_1">
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/dividing_line_1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -68,8 +71,6 @@
                 android:minHeight="150dp"
                 app:cardCornerRadius="30dp"
                 app:cardElevation="0dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
                 android:layout_marginTop="20dp"
                 app:layout_constraintTop_toTopOf="parent"
                 android:id="@+id/ai_analyze_bg"
@@ -80,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/ai_analyze_title_wzc"
                 android:textColor="@color/themeDarkGreen"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:layout_marginTop="15dp"
                 android:id="@+id/ai_analyze_title"
                 app:layout_constraintTop_toTopOf="@id/ai_analyze_bg"
@@ -94,12 +95,12 @@
                 android:layout_height="wrap_content"
                 android:minHeight="80dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginStart="40dp"
-                android:layout_marginEnd="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:paddingBottom="5dp"
                 android:text="点击获取AI分析"
                 android:gravity="center"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintTop_toBottomOf="@id/ai_analyze_title"
                 app:layout_constraintStart_toStartOf="@id/ai_analyze_bg"
                 app:layout_constraintEnd_toEndOf="@id/ai_analyze_bg"
@@ -109,8 +110,6 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="450dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
                 android:layout_marginTop="20dp"
                 app:cardCornerRadius="30dp"
                 app:cardElevation="0dp"
@@ -123,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/status_diagram_title_wzc"
                 android:textColor="@color/themeDarkGreen"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:id="@+id/status_diagram_title"
                 android:layout_marginTop="15dp"
                 app:layout_constraintTop_toTopOf="@id/status_diagram_bg"
@@ -136,12 +135,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="370dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginStart="40dp"
-                android:layout_marginEnd="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:paddingBottom="5dp"
                 android:text="点击获取状态分析"
                 android:gravity="center"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintTop_toBottomOf="@id/status_diagram_title"
                 app:layout_constraintStart_toStartOf="@id/status_diagram_bg"
                 app:layout_constraintEnd_toEndOf="@id/status_diagram_bg"
@@ -220,6 +219,8 @@
                 android:layout_marginTop="20dp"
                 app:layout_constraintTop_toBottomOf="@id/status_diagram_bg"
                 android:id="@+id/other_data_diagrams"
+                android:visibility="visible"
+                android:nestedScrollingEnabled="false"
                 />
 
             <!--  此列表控件仅保留，供v1.1升级时完善功能  -->
