@@ -12,6 +12,7 @@ import com.example.plantingapp.R
 import android.widget.ImageView
 import com.example.plantingapp.ModifyActivity
 import com.example.plantingapp.ChangePasswordActivity
+import com.example.plantingapp.SettingsActivity
 
 /*
 * 此fragment对应“我”的入口
@@ -42,7 +43,7 @@ class MeFragment : Fragment() {
 
         val settingsView = view.findViewById<TextView>(R.id.settings)
         settingsView.setOnClickListener {
-            // 处理设置的逻辑，比如跳转到设置页面
+            startActivity(Intent(requireContext(),SettingsActivity::class.java))
         }
 
         val userNicknameHint = view.findViewById<TextView>(R.id.user_nickname_hint)

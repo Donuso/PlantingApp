@@ -11,7 +11,7 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import com.example.plantingapp.dao.UserDAO
 
-class RegisterActivity : AppCompatActivity() {
+class RegisterActivity : BaseActivity() {
     private lateinit var SetUsername: EditText
     private lateinit var SetPassword:EditText
     private lateinit var ConfirmPassword: EditText

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingsActivity"
+    android:background="@color/bg_grey_wzc">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingTop="16dp"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        app:contentInsetStart="9dp"
+        android:id="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageButton
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:padding="11dp"
+            android:layout_gravity="start"
+            android:src="@drawable/icon_back_wzc"
+            android:scaleType="fitCenter"
+            android:background="@android:color/transparent"
+            android:id="@+id/back_btn"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置"
+            android:textColor="@color/text_black_wzc"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="9dp"
+            android:id="@+id/log_group_name"
+            />
+    </androidx.appcompat.widget.Toolbar>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_black_wzc"
+        android:id="@+id/dividing_line"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"/>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/change_password_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintTop_toBottomOf="@id/dividing_line">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <ImageView
+                android:id="@+id/arrow_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="end|center_vertical"
+                android:src="@drawable/icon_go_yzr"
+                android:layout_marginEnd="20dp"
+                android:padding="2dp"
+                />
+
+            <TextView
+                android:id="@+id/log_out"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:text="@string/log_out"
+                android:textColor="#444444"
+                android:textSize="16sp"
+                android:gravity="start|center_vertical"
+                android:paddingStart="20dp"
+                android:paddingEnd="0dp"/>
+
+        </FrameLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

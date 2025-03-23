@@ -17,4 +17,8 @@
         <item name="colorAccent">@color/themeDarkGreen</item> <!-- 强调色，可用于确认按钮等 -->
     </style>
 
+    <style name="CustomDialogTheme" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
 </resources>

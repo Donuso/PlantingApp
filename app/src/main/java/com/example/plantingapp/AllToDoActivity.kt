@@ -18,7 +18,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.example.plantingapp.animators.ExpandAnimator
 
-class AllToDoActivity : AppCompatActivity() {
+class AllToDoActivity : BaseActivity() {
 
     private lateinit var optionLayer: LinearLayout
     private lateinit var cancel: TextView

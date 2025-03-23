@@ -124,4 +124,7 @@
     <string name="ai_chat_hint_chl">输入想咨询的问题...</string>
     <string name="hint_ai_generating_chl">思考中...</string>
     <string name="on_zhj">打开</string>
+    <string name="log_out">登出</string>
+    <string name="log_out_hint_wzc">您正在尝试登出，请问您是否确认？</string>
+    <string name="log_out_no_auto_login_hint_wzc">登出后，将会自动关闭“自动登录”功能</string>
 </resources>

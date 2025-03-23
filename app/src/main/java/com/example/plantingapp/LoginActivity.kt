@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat
 import com.example.plantingapp.dao.UserDAO
 import com.example.plantingapp.item.DataExchange
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity() {
 
     private lateinit var userName: EditText
     private lateinit var userPwd: EditText

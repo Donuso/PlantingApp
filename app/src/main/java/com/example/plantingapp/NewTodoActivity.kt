@@ -14,7 +14,7 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.datepicker.DateValidatorPointForward
 import java.util.Calendar
 
-class NewTodoActivity : AppCompatActivity() {
+class NewTodoActivity : BaseActivity() {
 
     private lateinit var changeButton: MaterialCardView
     private lateinit var neverStop: MaterialCardView

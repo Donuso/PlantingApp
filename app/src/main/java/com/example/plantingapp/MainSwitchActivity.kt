@@ -23,7 +23,7 @@ import kotlin.concurrent.thread
 * 这是fragment的框架显示页
 * */
 
-class MainSwitchActivity : AppCompatActivity() {
+class MainSwitchActivity : BaseActivity() {
 
     private val fragmentManager: FragmentManager by lazy { supportFragmentManager }
     private lateinit var bottomNavigationView: BottomNavigationView

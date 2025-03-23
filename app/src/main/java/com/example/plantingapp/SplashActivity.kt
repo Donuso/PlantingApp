@@ -16,7 +16,7 @@ import com.example.plantingapp.fragments.MainFragment
 import kotlin.concurrent.thread
 
 @SuppressLint("CustomSplashScreen")
-class SplashActivity : AppCompatActivity() {
+class SplashActivity : BaseActivity() {
 
     private val handler = MyHandler(this)
 

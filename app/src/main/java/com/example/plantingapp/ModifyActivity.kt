@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 import com.example.plantingapp.R
 
-class ModifyActivity : AppCompatActivity() {
+class ModifyActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

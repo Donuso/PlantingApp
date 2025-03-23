@@ -25,7 +25,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.util.concurrent.TimeUnit
 
-class AIChatActivity : AppCompatActivity(), View.OnClickListener {
+class AIChatActivity : BaseActivity(), View.OnClickListener {
     private val msgItemList = ArrayList<MsgItem>()
     private var adapter: MsgAdapter? = null
     private lateinit var recyclerView: RecyclerView
