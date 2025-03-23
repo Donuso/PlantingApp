@@ -16,8 +16,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.esafirm.imagepicker.features.ImagePickerConfig
 import com.esafirm.imagepicker.features.ImagePickerLauncher
-import com.esafirm.imagepicker.features.ImagePickerMode
-import com.esafirm.imagepicker.features.common.BaseConfig
 import com.esafirm.imagepicker.features.registerImagePicker
 import com.esafirm.imagepicker.model.Image
 import com.example.plantingapp.adapter.AddedLabelAdapter
@@ -25,6 +23,7 @@ import com.example.plantingapp.adapter.LogPicAdapter
 import com.example.plantingapp.animators.ExpandAnimator
 import com.example.plantingapp.animators.FadeAnimator
 import com.example.plantingapp.item.LabelItem
+import com.example.plantingapp.item.LabelItemConverter
 import com.example.plantingapp.item.LogPicItem
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -64,15 +63,20 @@ class LogActivity : AppCompatActivity() {
     private lateinit var cancelAnimator: ExpandAnimator
     private lateinit var cancelBackAnimator: ExpandAnimator
     private lateinit var optionsAnimator: FadeAnimator
+    private lateinit var picturePickerLauncher: ImagePickerLauncher // 该项初始化被放置到下方的统一初始化区域
+
 
     private val cancelMovement = 100f
     private var groupId = -1
     private val labelD: MutableList<LabelItem> = mutableListOf()
     private val picD: MutableList<LogPicItem> = mutableListOf()
     private var chosenTime:String? = null
+    private val weatherSPName = "weather_info" //  tem1  tem2
+    private var temp:String? = null
 
     private lateinit var picAdapter: LogPicAdapter
     private lateinit var labelAdapter: AddedLabelAdapter
+
 
     private val datePickerListener = View.OnClickListener {
         datePickerLauncher.launch(
@@ -89,6 +93,21 @@ class LogActivity : AppCompatActivity() {
                 chosenTime
             )
         )
+    }
+
+    private val datePickerLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val selectedDate = result.data?.getStringExtra("selected_date")
+            if (!selectedDate.isNullOrEmpty()) {
+                chosenTime = selectedDate
+                reLoadingLog()
+                Toast.makeText(this,"已加载这一天的日志",Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this,"发生错误：获取日期失败",Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private val analyzeListener = View.OnClickListener {
@@ -112,32 +131,34 @@ class LogActivity : AppCompatActivity() {
         Toast.makeText(this,"已返回到今日日志",Toast.LENGTH_SHORT).show()
     }
 
-    private val datePickerLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == RESULT_OK) {
-            val selectedDate = result.data?.getStringExtra("selected_date")
-            if (!selectedDate.isNullOrEmpty()) {
-                chosenTime = selectedDate
-                reLoadingLog()
-                Toast.makeText(this,"已加载这一天的日志",Toast.LENGTH_SHORT).show()
-            }else{
-                Toast.makeText(this,"发生错误：获取日期失败",Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-
-    private lateinit var picturePickerLauncher: ImagePickerLauncher
 
     private val labelLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == RESULT_OK) {
-//            val labelName = result.data?.getStringExtra("selected_label") // 假设返回的是标签名称
-//            if (!labelName.isNullOrEmpty()) {
-//
-//            }
+            val label = result.data?.getStringExtra("label_data")
+            if (!label.isNullOrEmpty()) {
+                val d = LabelItemConverter.jsonToLabel(label)
+                var sameLabelIndex = -1
+                for(i in 0..<labelD.size){
+                    if(!labelD[i].isCustom && !d.isCustom && labelD[i].tagId == d.tagId && labelD[i].tagType == d.tagType){
+                        sameLabelIndex = i
+                        // 类间，两种不同的内置标签类型的比较，因两种类型的内置标签共用一套id
+                    }
+                    if(labelD[i].isCustom && d.isCustom && labelD[i].tagId == d.tagId){
+                        sameLabelIndex = i
+                        // 数据库的自定义标签，直接使用id进行比较（数据库内存储的自定义标签的类型不共用id）
+                    }
+                }
+                //注意DB的逻辑
+                if(sameLabelIndex != -1){
+                    labelD[sameLabelIndex] = d
+                    labelAdapter.notifyItemChanged(sameLabelIndex)
+                }else{
+                    labelD.add(d)
+                    labelAdapter.notifyItemInserted(labelD.size - 1)
+                }
+            }
         }
     }
 
@@ -167,7 +188,7 @@ class LogActivity : AppCompatActivity() {
         }
     }
 
-    //二次及之后进入加载
+    //二次及之后进入加载 (date picker)
     private fun reLoadingLog(){
         if(groupId != -1){
             loadingTime()
@@ -179,28 +200,7 @@ class LogActivity : AppCompatActivity() {
 
     // !!含有数据库操作的方法-直接更换adapter的数据容器，并提示数据集改变
     private fun preData(){
-        labelD.add(
-            LabelItem(
-                tagId = 1,
-                tagName = "叶片状态",
-                tagType = LabelItem.TYPE_STATUS,
-                tagIcon = R.drawable.icon_main,
-                isCustom = false,
-                valStatus = 1,
-                hint = "长得非常好，我很喜欢"
-            )
-        )
-        labelD.add(
-            LabelItem(
-                tagId = 1,
-                tagName = "生长高度",
-                tagType = LabelItem.TYPE_DATA,
-                tagIcon = R.drawable.icon_main,
-                valUnit = "cm",
-                isCustom = false,
-                valData = 10.1
-            )
-        )
+
     }
 
     private fun initAllViews() {
@@ -283,9 +283,9 @@ class LogActivity : AppCompatActivity() {
                     )
                     Log.v("storedUri",uri.toString())
                     picAdapter.notifyItemInserted(picD.size - 1)
+                    //预留数据库逻辑
                 }
             }
-
         }
     }
 
@@ -365,6 +365,20 @@ class LogActivity : AppCompatActivity() {
             logAnalyzer.setOnClickListener(analyzeListener)
             backToday.setOnClickListener(backTodayListener)
             menuAnimator.start(true)
+        }
+        if(temp == null){
+            recordTemp.setOnClickListener {
+                val sp = getSharedPreferences(weatherSPName,MODE_PRIVATE)
+                val tem1 = sp.getString("tem1",null)
+                val tem2 = sp.getString("tem2",null)
+                if(tem1 == null || tem2 == null){
+                    Toast.makeText(this,"无法加载天气",Toast.LENGTH_SHORT).show()
+                }else{
+                    temp = "当日温度   $tem1℃ ~ $tem2℃"
+                    recordTemp.text = temp
+                    //预留数据库逻辑
+                }
+            }
         }
     }
 

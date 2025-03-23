@@ -72,7 +72,7 @@
                     android:src="@drawable/icon_delete_wzc"
                     android:scaleType="fitCenter"
                     android:visibility="gone"
-                    android:padding="7dp"
+                    android:padding="8dp"
                     />
 
             </FrameLayout>

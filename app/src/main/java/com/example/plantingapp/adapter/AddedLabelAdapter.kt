@@ -12,8 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.plantingapp.R
 import com.example.plantingapp.item.LabelItem
 
-class AddedLabelAdapter(private val labelList: MutableList<LabelItem>, private val context:Context) :
-    RecyclerView.Adapter<AddedLabelAdapter.LabelViewHolder>() {
+class AddedLabelAdapter(
+    var labelList: MutableList<LabelItem>,
+    private val context:Context
+) : RecyclerView.Adapter<AddedLabelAdapter.LabelViewHolder>() {
 
     inner class LabelViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val labelIcon = itemView.findViewById<ImageView>(R.id.label_icon)

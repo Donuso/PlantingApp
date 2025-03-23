@@ -54,6 +54,8 @@ class LogFragment : Fragment() {
     private lateinit var cancelAnimator: ExpandAnimator
     private lateinit var cancelBackAnimator: ExpandAnimator
     private lateinit var optionAnimator: FadeAnimator
+//    private lateinit var searchAnimator: FadeAnimator
+//    private lateinit var hintAnimator: FadeAnimator
 
     private lateinit var groupAdapter: LogGroupAdapter
 
@@ -118,6 +120,10 @@ class LogFragment : Fragment() {
             .setMoveDirection(2,cancelMovement)
             .setRateType(ExpandAnimator.linearRatio)
             .setDuration(150)
+//        searchAnimator = FadeAnimator(searchModule)
+//            .setDuration(150)
+//        hintAnimator = FadeAnimator(hint)
+//            .setDuration(150)
 
         menu.setOnClickListener {
             optionAnimator.start(true)
@@ -172,6 +178,7 @@ class LogFragment : Fragment() {
             addBG.visibility = View.GONE
             bottomNavigation?.visibility = View.GONE
             searchModule.visibility = View.GONE
+//            searchAnimator.start(false)
             cancel?.setTextColor(ContextCompat.getColor(requireContext(),R.color.themeRed))
             optionAnimator.start(false)
             menuAnimator.start(false)
@@ -179,6 +186,7 @@ class LogFragment : Fragment() {
             cancelAnimator.start()
             hint.text = getString(R.string.log_group_delete)
             hint.visibility = View.VISIBLE
+//            hintAnimator.start(true)
             switchToDel()
         }
 
