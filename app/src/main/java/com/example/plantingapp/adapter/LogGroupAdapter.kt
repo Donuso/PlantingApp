@@ -19,7 +19,10 @@ import com.example.plantingapp.Utils
 import com.example.plantingapp.item.LogGroupItem
 
 
-class LogGroupAdapter(private val context: Context,private val groups: MutableList<LogGroupItem>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class LogGroupAdapter(
+    private val context: Context,
+    var groups: MutableList<LogGroupItem>
+): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class LogGroup(v: View):RecyclerView.ViewHolder(v){
         val plantPhoto: ImageView = v.findViewById(R.id.plantPhoto)

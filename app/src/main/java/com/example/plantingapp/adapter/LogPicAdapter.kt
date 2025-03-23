@@ -17,7 +17,7 @@ import java.io.File
 
 
 class LogPicAdapter(
-    private val items: MutableList<LogPicItem>,
+    var items: MutableList<LogPicItem>,
     private val context: Context,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

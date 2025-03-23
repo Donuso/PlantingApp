@@ -69,6 +69,7 @@ class LogActivity : AppCompatActivity() {
     private var groupId = -1
     private val labelD: MutableList<LabelItem> = mutableListOf()
     private val picD: MutableList<LogPicItem> = mutableListOf()
+    private var chosenTime:String? = null
 
     private lateinit var picAdapter: LogPicAdapter
     private lateinit var labelAdapter: AddedLabelAdapter
@@ -83,6 +84,9 @@ class LogActivity : AppCompatActivity() {
                 intent.getIntExtra(
                     "log_group_id",
                     -1)
+            ).putExtra(
+                "chosenTime",
+                chosenTime
             )
         )
     }
@@ -97,8 +101,15 @@ class LogActivity : AppCompatActivity() {
     }
 
     private val backTodayListener = View.OnClickListener {
-        logDate.text = Utils.timestampToDateString(System.currentTimeMillis())
-        // 这里可以添加逻辑来加载今天的日志数据
+        chosenTime = Utils.timestampToDateString(
+            System.currentTimeMillis()
+        )
+        logDate.text = Utils.dateStringToCH(
+            chosenTime!!
+        )
+        isToday(true)
+        reLoadingLog()
+        Toast.makeText(this,"已返回到今日日志",Toast.LENGTH_SHORT).show()
     }
 
     private val datePickerLauncher = registerForActivityResult(
@@ -107,15 +118,11 @@ class LogActivity : AppCompatActivity() {
         if (result.resultCode == RESULT_OK) {
             val selectedDate = result.data?.getStringExtra("selected_date")
             if (!selectedDate.isNullOrEmpty()) {
-                if(selectedDate == Utils.timestampToDateString(System.currentTimeMillis())){
-                    isToday(true)
-                    backToday.setOnClickListener(null)
-                }else{
-                    isToday(false)
-                    backToday.setOnClickListener(backTodayListener)
-                }
-                logDate.text = selectedDate // 将日期显示在 logDate 控件上
-                // 这里可以添加数据库查询逻辑，根据日期获取日志数据
+                chosenTime = selectedDate
+                reLoadingLog()
+                Toast.makeText(this,"已加载这一天的日志",Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this,"发生错误：获取日期失败",Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -138,17 +145,62 @@ class LogActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_log_wzc)
 
-        preData()
-
         initAllViews()
+
+        firstLoadingLog()
 
         initAllControllersAndAnimators()
 
         addOnListeners()
 
-        firstLoadingLog()
+    }
 
+    //首次进入加载
+    private fun firstLoadingLog(){
+        groupId = intent.getIntExtra("log_group_id",-1)
+        logGroupName.text = intent.getStringExtra("log_group_name")
+        if(groupId == -1){
+            Toast.makeText(this,"数据加载错误：未知日志组",Toast.LENGTH_SHORT).show()
+        }else{
+            loadingTime()
+            preData()
+        }
+    }
 
+    //二次及之后进入加载
+    private fun reLoadingLog(){
+        if(groupId != -1){
+            loadingTime()
+            preData()
+        }else{
+            Toast.makeText(this,"数据加载错误：未知日志组",Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // !!含有数据库操作的方法-直接更换adapter的数据容器，并提示数据集改变
+    private fun preData(){
+        labelD.add(
+            LabelItem(
+                tagId = 1,
+                tagName = "叶片状态",
+                tagType = LabelItem.TYPE_STATUS,
+                tagIcon = R.drawable.icon_main,
+                isCustom = false,
+                valStatus = 1,
+                hint = "长得非常好，我很喜欢"
+            )
+        )
+        labelD.add(
+            LabelItem(
+                tagId = 1,
+                tagName = "生长高度",
+                tagType = LabelItem.TYPE_DATA,
+                tagIcon = R.drawable.icon_main,
+                valUnit = "cm",
+                isCustom = false,
+                valData = 10.1
+            )
+        )
     }
 
     private fun initAllViews() {
@@ -200,9 +252,7 @@ class LogActivity : AppCompatActivity() {
         logPics.layoutManager = picFlexboxLayoutManager
         labels.layoutManager = labelFlexboxLayoutManager
         picAdapter = LogPicAdapter(picD,this)
-//        picAdapter.setHasStableIds(true)
         labelAdapter = AddedLabelAdapter(labelD,this)
-//        labelAdapter.setHasStableIds(true)
         logPics.adapter = picAdapter
         labels.adapter = labelAdapter
 
@@ -361,16 +411,17 @@ class LogActivity : AppCompatActivity() {
         }
     }
 
-    // 数据加载入口 含数据库
-    private fun firstLoadingLog(){
-        groupId = intent.getIntExtra("log_group_id",-1)
-        logGroupName.text = intent.getStringExtra("log_group_name")
-        if(groupId == -1){
-            Toast.makeText(this,"数据加载错误：未知日志组",Toast.LENGTH_SHORT).show()
-        }else{
-            logDate.text = Utils.dateStringToCH(Utils.timestampToDateString(System.currentTimeMillis()))
+
+    private fun loadingTime(){
+        if(chosenTime == null){
             isToday(true)
+            chosenTime = Utils.timestampToDateString(System.currentTimeMillis())
+        }else if(chosenTime == Utils.timestampToDateString(System.currentTimeMillis())){
+            isToday(true)
+        }else{
+            isToday(false)
         }
+        logDate.text = Utils.dateStringToCH(chosenTime!!)
     }
 
     private fun isToday(isToday:Boolean){
@@ -382,6 +433,7 @@ class LogActivity : AppCompatActivity() {
                 backLine.setBackgroundColor(
                     ContextCompat.getColor(this,R.color.general_grey_wzc)
                 )
+                backToday.setOnClickListener(null)
             }
             false -> {
                 backToday.setTextColor(
@@ -390,34 +442,11 @@ class LogActivity : AppCompatActivity() {
                 backLine.setBackgroundColor(
                     ContextCompat.getColor(this,R.color.themeDarkGreen)
                 )
+                backToday.setOnClickListener(backTodayListener)
             }
         }
     }
 
-    private fun preData(){
-        labelD.add(
-            LabelItem(
-                tagId = 1,
-                tagName = "叶片状态",
-                tagType = LabelItem.TYPE_STATUS,
-                tagIcon = R.drawable.icon_main,
-                isCustom = false,
-                valStatus = 1,
-                hint = "长得非常好，我很喜欢"
-            )
-        )
-        labelD.add(
-            LabelItem(
-                tagId = 1,
-                tagName = "生长高度",
-                tagType = LabelItem.TYPE_DATA,
-                tagIcon = R.drawable.icon_main,
-                valUnit = "cm",
-                isCustom = false,
-                valData = 10.1
-            )
-        )
-    }
 
     companion object {
         val TYPE_PIC = 1
