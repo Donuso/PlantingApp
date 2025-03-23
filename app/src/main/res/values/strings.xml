@@ -9,7 +9,7 @@
     <string name="log_group_delete">点击以删除日志组</string>
     <string name="cancel_wzc">取消</string>
     <string name="alter_info_wzc">修改信息</string>
-    <string name="hint_name_wzc">名称｜不超过15个字</string>
+    <string name="hint_name_wzc">名称｜不超过10个字</string>
     <string name="hint_name_input_wzc">点击此处填写</string>
     <string name="hint_note_wzc">备注｜不超过15个字</string>
     <string name="hint_note_input_wzc">点击此处填写（可不填写）</string>

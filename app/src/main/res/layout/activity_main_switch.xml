@@ -58,9 +58,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="@string/cancel_wzc"
-            android:textColor="@color/black"
-            android:textSize="20sp"
+            android:text="@string/finish_chl"
+            android:textColor="@color/themeDarkGreen"
+            android:textSize="18sp"
             android:id="@+id/cancel_text"
             />
     </androidx.cardview.widget.CardView>

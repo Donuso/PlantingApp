@@ -21,4 +21,10 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
+    <style name="ImagePickerTheme" parent="ef_BaseTheme">
+        <item name="colorPrimary">@color/themeLightGreen</item>
+        <item name="colorPrimaryDark">@color/themeDarkGreen</item>
+        <item name="colorAccent">@color/themeBlue</item>
+    </style>
+
 </resources>

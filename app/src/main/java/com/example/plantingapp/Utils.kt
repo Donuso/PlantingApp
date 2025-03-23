@@ -2,7 +2,12 @@ package com.example.plantingapp
 
 import android.content.Context
 import android.graphics.Color
+import android.net.Uri
 import android.util.DisplayMetrics
+import androidx.core.content.FileProvider
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -63,6 +68,31 @@ class Utils {
             // 计算天数差
             val diffInMillis = timeNow - timeThen
             return TimeUnit.MILLISECONDS.toDays(diffInMillis)
+        }
+
+        fun dateStringToCH(str:String): String {
+            val res = "${str.substring(0..3)}年${str.substring(5..6)}月${str.substring(8..9)}日"
+            return res
+        }
+
+
+        // 存入单张图片，并获取存储后的uri
+        fun storeSinglePicture(context: Context, uri: Uri): Uri? {
+            return try {
+                val inputStream = context.contentResolver.openInputStream(uri)
+                val fileName = "image_${System.currentTimeMillis()}.jpg"
+                val outputFile = File(context.filesDir, fileName)
+
+                FileOutputStream(outputFile).use { outputStream ->
+                    inputStream?.copyTo(outputStream)
+                }
+
+                // 生成content URI
+                FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", outputFile)
+            } catch (e: IOException) {
+                e.printStackTrace()
+                null
+            }
         }
 
     }

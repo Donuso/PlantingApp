@@ -40,20 +40,19 @@
         </androidx.cardview.widget.CardView>
 
 
-
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="植物名称"
-            android:textSize="18sp"
-            android:textColor="@color/mass_text_grey_wzc"
+            android:id="@+id/plantName"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
             android:layout_marginTop="15dp"
+            android:textSize="18sp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:id="@+id/plantName"
+            android:text="植物名称"
+            android:textColor="@color/mass_text_grey_wzc"
+            app:layout_constraintEnd_toStartOf="@+id/group_enter_button"
             app:layout_constraintStart_toEndOf="@id/cover_bg"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -101,17 +100,16 @@
             />
 
         <ImageButton
+            android:id="@+id/group_enter_button"
             android:layout_width="110dp"
             android:layout_height="100dp"
             android:background="@android:color/transparent"
             android:padding="33dp"
-            android:src="@drawable/icon_activator_wzc"
             android:scaleType="fitCenter"
-            android:id="@+id/group_enter_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/icon_activator_wzc"
             app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

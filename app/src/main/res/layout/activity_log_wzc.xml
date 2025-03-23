@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:text="植物名称"
             android:textColor="@color/text_black_wzc"
-            android:textSize="20sp"
+            android:textSize="19sp"
             android:layout_gravity="center"
             android:layout_marginBottom="9dp"
             android:id="@+id/log_group_name"
@@ -101,6 +101,7 @@
                     android:translationY="-3dp"
                     android:layout_marginTop="69dp"
                     android:layout_marginStart="5dp"
+                    android:id="@+id/back_line"
                     />
 
                 <androidx.cardview.widget.CardView
@@ -172,8 +173,11 @@
                             android:layout_height="wrap_content"
                             android:text="@string/delete_label_hint_wzc"
                             android:textColor="@color/themeRed"
-                            android:textSize="19sp"
-                            android:layout_margin="14dp"
+                            android:textSize="18sp"
+                            android:paddingTop="5dp"
+                            android:layout_marginTop="14dp"
+                            android:layout_marginStart="18dp"
+                            android:layout_marginEnd="14dp"
                             android:id="@+id/delete_label_hint"
                             android:focusable="false"
                             android:visibility="gone"
@@ -182,11 +186,12 @@
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:layout_width="match_parent"
-                            android:layout_height="100dp"
-                            android:layout_margin="10dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
                             android:id="@+id/labels"
-                            android:focusable="false"
-                            android:visibility="gone"
+                            android:visibility="visible"
                             android:nestedScrollingEnabled="false"
                             />
 
@@ -200,6 +205,7 @@
                             android:textSize="16sp"
                             android:textColor="@color/general_grey_wzc"
                             android:id="@+id/no_label_hint_text"
+                            android:visibility="gone"
                             />
 
                         <RelativeLayout
@@ -241,7 +247,8 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@color/line_grey_wzc"/>
+                            android:background="@color/line_grey_wzc"
+                            android:layout_marginTop="5dp"/>
 
                         <TextView
                             android:layout_width="match_parent"
@@ -275,7 +282,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/delete_pic_hint_wzc"
                             android:textColor="@color/themeRed"
-                            android:textSize="19sp"
+                            android:textSize="18sp"
                             android:id="@+id/delete_pic_hint"
                             android:paddingTop="20dp"
                             android:paddingStart="18dp"
@@ -287,15 +294,14 @@
                         <androidx.recyclerview.widget.RecyclerView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:minHeight="100dp"
                             android:id="@+id/log_pics"
-                            android:padding="10dp"
-                            android:focusable="false"
-                            android:visibility="gone"
                             android:nestedScrollingEnabled="false"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            android:paddingTop="10dp"
                             />
 
-                        <TextView
+                        <EditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:minHeight="95dp"
@@ -308,6 +314,8 @@
                             android:textSize="16sp"
                             android:textColor="@color/text_black_wzc"
                             android:id="@+id/log_text"
+                            android:background="@android:color/transparent"
+                            android:gravity="start"
                             />
 
                         <RelativeLayout
@@ -418,9 +426,26 @@
 
     </LinearLayout>
 
-    <include
-        layout="@layout/component_cancel_wzc"
-        android:id="@+id/cancel"
-        />
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:cardCornerRadius="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_alignParentBottom="true"
+        app:cardElevation="20dp"
+        android:layout_marginEnd="20dp"
+        android:translationY="100dp"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/cancel_module">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/finish_chl"
+            android:textColor="@color/themeRed"
+            android:textSize="18sp"
+            android:id="@+id/cancel_text"
+            />
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

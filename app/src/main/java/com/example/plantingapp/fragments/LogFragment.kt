@@ -97,7 +97,7 @@ class LogFragment : Fragment() {
         cancel = activity?.findViewById(R.id.cancel_text)
         cancelModule = activity?.findViewById(R.id.cancel_module)
 
-        preData()
+        preData() //为数据库预留
 
         groupAdapter = LogGroupAdapter(requireContext(),groups)
         groupView.layoutManager = viewManager
@@ -145,9 +145,11 @@ class LogFragment : Fragment() {
                 val note = newNoteInput.text.toString()
                 if(name.isEmpty()) {
                     Toast.makeText(requireContext(), "分组名不能为空", Toast.LENGTH_SHORT).show()
-                }else if (name.length > 15 || note.length > 15) {
+                }else if (name.length > 10){
+                    Toast.makeText(requireContext(), "名称超出10个字符", Toast.LENGTH_SHORT).show()
+                }else if( note.length > 15) {
                     // 弹出 Toast 提示
-                    Toast.makeText(requireContext(), "输入内容超出15个字符", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "备注超出15个字符", Toast.LENGTH_SHORT).show()
                 } else {
                     // 在这里处理获取到的内容，例如保存到数据库或更新 UI
                     if(note.isEmpty()){
@@ -158,6 +160,7 @@ class LogFragment : Fragment() {
 
                     dialog.dismiss() // 关闭对话框
                     groupAdapter.notifyItemInserted(groups.size-1)
+                    groupAdapter.notifyItemRangeChanged(0,groups.size)
                 }
             }
 

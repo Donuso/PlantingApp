@@ -50,7 +50,8 @@ class LogGroupAdapter(private val context: Context,private val groups: MutableLi
                     groupEnterButton.setOnClickListener {
                         context.startActivity(
                             Intent(context,LogActivity::class.java)
-                                .putExtra("group_id",d.gpId)
+                                .putExtra("log_group_id",d.gpId)
+                                .putExtra("log_group_name",d.gpName)
                         )
                     }
                 }
@@ -128,15 +129,19 @@ class LogGroupAdapter(private val context: Context,private val groups: MutableLi
 
             if(newName.isEmpty()) {
                 Toast.makeText(context, "分组名不能为空", Toast.LENGTH_SHORT).show()
-            }else if (newName.length > 15 || newHint.length > 15) {
+            }else if (newName.length > 10){
+                Toast.makeText(context, "名称超出10个字符", Toast.LENGTH_SHORT).show()
+            }else if( newHint.length > 15) {
                 // 弹出 Toast 提示
-                Toast.makeText(context, "输入内容超出15个字符", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "备注超出15个字符", Toast.LENGTH_SHORT).show()
             }else {
                 item.gpName = newName
                 item.hint = newHint.ifEmpty { null }
                 item.lastModified = System.currentTimeMillis()
                 dialog.dismiss()
                 notifyItemChanged(position)
+                // DB逻辑
+                notifyItemRangeChanged(0,groups.size)
             }
 
         }
@@ -155,25 +160,18 @@ class LogGroupAdapter(private val context: Context,private val groups: MutableLi
         val dialog = AlertDialog.Builder(context,R.style.CustomDialogTheme)
             .setView(dialogView)
             .create()
-        val window = dialog.window
-        window?.let {
-            val layoutParams: WindowManager.LayoutParams = window.getAttributes()
-            layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT // 设置宽度为 match_parent
-            layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT // 高度可以根据需要设置
-            window.setAttributes(layoutParams)
-        }
 
         cancelButton.setOnClickListener {
             dialog.dismiss()
         }
 
         makeSureButton.setOnClickListener {
-
-            // 从列表中移除项（实际数据库删除逻辑需另外实现）
-
             groups.removeAt(position)
             dialog.dismiss()
             notifyItemRemoved(position)
+            //DB
+
+            notifyItemRangeChanged(0,groups.size)
         }
 
         dialog.show()
