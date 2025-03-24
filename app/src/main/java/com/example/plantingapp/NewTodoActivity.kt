@@ -23,19 +23,19 @@ class NewTodoActivity : AppCompatActivity() {
     private lateinit var neverStop: MaterialCardView
     private lateinit var chooseToPick: MaterialCardView
     private lateinit var simulateDateButton: MaterialCardView
-    private lateinit var back:ImageButton
-    private lateinit var endTimeText:TextView
-    private lateinit var pickUpHint:TextView
+    private lateinit var back: ImageButton
+    private lateinit var endTimeText: TextView
+    private lateinit var pickUpHint: TextView
 
-    private lateinit var animeNS:ExpandAnimator
-    private lateinit var animeTP:ExpandAnimator
+    private lateinit var animeNS: ExpandAnimator
+    private lateinit var animeTP: ExpandAnimator
 
     private var ifNeverStop = true
     private val neverStopDisplacement = 147f
     private val chooseToPickDisplacement = 106f
-    private var greyLine:Int = 0
-    private var greyText:Int = 0
-    private var themeDarkGreen:Int = 0
+    private var greyLine: Int = 0
+    private var greyText: Int = 0
+    private var themeDarkGreen: Int = 0
     private var pickedTime = MaterialDatePicker.todayInUtcMilliseconds() + 24 * 60 * 60 * 1000
     private var pickedTimeText = "----"
     private val dateFormat = SimpleDateFormat("yyyy年MM月dd日", Locale.getDefault())
@@ -44,14 +44,12 @@ class NewTodoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_todo)
 
-        val dateButton = findViewById<Button>(R.id.date_button)
         val todoContentEditText = findViewById<EditText>(R.id.todo_content)
-        val reminderIntervalEditText = findViewById<EditText>(R.id.reminder_interval)
         val confirmButton = findViewById<TextView>(R.id.confirm_button)
 
         initAll()
 
-        changeButton.setOnClickListener{
+        changeButton.setOnClickListener {
             simulateSwitchCompat()
             ifNeverStop = !ifNeverStop
             simulateDateButton.isClickable = !ifNeverStop
@@ -66,19 +64,17 @@ class NewTodoActivity : AppCompatActivity() {
 
         confirmButton.setOnClickListener {
             val todoContent = todoContentEditText.text.toString()
-            val selectedDate = dateButton.text.toString()
-            val reminderInterval = reminderIntervalEditText.text.toString()
+            val selectedDate = endTimeText.text.toString()
 
             val intent = Intent()
             intent.putExtra("todo_content", todoContent)
             intent.putExtra("selected_date", selectedDate)
-            intent.putExtra("reminder_interval", reminderInterval)
             setResult(RESULT_OK, intent)
             finish()
         }
     }
 
-    private fun initAll(){
+    private fun initAll() {
         changeButton = findViewById(R.id.fake_switch_compat)
         neverStop = findViewById(R.id.left_view_never_stop)
         chooseToPick = findViewById(R.id.left_view_pick_time)
@@ -87,48 +83,48 @@ class NewTodoActivity : AppCompatActivity() {
         endTimeText = findViewById(R.id.end_time)
         pickUpHint = findViewById(R.id.pick_up_hint)
 
-        animeNS = ExpandAnimator(this,neverStop)
+        animeNS = ExpandAnimator(this, neverStop)
             .setIfFade(true)
             .setRateType(ExpandAnimator.iOSRatio)
             .setDuration(500)
-        animeTP = ExpandAnimator(this,chooseToPick)
+        animeTP = ExpandAnimator(this, chooseToPick)
             .setIfFade(true)
             .setRateType(ExpandAnimator.iOSRatio)
             .setDuration(500)
 
-        themeDarkGreen = ContextCompat.getColor(this,R.color.themeDarkGreen)
-        greyText = ContextCompat.getColor(this,R.color.general_grey_wzc)
+        themeDarkGreen = ContextCompat.getColor(this, R.color.themeDarkGreen)
+        greyText = ContextCompat.getColor(this, R.color.general_grey_wzc)
         greyLine = ContextCompat.getColor(this, R.color.line_grey_wzc)
     }
 
-    private fun simulateSwitchCompat(){
-        if(ifNeverStop){ // 打开日期选择
-            if (pickedTimeText == "----"){
+    private fun simulateSwitchCompat() {
+        if (ifNeverStop) { // 打开日期选择
+            if (pickedTimeText == "----") {
                 pickUpHint.text = getString(R.string.allow_pick_up_time_chl)
-            }else{
+            } else {
                 pickUpHint.text = getString(R.string.picked_time_chl)
             }
             simulateDateButton.strokeColor = themeDarkGreen
             pickUpHint.setTextColor(themeDarkGreen)
             endTimeText.setTextColor(themeDarkGreen)
             endTimeText.text = pickedTimeText
-            animeNS.setMoveDirection(1,neverStopDisplacement)
-                .setFade(1f,0f)
+            animeNS.setMoveDirection(1, neverStopDisplacement)
+                .setFade(1f, 0f)
                 .start()
-            animeTP.setMoveDirection(1,chooseToPickDisplacement)
-                .setFade(0f,1f)
+            animeTP.setMoveDirection(1, chooseToPickDisplacement)
+                .setFade(0f, 1f)
                 .start()
-        }else{ // 关闭
+        } else { // 关闭
             pickUpHint.text = getString(R.string.stop_pick_up_time_chl)
             pickUpHint.setTextColor(greyText)
             endTimeText.setTextColor(greyText)
             endTimeText.text = getString(R.string.no_time_chl)
             simulateDateButton.strokeColor = greyLine
-            animeTP.setMoveDirection(1,-neverStopDisplacement)
-                .setFade(1f,0f)
+            animeTP.setMoveDirection(1, -neverStopDisplacement)
+                .setFade(1f, 0f)
                 .start()
-            animeNS.setMoveDirection(1,-chooseToPickDisplacement)
-                .setFade(0f,1f)
+            animeNS.setMoveDirection(1, -chooseToPickDisplacement)
+                .setFade(0f, 1f)
                 .start()
         }
     }

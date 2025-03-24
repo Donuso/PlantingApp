@@ -347,7 +347,7 @@
             android:text="@string/make_sure_wzc"
             android:textColor="@color/themeDarkGreen"
             android:textSize="20sp"
-            android:id="@+id/cancel_touch_layer"
+            android:id="@+id/confirm_button"
             />
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
