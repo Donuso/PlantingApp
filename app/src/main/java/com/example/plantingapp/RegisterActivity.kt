@@ -1,15 +1,22 @@
 package com.example.plantingapp
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.app.VoiceInteractor.Prompt
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import com.example.plantingapp.dao.UserDAO
+import com.example.plantingapp.item.DataExchange
 
 class RegisterActivity : BaseActivity() {
     private lateinit var SetUsername: EditText
@@ -23,6 +30,9 @@ class RegisterActivity : BaseActivity() {
     private lateinit var confirm: View
     private lateinit var toLogin: View
     private lateinit var userQuery:UserDAO
+    private lateinit var sharedPreferences: SharedPreferences
+    // 临时存储自动登录状态
+    private var tempAutoLoginState = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -41,11 +51,68 @@ class RegisterActivity : BaseActivity() {
         confirm = findViewById(R.id.confirmRegister)
         toLogin = findViewById(R.id.gotoLogin)
         userQuery = UserDAO(this)
+        sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
     }
     private fun setupListeners() {
+        // 自动登录按钮
+        autoLogin.setOnClickListener {
+            tempAutoLoginState = !tempAutoLoginState
+            updateAutoLoginUI(tempAutoLoginState)
+        }
         confirm.setOnClickListener {
             performRegistration()
         }
+        toLogin.setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
+    }
+
+    private fun updateAutoLoginUI(isAutoLoginEnabled: Boolean) {
+        // 背景色动画
+        val startColor = if (isAutoLoginEnabled) R.color.white else R.color.themeDarkGreen
+        val endColor = if (isAutoLoginEnabled) R.color.themeDarkGreen else R.color.white
+        val backgroundAnimator = ObjectAnimator.ofArgb(
+            autoLoginBG,
+            "cardBackgroundColor",
+            ContextCompat.getColor(this, startColor),
+            ContextCompat.getColor(this, endColor)
+        )
+        backgroundAnimator.duration = 300 // 设置动画持续时间
+        backgroundAnimator.start()
+
+        // 文字颜色动画
+        val textColor1Start = if (isAutoLoginEnabled) R.color.themeDarkGreen else R.color.white
+        val textColor1End = if (isAutoLoginEnabled) R.color.white else R.color.themeDarkGreen
+        val textColor2Start = if (isAutoLoginEnabled) R.color.general_grey_wzc else R.color.white
+        val textColor2End = if (isAutoLoginEnabled) R.color.white else R.color.general_grey_wzc
+
+        // 文字颜色1动画
+        val textColor1Animator = ObjectAnimator.ofArgb(
+            autoLoginText1,
+            "textColor",
+            ContextCompat.getColor(this, textColor1Start),
+            ContextCompat.getColor(this, textColor1End)
+        )
+        textColor1Animator.duration = 300
+
+        // 文字颜色2动画
+        val textColor2Animator = ObjectAnimator.ofArgb(
+            autoLoginText2,
+            "textColor",
+            ContextCompat.getColor(this, textColor2Start),
+            ContextCompat.getColor(this, textColor2End)
+        )
+        textColor2Animator.duration = 300
+
+        // 同时执行背景和文字颜色动画
+        AnimatorSet().apply {
+            playTogether(backgroundAnimator, textColor1Animator, textColor2Animator)
+            start()
+        }
+
+        // 更新文字文本
+        autoLoginText2.text = if (isAutoLoginEnabled) "打开" else "关闭"
     }
 
     private fun performRegistration() {
@@ -81,11 +148,36 @@ class RegisterActivity : BaseActivity() {
 
 
         // 插入新用户
-        val userId = userDao.insertUser(username, password)
-        if (userId > 0) {
+        val Id = userDao.insertUser(username, password)
+        if (Id > 0) {
             Toast.makeText(this,"注册成功！请登录",Toast.LENGTH_SHORT).show()
             // 跳转到登录页面
-            startActivity(Intent(this, LoginActivity::class.java))
+            val user_Id = userQuery.getUserIdByUsername(username)
+
+            Toast.makeText(this,"已登录",Toast.LENGTH_SHORT).show()
+
+            // 保存用户信息和自动登录状态
+            sharedPreferences.edit().apply {
+                putString("user_id", user_Id)
+                putBoolean("auto_login", tempAutoLoginState)
+                apply()
+            }
+
+
+            // 放入伴生类
+            DataExchange.USERID = user_Id
+
+            // 使用 SharedPreferences 存储数据
+            sharedPreferences.edit().putString("user_id", user_Id).apply()
+
+            Log.i("rg_id", DataExchange.USERID.toString())
+            Log.i("rg_spid", sharedPreferences.getString("user_id", "default_id") ?: "null")
+
+            startActivity(Intent(this, MainSwitchActivity::class.java))
+
+
+
+
             finish()
         } else {
             Toast.makeText(this,"注册失败",Toast.LENGTH_SHORT).show()

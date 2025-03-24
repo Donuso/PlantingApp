@@ -22,6 +22,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.plantingapp.Constants
 import com.example.plantingapp.animators.FadeAnimator
+import com.example.plantingapp.item.DataExchange
 import com.tencent.map.geolocation.TencentLocation
 import com.tencent.map.geolocation.TencentLocationListener
 import com.tencent.map.geolocation.TencentLocationManager
@@ -55,6 +56,7 @@ class MainFragment : Fragment() {
 
     //SharedPreferences文件
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var sp: SharedPreferences
     private val preferenceFileName = "weather_info"
     private var isFirstLoad = true
 
@@ -67,6 +69,7 @@ class MainFragment : Fragment() {
 
         //初始化
         sharedPreferences = requireActivity().getSharedPreferences(preferenceFileName, Context.MODE_PRIVATE)
+        sp = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
         //绑定控件
         AreaTextView = view.findViewById(R.id.area)
@@ -88,6 +91,8 @@ class MainFragment : Fragment() {
 
         // 初始化定位SDK，但是被移动到onResume方法中
 //        initLocation()
+        Log.i("id_main", DataExchange.USERID.toString())
+        Log.i("spid_main", sp.getString("user_id", "default_id") ?: "null")
         return view
     }
 

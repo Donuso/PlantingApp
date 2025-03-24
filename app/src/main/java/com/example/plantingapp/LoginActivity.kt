@@ -1,5 +1,7 @@
 package com.example.plantingapp
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -27,6 +29,8 @@ class LoginActivity : BaseActivity() {
     private lateinit var userQuery: UserDAO
     private lateinit var toRegister: View
     private lateinit var sharedPreferences: SharedPreferences
+    // 临时存储自动登录状态
+    private var tempAutoLoginState = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,8 +45,15 @@ class LoginActivity : BaseActivity() {
 
         // 自动登录按钮
         autoLogin.setOnClickListener {
-            toggleAutoLogin(true)
+            tempAutoLoginState = !tempAutoLoginState
+            updateAutoLoginUI(tempAutoLoginState)
         }
+    }
+
+    private fun toggleAutoLogin() {
+        // 加载已保存的自动登录状态
+        tempAutoLoginState = sharedPreferences.getBoolean("auto_login", false)
+        updateAutoLoginUI(tempAutoLoginState)
     }
 
     private fun initAll() {
@@ -63,19 +74,51 @@ class LoginActivity : BaseActivity() {
         }
     }
 
-    private fun toggleAutoLogin(enable: Boolean) {
-        with(sharedPreferences.edit()) {
-            putBoolean("auto_login", enable)
-            apply()
+    private fun updateAutoLoginUI(isAutoLoginEnabled: Boolean) {
+        // 背景色动画
+        val startColor = if (isAutoLoginEnabled) R.color.white else R.color.themeDarkGreen
+        val endColor = if (isAutoLoginEnabled) R.color.themeDarkGreen else R.color.white
+        val backgroundAnimator = ObjectAnimator.ofArgb(
+            autoLoginBG,
+            "cardBackgroundColor",
+            ContextCompat.getColor(this, startColor),
+            ContextCompat.getColor(this, endColor)
+        )
+        backgroundAnimator.duration = 300 // 设置动画持续时间
+        backgroundAnimator.start()
+
+        // 文字颜色动画
+        val textColor1Start = if (isAutoLoginEnabled) R.color.themeDarkGreen else R.color.white
+        val textColor1End = if (isAutoLoginEnabled) R.color.white else R.color.themeDarkGreen
+        val textColor2Start = if (isAutoLoginEnabled) R.color.general_grey_wzc else R.color.white
+        val textColor2End = if (isAutoLoginEnabled) R.color.white else R.color.general_grey_wzc
+
+        // 文字颜色1动画
+        val textColor1Animator = ObjectAnimator.ofArgb(
+            autoLoginText1,
+            "textColor",
+            ContextCompat.getColor(this, textColor1Start),
+            ContextCompat.getColor(this, textColor1End)
+        )
+        textColor1Animator.duration = 300
+
+        // 文字颜色2动画
+        val textColor2Animator = ObjectAnimator.ofArgb(
+            autoLoginText2,
+            "textColor",
+            ContextCompat.getColor(this, textColor2Start),
+            ContextCompat.getColor(this, textColor2End)
+        )
+        textColor2Animator.duration = 300
+
+        // 同时执行背景和文字颜色动画
+        AnimatorSet().apply {
+            playTogether(backgroundAnimator, textColor1Animator, textColor2Animator)
+            start()
         }
 
-        if (enable) {
-            autoLoginBG.setCardBackgroundColor(ContextCompat.getColor(this, R.color.themeDarkGreen))
-            autoLoginText1.setTextColor(ContextCompat.getColor(this, R.color.white))
-            autoLoginText2.setTextColor(ContextCompat.getColor(this, R.color.white))
-        } else {
-            // 可选：恢复原始颜色
-        }
+        // 更新文字文本
+        autoLoginText2.text = if (isAutoLoginEnabled) "打开" else "关闭"
     }
 
     private fun addOnListeners() {
@@ -94,6 +137,13 @@ class LoginActivity : BaseActivity() {
 
             if (result == UserDAO.AUTH_SUCCESS) {
                 val userId = userQuery.getUserIdByUsername(userName.text.toString())
+
+                // 保存用户信息和自动登录状态
+                sharedPreferences.edit().apply {
+                    putString("user_id", userId)
+                    putBoolean("auto_login", tempAutoLoginState)
+                    apply()
+                }
 
                 // 放入伴生类
                 DataExchange.USERID = userId

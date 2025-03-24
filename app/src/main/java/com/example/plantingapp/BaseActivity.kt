@@ -4,26 +4,31 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 
-open class BaseActivity: AppCompatActivity() {
+open class BaseActivity : AppCompatActivity() {
 
     private lateinit var receiver: LogoutReceiver
+    private lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ActivityCollector.addAct(this)
+        sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE) // 初始化 SharedPreferences
     }
 
     override fun onResume() {
         super.onResume()
         val itft = IntentFilter()
         itft.addAction("com.example.plantingapp.LOGOUT")
-        receiver = LogoutReceiver()
+        receiver = LogoutReceiver(sharedPreferences) // 传递 SharedPreferences
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             // For Android 13 and above
             registerReceiver(receiver, itft, RECEIVER_EXPORTED)
@@ -43,13 +48,13 @@ open class BaseActivity: AppCompatActivity() {
         ActivityCollector.removeAct(this)
     }
 
-    inner class LogoutReceiver: BroadcastReceiver(){
+    inner class LogoutReceiver(private val sharedPreferences: SharedPreferences) : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val v = LayoutInflater.from(context).inflate(R.layout.dialog_log_out_wzc, null)
             val cancel = v.findViewById<TextView>(R.id.cancel)
             val confirm = v.findViewById<TextView>(R.id.make_sure)
 
-            val dialog = AlertDialog.Builder(context,R.style.CustomDialogTheme)
+            val dialog = AlertDialog.Builder(context, R.style.CustomDialogTheme)
                 .setView(v)
                 .create()
 
@@ -59,13 +64,15 @@ open class BaseActivity: AppCompatActivity() {
 
             confirm.setOnClickListener {
                 ActivityCollector.finishAll()
-                // 这中间的数据变化，就交给你来写了
-                val i = Intent(context,LoginActivity::class.java)
+                // 更新 SharedPreferences
+                sharedPreferences.edit().putBoolean("auto_login", false).apply()
+                // 启动 LoginActivity
+                val i = Intent(context, LoginActivity::class.java)
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 context.startActivity(i)
             }
 
             dialog.show()
         }
     }
-
 }
