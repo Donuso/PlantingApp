@@ -1,30 +1,32 @@
 package com.example.plantingapp
 
 import android.content.Intent
+import android.database.Cursor
+import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
-import android.view.ViewOutlineProvider
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.appbar.MaterialToolbar
-import androidx.cardview.widget.CardView
 
 class ChangePasswordActivity : AppCompatActivity() {
+
+    private lateinit var dbHelper: DBHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_change_password)
 
-        val back = findViewById<ImageButton>(R.id.back_btn)
-        val oldPasswordEdit: EditText = findViewById(R.id.old_password_edit)
-        val newPasswordEdit: EditText = findViewById(R.id.new_password_edit)
-        val confirmPasswordEdit: EditText = findViewById(R.id.confirm_password_edit)
-        val confirmCardView: TextView = findViewById(R.id.confirm_button)
+        dbHelper = DBHelper(this)
 
-        back.setOnClickListener{
+        val back = findViewById<ImageButton>(R.id.back_btn)
+        val oldPasswordEdit = findViewById<EditText>(R.id.old_password_edit)
+        val newPasswordEdit = findViewById<EditText>(R.id.new_password_edit)
+        val confirmPasswordEdit = findViewById<EditText>(R.id.confirm_password_edit)
+        val confirmCardView = findViewById<TextView>(R.id.confirm_button)
+
+        back.setOnClickListener {
             finish()
         }
 
@@ -32,6 +34,24 @@ class ChangePasswordActivity : AppCompatActivity() {
             val oldPassword = oldPasswordEdit.text.toString()
             val newPassword = newPasswordEdit.text.toString()
             val confirmPassword = confirmPasswordEdit.text.toString()
+
+            if (oldPassword.isEmpty()) {
+                Toast.makeText(
+                    this,
+                    "原密码不得为空",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+
+            if (!isOldPasswordCorrect(oldPassword)) {
+                Toast.makeText(
+                    this,
+                    "原密码输入错误",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
 
             if (newPassword.length < 8) {
                 Toast.makeText(
@@ -60,13 +80,51 @@ class ChangePasswordActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // 这里可以添加与服务器交互修改密码的逻辑，例如使用 Retrofit 等网络库
-            // 目前只是简单提示密码修改成功
-            Toast.makeText(
-                this,
-                "密码修改成功",
-                Toast.LENGTH_SHORT
-            ).show()
+            if (updatePassword(newPassword)) {
+                Toast.makeText(
+                    this,
+                    "密码修改成功",
+                    Toast.LENGTH_SHORT
+                ).show()
+                finish()
+            } else {
+                Toast.makeText(
+                    this,
+                    "密码修改失败",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+    private fun isOldPasswordCorrect(oldPassword: String): Boolean {
+        val db = dbHelper.readableDatabase
+        val projection = arrayOf("password")
+        val selection = "password = ?"
+        val selectionArgs = arrayOf(oldPassword)
+        val cursor: Cursor = db.query(
+            "user",
+            projection,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            null
+        )
+        val isCorrect = cursor.count > 0
+        cursor.close()
+        return isCorrect
+    }
+
+    private fun updatePassword(newPassword: String): Boolean {
+        val db = dbHelper.writableDatabase
+        val sql = "UPDATE user SET password = ? WHERE userId = '1'"
+        return try {
+            db.execSQL(sql, arrayOf(newPassword))
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
         }
     }
 }

@@ -85,7 +85,6 @@
 
                 <ImageView
                     android:id="@+id/avatar_image"
-                    android:padding="45dp"
                     android:layout_width="125dp"
                     android:layout_height="125dp"
                     android:scaleType="centerCrop"

@@ -110,7 +110,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         private val dropUser: String = """
             DROP TABLE IF EXISTS user;
         """.trimIndent()
-
+//密码以及修改成a1111111,昵称更新成忆植测试1
         private val insertDefaultUser = """
             INSERT INTO user (username, password, user_avatar)
             VALUES ('admin', '11111111', NULL);
