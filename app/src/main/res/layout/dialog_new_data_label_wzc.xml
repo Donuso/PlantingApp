@@ -3,15 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="30dp"
-    android:layout_margin="20dp"
     app:layout_constraintTop_toTopOf="parent"
-    app:cardElevation="5dp"
+    app:cardElevation="0dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     >
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="280dp"
+        android:layout_height="270dp"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:text="示例文本"
                 android:textColor="@color/themeDarkGreen"
-                android:textSize="28sp"
+                android:textSize="22sp"
                 android:id="@+id/label_title"
                 />
 
@@ -57,7 +56,6 @@
                 android:layout_height="50dp"
                 android:inputType="numberDecimal"
                 android:textSize="16sp"
-                android:text="12345.1"
                 android:textColor="@color/text_black_wzc"
                 android:hint="@string/hint_unit_input_wzc"
                 android:id="@+id/unit_input"
@@ -84,7 +82,6 @@
             app:layout_constraintBottom_toTopOf="@id/extra_area"
             android:layout_marginStart="5dp"
             android:layout_marginBottom="3dp"
-            android:text="cm/unit"
             android:textSize="16sp"
             android:textColor="@color/themeDarkGreen"
             android:id="@+id/unit_name"
@@ -100,7 +97,7 @@
             android:id="@+id/extra_area">
 
             <EditText
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:textSize="16sp"
                 android:textColor="@color/black"
@@ -110,6 +107,7 @@
                 android:background="@android:color/transparent"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
+                android:ems="20"
                 android:maxLines="1"/>
 
             <View
@@ -136,6 +134,7 @@
             android:layout_marginEnd="20dp"
             android:textSize="14sp"
             android:textColor="@color/themeDarkGreen"
+            android:gravity="start"
             />
 
         <LinearLayout
@@ -143,16 +142,17 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="end"
-            app:layout_constraintTop_toBottomOf="@id/hint"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
+            android:layout_marginTop="10dp"
             android:id="@+id/button_area">
 
             <TextView
                 android:layout_width="60dp"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:text="@string/cancel_wzc"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/black"
                 android:gravity="center"
                 android:id="@+id/cancel"
@@ -160,9 +160,9 @@
 
             <TextView
                 android:layout_width="60dp"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:textColor="@color/themeDarkGreen"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:text="@string/make_sure_wzc"
                 android:gravity="center"
                 android:id="@+id/make_sure"

@@ -79,13 +79,13 @@ class AIChatActivity : BaseActivity(), View.OnClickListener {
         val pos = msgItemList.size - 1
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val json = """{"model": "deepseek-r1:1.5b", "prompt": "$message", "stream": false}"""
+                val json = """{"model": "qwen2.5:3b", "prompt": "$message", "stream": false}"""
 //                val json = """{"model": "llama 3.2", "prompt": "$message", "stream": false}"""
 
                 val body = json.toRequestBody(mediaType)
                 val request = Request.Builder()
 //                    .url("http://10.0.2.2:11434/api/generate") // 替换为实际的 Ollama 服务器 URL
-                    .url("http://172.20.10.4:11434/api/generate") // @wuzichen's API
+                    .url("http://10.225.91.100:11434/api/generate") // @wuzichen's API
                     .post(body)
                     .build()
 

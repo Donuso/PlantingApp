@@ -57,5 +57,6 @@ dependencies {
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.google.code.gson:gson:2.10.1")
     implementation ("com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.5.4.3")
-
+    implementation ("com.github.esafirm:android-image-picker:3.0.0")
+    implementation("com.github.bumptech.glide:glide:3.7.0")
 }

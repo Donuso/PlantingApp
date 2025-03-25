@@ -15,7 +15,9 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
                 userId INTEGER,
                 groupName TEXT NOT NULL CHECK(LENGTH(groupName) <= 15),
                 remark TEXT CHECK(LENGTH(remark) <= 15),
-                coverImageUri TEXT DEFAULT 'default'
+                coverImageUri TEXT DEFAULT 'default',
+                lastModified INTEGER,
+                createdTime INTEGER NOT NULL
             );
         """.trimIndent()
 
@@ -24,7 +26,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
                 logId INTEGER PRIMARY KEY AUTOINCREMENT,
                 logGroupId INTEGER,
                 textRecord TEXT,
-                recordDate INTEGER NOT NULL,
+                recordDate TEXT NOT NULL,
                 weatherTemperatureRange TEXT
             );
         """.trimIndent()
@@ -57,7 +59,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
                 customTagId INTEGER PRIMARY KEY AUTOINCREMENT,
                 userId INTEGER,
                 tagName TEXT NOT NULL CHECK(LENGTH(tagName) <= 8),
-                tagIcon TEXT NOT NULL,
+                tagIcon INTEGER NOT NULL,
                 tagType INTEGER NOT NULL CHECK(tagType IN (1,2)),
                 unit TEXT
             );
@@ -67,19 +69,17 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
             CREATE TABLE logTags (
                 logId INTEGER NOT NULL,
                 tagId INTEGER NOT NULL,
-                tagType INTEGER NOT NULL CHECK(tagType IN (1,2)),
-                tagValue1 INTEGER CHECK(tagValue1 BETWEEN 1 AND 5),
+                tagType INTEGER NOT NULL, -- 1 status/2 data/3 custom
+                tagValue1 INTEGER, -- 1,2,3,4,5
                 tagValue2 REAL,
-                tagTips TEXT,
-                PRIMARY KEY(logId, tagId)
+                tagTips TEXT
             );
         """.trimIndent()
 
         private val createLogPics: String = """
             CREATE TABLE logPics (
                 logId INTEGER NOT NULL,
-                imageUri TEXT NOT NULL,
-                PRIMARY KEY(logId, imageUri)
+                imageUri TEXT NOT NULL
             );
         """.trimIndent()
 
