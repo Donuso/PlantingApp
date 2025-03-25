@@ -1,9 +1,11 @@
 package com.example.plantingapp
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
@@ -22,8 +24,10 @@ import com.example.plantingapp.adapter.AddedLabelAdapter
 import com.example.plantingapp.adapter.LogPicAdapter
 import com.example.plantingapp.animators.ExpandAnimator
 import com.example.plantingapp.animators.FadeAnimator
+import com.example.plantingapp.dao.LabelDAO
+import com.example.plantingapp.dao.LogDAO
 import com.example.plantingapp.item.LabelItem
-import com.example.plantingapp.item.LabelItemConverter
+import com.example.plantingapp.utils.LabelItemConverter
 import com.example.plantingapp.item.LogPicItem
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -55,6 +59,8 @@ class LogActivity : AppCompatActivity() {
     private lateinit var backLine:View
     private lateinit var addLabelModule: RelativeLayout
     private lateinit var addPicModule: RelativeLayout
+    private lateinit var line: View
+    private lateinit var rootView :RelativeLayout
 
     private lateinit var labelFlexboxLayoutManager: FlexboxLayoutManager
     private lateinit var picFlexboxLayoutManager: FlexboxLayoutManager
@@ -68,14 +74,18 @@ class LogActivity : AppCompatActivity() {
 
     private val cancelMovement = 100f
     private var groupId = -1
-    private val labelD: MutableList<LabelItem> = mutableListOf()
-    private val picD: MutableList<LogPicItem> = mutableListOf()
-    private var chosenTime:String? = null
+    private var logId = -1
+    private lateinit var labelD: MutableList<LabelItem>
+    private lateinit var picD: MutableList<LogPicItem>
+    private var chosenTime:String? = Utils.timestampToDateString(System.currentTimeMillis())
     private val weatherSPName = "weather_info" //  tem1  tem2
     private var temp:String? = null
+    private lateinit var imm:InputMethodManager
 
     private lateinit var picAdapter: LogPicAdapter
     private lateinit var labelAdapter: AddedLabelAdapter
+    private lateinit var daoLog: LogDAO
+    private lateinit var daoLabel: LabelDAO
 
 
     private val datePickerListener = View.OnClickListener {
@@ -119,6 +129,20 @@ class LogActivity : AppCompatActivity() {
         )
     }
 
+    private val tempListener = View.OnClickListener {
+        val sp = getSharedPreferences(weatherSPName,MODE_PRIVATE)
+        val tem1 = sp.getString("tem1",null)
+        val tem2 = sp.getString("tem2",null)
+        if(tem1 == null || tem2 == null){
+            Toast.makeText(this,"无法加载天气",Toast.LENGTH_SHORT).show()
+        }else{
+            temp = "当日温度   $tem1℃ ~ $tem2℃"
+            recordTemp.text = temp
+            daoLog.updateWeatherTemperatureRange(logId,temp!!)
+            daoLog.updateLastModified(groupId)
+        }
+    }
+
     private val backTodayListener = View.OnClickListener {
         chosenTime = Utils.timestampToDateString(
             System.currentTimeMillis()
@@ -150,14 +174,19 @@ class LogActivity : AppCompatActivity() {
                         // 数据库的自定义标签，直接使用id进行比较（数据库内存储的自定义标签的类型不共用id）
                     }
                 }
-                //注意DB的逻辑
                 if(sameLabelIndex != -1){
                     labelD[sameLabelIndex] = d
                     labelAdapter.notifyItemChanged(sameLabelIndex)
+                    daoLabel.updateLogTag(logId,d)
+                    daoLog.updateLastModified(groupId)
+
                 }else{
                     labelD.add(d)
                     labelAdapter.notifyItemInserted(labelD.size - 1)
+                    daoLabel.insertLogTag(logId,d)
+                    daoLog.updateLastModified(groupId)
                 }
+                Log.v("newAddLabel",d.toString())
             }
         }
     }
@@ -165,6 +194,9 @@ class LogActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_log_wzc)
+        imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        daoLog = LogDAO(this)
+        daoLabel = LabelDAO(this)
 
         initAllViews()
 
@@ -174,6 +206,22 @@ class LogActivity : AppCompatActivity() {
 
         addOnListeners()
 
+        initTemp()
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if(logText.text.toString().isEmpty()){
+            daoLog.updateLogText(logId,null)
+        }else{
+            daoLog.updateLogText(logId,logText.text.toString())
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        reLoadingLog()
     }
 
     //首次进入加载
@@ -193,14 +241,35 @@ class LogActivity : AppCompatActivity() {
         if(groupId != -1){
             loadingTime()
             preData()
+            initTemp()
         }else{
             Toast.makeText(this,"数据加载错误：未知日志组",Toast.LENGTH_SHORT).show()
         }
     }
 
-    // !!含有数据库操作的方法-直接更换adapter的数据容器，并提示数据集改变
+    // !!含有数据库操作的方法-直接更换adapter的数据容器
     private fun preData(){
+        logId = daoLog.checkAndInsertLog(this,groupId,chosenTime!!).toInt()
+        if(logId == 0){
+            Toast.makeText(this,"数据加载错误：日志索引不正确",Toast.LENGTH_SHORT).show()
+        }else{
+            labelD = daoLog.getAllLabels(logId)
+            picD = daoLog.getAllPics(logId)
 
+            picAdapter = LogPicAdapter(picD,this){ d ->
+                daoLog.deletePic(d)
+                daoLog.updateLastModified(groupId)
+            }
+            labelAdapter = AddedLabelAdapter(labelD,this) {d ->
+                daoLog.deleteLabel(d)
+                daoLog.updateLastModified(groupId)
+            }
+
+            logPics.adapter = picAdapter
+            labels.adapter = labelAdapter
+            logText.text = daoLog.getLogText(logId)
+            temp = daoLog.getWeatherTemperatureRange(logId)
+        }
     }
 
     private fun initAllViews() {
@@ -208,6 +277,7 @@ class LogActivity : AppCompatActivity() {
         backBtn = findViewById(R.id.back_btn)
         logGroupName = findViewById(R.id.log_group_name)
         menuBtn = findViewById(R.id.menu_btn)
+        line = findViewById(R.id.dividing_line_3)
 
         // Initialize Date section
         logDate = findViewById(R.id.log_date)
@@ -242,6 +312,7 @@ class LogActivity : AppCompatActivity() {
 
         addPicModule = findViewById(R.id.add_pic_module)
         addLabelModule = findViewById(R.id.add_label_module)
+        rootView = findViewById(R.id.root)
 
     }
 
@@ -251,13 +322,9 @@ class LogActivity : AppCompatActivity() {
 
         logPics.layoutManager = picFlexboxLayoutManager
         labels.layoutManager = labelFlexboxLayoutManager
-        picAdapter = LogPicAdapter(picD,this)
-        labelAdapter = AddedLabelAdapter(labelD,this)
-        logPics.adapter = picAdapter
-        labels.adapter = labelAdapter
 
         menuAnimator = FadeAnimator(menuBtn)
-            .setDuration(200)
+            .setDuration(100)
         optionsAnimator = FadeAnimator(logOptions)
             .setDuration(100)
         cancelAnimator = ExpandAnimator(this,cancelModule)
@@ -275,15 +342,12 @@ class LogActivity : AppCompatActivity() {
                 val storedUri = Utils.storeSinglePicture(this, originalUri)
                 storedUri?.let { uri ->
                     // 使用存储后的URI进行操作
-                    picD.add(
-                        LogPicItem(
-                            1,
-                            uri.toString()
-                        )
-                    )
+                    val d = LogPicItem(logId, uri.toString())
+                    picD.add(d)
                     Log.v("storedUri",uri.toString())
                     picAdapter.notifyItemInserted(picD.size - 1)
-                    //预留数据库逻辑
+                    daoLog.addPic(logId,uri.toString())
+                    daoLog.updateLastModified(groupId)
                 }
             }
         }
@@ -291,9 +355,14 @@ class LogActivity : AppCompatActivity() {
 
     private fun addOnListeners(){
         backBtn.setOnClickListener {
+            imm.hideSoftInputFromWindow(logText.windowToken, 0)
             onBackPressedDispatcher.onBackPressed()
         }
+        rootView.setOnClickListener {
+            imm.hideSoftInputFromWindow(logText.windowToken, 0)
+        }
         menuBtn.setOnClickListener {
+            imm.hideSoftInputFromWindow(logText.windowToken, 0)
             optionsAnimator.start(true)
         }
         logOptions.setOnClickListener {
@@ -342,6 +411,7 @@ class LogActivity : AppCompatActivity() {
                 deletePicHint.visibility = View.VISIBLE
                 addPicModule.visibility = View.GONE
                 addLabelModule.visibility = View.GONE
+                line.visibility = View.GONE
                 datePicker.setOnClickListener(null)
                 logAnalyzer.setOnClickListener(null)
                 backToday.setOnClickListener(null)
@@ -358,6 +428,7 @@ class LogActivity : AppCompatActivity() {
                 deleteLabelHint.visibility = View.GONE
                 backToNormal(TYPE_Label)
             }
+            line.visibility = View.VISIBLE
             addPicModule.visibility = View.VISIBLE
             addLabelModule.visibility = View.VISIBLE
             cancelBackAnimator.start()
@@ -365,20 +436,6 @@ class LogActivity : AppCompatActivity() {
             logAnalyzer.setOnClickListener(analyzeListener)
             backToday.setOnClickListener(backTodayListener)
             menuAnimator.start(true)
-        }
-        if(temp == null){
-            recordTemp.setOnClickListener {
-                val sp = getSharedPreferences(weatherSPName,MODE_PRIVATE)
-                val tem1 = sp.getString("tem1",null)
-                val tem2 = sp.getString("tem2",null)
-                if(tem1 == null || tem2 == null){
-                    Toast.makeText(this,"无法加载天气",Toast.LENGTH_SHORT).show()
-                }else{
-                    temp = "当日温度   $tem1℃ ~ $tem2℃"
-                    recordTemp.text = temp
-                    //预留数据库逻辑
-                }
-            }
         }
     }
 
@@ -458,6 +515,20 @@ class LogActivity : AppCompatActivity() {
                 )
                 backToday.setOnClickListener(backTodayListener)
             }
+        }
+    }
+
+    private fun initTemp(){
+        if(temp == null || temp!!.isEmpty()){
+            if(chosenTime == Utils.timestampToDateString(System.currentTimeMillis())){
+                recordTemp.setOnClickListener(tempListener)
+            }else{
+                recordTemp.setOnClickListener{
+                    Toast.makeText(this,"您无法更新过去的天气哦",Toast.LENGTH_SHORT).show()
+                }
+            }
+        }else{
+            recordTemp.text = temp
         }
     }
 

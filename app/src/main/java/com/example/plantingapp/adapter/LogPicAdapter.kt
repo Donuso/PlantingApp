@@ -12,6 +12,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.plantingapp.R
+import com.example.plantingapp.item.LabelItem
 import com.example.plantingapp.item.LogPicItem
 import java.io.File
 
@@ -19,6 +20,7 @@ import java.io.File
 class LogPicAdapter(
     var items: MutableList<LogPicItem>,
     private val context: Context,
+    private val itemCallback: (LogPicItem) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     // ViewHolder绑定视图
@@ -57,6 +59,7 @@ class LogPicAdapter(
                 holder.load(item)
                 // 删除按钮点击事件
                 holder.deleteIcon.setOnClickListener {
+                    itemCallback(item)
                     // 1. 从列表移除
                     items.removeAt(position)
                     notifyItemRemoved(position)

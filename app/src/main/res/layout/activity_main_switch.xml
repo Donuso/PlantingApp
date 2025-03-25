@@ -38,7 +38,6 @@
             android:paddingTop="15dp"
             app:itemIconTint="@color/bottom_navigation_colors"
             app:itemTextColor="@color/bottom_navigation_colors"
-            app:elevation="0dp"
             app:itemRippleColor="@color/grey_line_chl"
             />
 

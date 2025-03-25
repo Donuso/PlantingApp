@@ -159,7 +159,7 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="30dp"
+                    app:cardCornerRadius="25dp"
                     app:cardElevation="0dp"
                     android:layout_marginBottom="25dp"
                     >
@@ -248,12 +248,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:background="@color/line_grey_wzc"
-                            android:layout_marginTop="5dp"/>
+                            android:layout_marginTop="5dp"
+                            android:id="@+id/dividing_line_3"/>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
-                            android:text="点击此处记录温度"
+                            android:text="@string/record_temp_wzc"
                             android:paddingBottom="2dp"
                             android:gravity="center"
                             android:textSize="16sp"
@@ -271,6 +272,7 @@
                     android:layout_height="wrap_content"
                     app:cardCornerRadius="30dp"
                     app:cardElevation="0dp"
+                    android:id="@+id/callback_layer"
                     >
                     <LinearLayout
                         android:layout_width="match_parent"

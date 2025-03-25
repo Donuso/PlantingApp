@@ -1,15 +1,19 @@
 package com.example.plantingapp
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plantingapp.adapter.DayAdapter
+import com.example.plantingapp.animators.ExpandAnimator
 import com.example.plantingapp.dao.LogDAO
 import com.example.plantingapp.item.DayItem
 import com.google.android.flexbox.FlexDirection
@@ -43,6 +47,8 @@ class DatePickerActivity : AppCompatActivity() {
     private var currentMonth:Int = -1
     private var currentDay:Int = -1
 
+    private lateinit var backTodayListener: View.OnClickListener
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_date_picker_wzc)
@@ -75,8 +81,9 @@ class DatePickerActivity : AppCompatActivity() {
         }else{
             dao = LogDAO(this)
             dayManager = FlexboxLayoutManager(this, FlexDirection.ROW, FlexWrap.WRAP)
-            days = dao.checkLogFromRange(
-                chosenTime.substring(0..7) + "01"
+            days = dao.getRecordedDaysInMonth(
+                gpId,
+                chosenTime.substring(0..6)
             )
             currentYear = chosenTime.substring(0..3).toInt()
             currentMonth = chosenTime.substring(5..6).toInt()
@@ -93,32 +100,71 @@ class DatePickerActivity : AppCompatActivity() {
     }
 
     private fun addOnListeners(){
+        backTodayListener = View.OnClickListener {
+            chosenTime = Utils.timestampToDateString(System.currentTimeMillis())
+            currentYear = chosenTime.substring(0..3).toInt()
+            currentMonth = chosenTime.substring(5..6).toInt()
+            currentDay = chosenTime.substring(8..9).toInt()
+            backTodayBg.setCardBackgroundColor(
+                ContextCompat.getColor(this,R.color.general_grey_wzc)
+            )
+            backTodayBg.cardElevation = 0f
+            refreshDisplay()
+            backTodayText.setOnClickListener(null)
+        }
+
         backBtn.setOnClickListener{
             onBackPressedDispatcher.onBackPressed()
         }
         plusYear.setOnClickListener {
             currentYear++
+            backTodayBg.setCardBackgroundColor(
+                ContextCompat.getColor(this,R.color.themeDarkGreen)
+            )
+            backTodayBg.cardElevation = 5f
             refreshDisplay()
+            backTodayText.setOnClickListener(backTodayListener)
         }
         minusYear.setOnClickListener {
-            currentYear--
+            currentYear = if (currentYear == 1){
+                1
+            }else{
+                currentYear - 1
+            }
+            backTodayBg.setCardBackgroundColor(
+                ContextCompat.getColor(this,R.color.themeDarkGreen)
+            )
+            backTodayBg.cardElevation = 5f
             refreshDisplay()
+            backTodayText.setOnClickListener(backTodayListener)
         }
         plusMonth.setOnClickListener {
-            currentMonth++
+            currentMonth = if(currentMonth == 12){
+                12
+            }else{
+                currentMonth + 1
+            }
+            backTodayBg.setCardBackgroundColor(
+                ContextCompat.getColor(this,R.color.themeDarkGreen)
+            )
+            backTodayBg.cardElevation = 5f
             refreshDisplay()
+            backTodayText.setOnClickListener(backTodayListener)
         }
         minusMonth.setOnClickListener {
-            currentMonth--
+            currentMonth = if(currentMonth == 1){
+                1
+            }else{
+                currentMonth - 1
+            }
+            backTodayBg.setCardBackgroundColor(
+                ContextCompat.getColor(this,R.color.themeDarkGreen)
+            )
+            backTodayBg.cardElevation = 5f
             refreshDisplay()
+            backTodayText.setOnClickListener(backTodayListener)
         }
-        backTodayText.setOnClickListener {
-            chosenTime = Utils.timestampToDateString(System.currentTimeMillis())
-            currentYear = chosenTime.substring(0..3).toInt()
-            currentMonth = chosenTime.substring(5..6).toInt()
-            currentDay = chosenTime.substring(8..9).toInt()
-            refreshDisplay(currentDay - 1)
-        }
+        backTodayText.setOnClickListener(null)
         makeSureText.setOnClickListener {
             if(dayAdapter.lastChosen == -1){
                 Toast.makeText(this,"您尚未选择日期",Toast.LENGTH_SHORT).show()
@@ -144,21 +190,19 @@ class DatePickerActivity : AppCompatActivity() {
         }
     }
 
-    private fun refreshDisplay(choose:Int = -1){
+    private fun refreshDisplay(){
         yearDisplay.text = "${currentYear}年"
         monthDisplay.text = "${currentMonth}月"
-        dayAdapter.dayList = dao.checkLogFromRange(
-            "${currentYear}-${currentMonth}-01"
-        )
-        when(choose){
-            -1 -> {
-                dayAdapter.lastChosen = -1
-            }
-            else -> {
-                dayAdapter.lastChosen = choose
-                dayAdapter.dayList[choose].status = DayItem.STATUS_CHOSEN
-            }
+        val m = if(currentMonth < 10){
+            "0$currentMonth"
+        }else{
+            "$currentMonth"
         }
+        dayAdapter.dayList = dao.getRecordedDaysInMonth(
+            gpId,
+            "${currentYear}-$m"
+        )
+        dayAdapter.lastChosen = -1
         dayAdapter.notifyDataSetChanged()
     }
 }

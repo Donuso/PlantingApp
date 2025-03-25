@@ -16,12 +16,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.plantingapp.LogActivity
 import com.example.plantingapp.R
 import com.example.plantingapp.Utils
+import com.example.plantingapp.dao.LogGroupDAO
+import com.example.plantingapp.item.DataExchange
 import com.example.plantingapp.item.LogGroupItem
 
 
 class LogGroupAdapter(
     private val context: Context,
-    var groups: MutableList<LogGroupItem>
+    var groups: MutableList<LogGroupItem>,
+    private val itemCallback: (LogGroupItem,Int) -> Unit
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class LogGroup(v: View):RecyclerView.ViewHolder(v){
@@ -49,6 +52,12 @@ class LogGroupAdapter(
             }
             when(d.status){
                 LogGroupItem.MODE_OPEN -> {
+                    with(context.getSharedPreferences("${DataExchange.USERID}_prefs",Context.MODE_PRIVATE).edit()){
+                        putInt("group_id",d.gpId)
+                        putLong("group_created_time",d.createTime)
+                        putString("group_name",d.gpName)
+                        apply()
+                    }
                     groupEnterButton.setImageResource(R.drawable.icon_activator_wzc)
                     groupEnterButton.setOnClickListener {
                         context.startActivity(
@@ -86,14 +95,14 @@ class LogGroupAdapter(
             is LogGroup -> {
                 v.basicEdit(d,pos)
                 v.groupDays.text = "已种植${Utils.daysBetweenNowAndTimestamp(d.createTime)}天"
-                if(d.lastModified != null){
-                    v.groupLastModifiedTime.text = "${Utils.daysBetweenNowAndTimestamp(d.lastModified!!)}天前查看"
-                }else{
+                if(d.lastModified == -1L || d.lastModified == null){
                     v.groupLastModifiedTime.text = "最近未查看"
+                }else{
+                    v.groupLastModifiedTime.text = "${Utils.daysBetweenNowAndTimestamp(d.lastModified!!)}天前查看"
                 }
                 when(d.coverType){
                     LogGroupItem.RES_COVER -> {
-                        v.plantPhoto.setImageResource(R.drawable.icon_main)
+                        v.plantPhoto.setImageResource(d.coverRes)
                     }
                     LogGroupItem.URI_COVER -> {
                         //等待更新后的补全
@@ -128,8 +137,6 @@ class LogGroupAdapter(
             val newName = alterNameInput.text.toString()
             val newHint = alterNoteInput.text.toString()
 
-            // 更新列表项显示（实际数据库更新逻辑需另外实现）
-
             if(newName.isEmpty()) {
                 Toast.makeText(context, "分组名不能为空", Toast.LENGTH_SHORT).show()
             }else if (newName.length > 10){
@@ -142,11 +149,10 @@ class LogGroupAdapter(
                 item.hint = newHint.ifEmpty { null }
                 item.lastModified = System.currentTimeMillis()
                 dialog.dismiss()
+                itemCallback(groups[position],LogGroupDAO.OPT_ALT)
                 notifyItemChanged(position)
-                // DB逻辑
                 notifyItemRangeChanged(0,groups.size)
             }
-
         }
 
         dialog.show()
@@ -169,11 +175,10 @@ class LogGroupAdapter(
         }
 
         makeSureButton.setOnClickListener {
-            groups.removeAt(position)
             dialog.dismiss()
+            itemCallback(groups[position],LogGroupDAO.OPT_DEL)
+            groups.removeAt(position)
             notifyItemRemoved(position)
-            //DB
-
             notifyItemRangeChanged(0,groups.size)
         }
 

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageButton
@@ -23,7 +24,7 @@ import com.example.plantingapp.animators.FadeAnimator
 import com.example.plantingapp.dao.LabelDAO
 import com.example.plantingapp.item.DataExchange
 import com.example.plantingapp.item.LabelItem
-import com.example.plantingapp.item.LabelItemConverter
+import com.example.plantingapp.utils.LabelItemConverter
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -84,9 +85,10 @@ class NewLabelActivity : AppCompatActivity() {
                 allAdapter.notifyItemInserted(customLabels.size - 1)
                 toastStr = "添加\"${label.tagName}\"标签成功"
                 temporarilyNoDiyLabels.visibility = View.GONE
+                dao.addCustomTag(label)
             }
             Toast.makeText(this,toastStr,Toast.LENGTH_SHORT).show()
-            //预留数据库操作位
+
         }
     }
 
@@ -103,14 +105,23 @@ class NewLabelActivity : AppCompatActivity() {
 
     private fun preData(){
         dao = LabelDAO(this)
-        customLabels = dao.getAllCustomLabels()
         allLabelsManager = FlexboxLayoutManager(this, FlexDirection.ROW, FlexWrap.WRAP)
         recentLabelsManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        allAdapter = LabelAdapter(Constants.defStatusLabels.toMutableList(), this) { it ->
-            addRecentlyUsedLabel(it)
-            val i = Intent().putExtra("label_data", LabelItemConverter.labelToJson(it))
-            setResult(RESULT_OK, i)
-            finish()
+        allAdapter = LabelAdapter(Constants.defStatusLabels.toMutableList(), this) { it,t ->
+            when(t){
+                LabelItem.MODE_DISPLAY -> {
+                    addRecentlyUsedLabel(it)
+                    Log.v("returnedLabel",it.toString())
+                    val i = Intent().putExtra("label_data", LabelItemConverter.labelToJson(it))
+                    setResult(RESULT_OK, i)
+                    finish()
+                }
+                LabelItem.MODE_DEL -> {
+                    dao.deleteCustomTag(DataExchange.USERID!!,it.tagId)
+                    deleteRecentlyUsedLabel(it)
+                }
+            }
+
         }
         recentlyUsedLabel.layoutManager = recentLabelsManager
         allLabels.layoutManager = allLabelsManager
@@ -128,10 +139,19 @@ class NewLabelActivity : AppCompatActivity() {
             recentlyNoUsedLabelHint.visibility = View.VISIBLE
         } else {
             recentlyNoUsedLabelHint.visibility = View.GONE
-            recentAdapter = LabelAdapter(recentlyUsedLabels, this) { it ->
-                val i = Intent().putExtra("label_data", LabelItemConverter.labelToJson(it))
-                setResult(RESULT_OK, i)
-                finish()
+            recentAdapter = LabelAdapter(recentlyUsedLabels, this) { it ,t->
+                when(t){
+                    LabelItem.MODE_DISPLAY -> {
+                        Log.v("returnedLabel",it.toString())
+                        val i = Intent().putExtra("label_data", LabelItemConverter.labelToJson(it))
+                        setResult(RESULT_OK, i)
+                        finish()
+                    }
+                    LabelItem.MODE_DEL -> {
+                        dao.deleteCustomTag(DataExchange.USERID!!,it.tagId)
+                    }
+                }
+
             }
             recentlyUsedLabel.adapter = recentAdapter
         }
@@ -156,6 +176,21 @@ class NewLabelActivity : AppCompatActivity() {
                 putString("recentlyUsedLabels", LabelItemConverter.listToJson(recentlyUsedLabels))
                 apply()
             }
+        }
+    }
+
+    private fun deleteRecentlyUsedLabel(l: LabelItem) {
+        for(it in recentlyUsedLabels){
+            if(l.isCustom && l.tagId == it.tagId && l.isCustom == it.isCustom && l.tagType == it.tagType){
+                recentlyUsedLabels.remove(it)
+                break
+            }
+        }
+        recentAdapter.notifyDataSetChanged()
+        // 更新 SharedPreferences（即使列表为空也需要保存，保持数据一致性）
+        with(sp.edit()) {
+            putString("recentlyUsedLabels", LabelItemConverter.listToJson(recentlyUsedLabels))
+            apply()
         }
     }
 
@@ -341,6 +376,7 @@ class NewLabelActivity : AppCompatActivity() {
                 diyBg.setCardBackgroundColor(green)
                 addDiyModule.visibility = View.VISIBLE
                 addDiyCover.visibility = View.VISIBLE
+                customLabels = dao.getAllCustomTags(DataExchange.USERID!!).toMutableList()
                 allAdapter.labelList = customLabels
                 if(menuBtn.visibility == View.GONE){
                     menuAnimator.start(true)

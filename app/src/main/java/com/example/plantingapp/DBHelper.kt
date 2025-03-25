@@ -72,8 +72,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
                 tagType INTEGER NOT NULL, -- 1 status/2 data/3 custom
                 tagValue1 INTEGER, -- 1,2,3,4,5
                 tagValue2 REAL,
-                tagTips TEXT,
-                PRIMARY KEY(logId, tagId)
+                tagTips TEXT
             );
         """.trimIndent()
 

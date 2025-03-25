@@ -59,7 +59,7 @@ class DayAdapter(
                     holder,
                     ContextCompat.getColor(context, R.color.white),
                     0f,
-                    ContextCompat.getColor(context, R.color.general_grey_wzc)
+                    ContextCompat.getColor(context, R.color.text_grey_wzc)
                 )
             }
         }

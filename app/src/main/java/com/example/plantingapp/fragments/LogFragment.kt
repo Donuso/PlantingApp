@@ -22,6 +22,7 @@ import com.example.plantingapp.R
 import com.example.plantingapp.adapter.LogGroupAdapter
 import com.example.plantingapp.animators.ExpandAnimator
 import com.example.plantingapp.animators.FadeAnimator
+import com.example.plantingapp.dao.LogGroupDAO
 import com.example.plantingapp.item.LogGroupItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.w3c.dom.Text
@@ -45,6 +46,7 @@ class LogFragment : Fragment() {
     private lateinit var hint:TextView
     private lateinit var title:TextView
     private lateinit var searchModule:CardView
+    private lateinit var dao:LogGroupDAO
 
     private var bottomNavigation:BottomNavigationView? = null
     private var cancelModule:CardView? = null
@@ -66,7 +68,6 @@ class LogFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewManager = LinearLayoutManager(requireContext())
-        groups = mutableListOf()
     }
 
     override fun onCreateView(
@@ -80,6 +81,27 @@ class LogFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initVariables(view)
         addOnListenersAndAnimators()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        preData()
+        groupAdapter = LogGroupAdapter(requireContext(),groups){ d,opt ->
+            when(opt){
+                LogGroupDAO.OPT_ALT -> {
+                    try{
+                        dao.updateLogGroup(d)
+                    }catch (e:IllegalArgumentException){
+                        Toast.makeText(requireContext(),e.message,Toast.LENGTH_SHORT).show()
+                    }
+                }
+                LogGroupDAO.OPT_DEL -> {
+                    dao.deleteLogGroup(d)
+                }
+            }
+        }
+        groupView.layoutManager = viewManager
+        groupView.adapter = groupAdapter
     }
 
     private fun initVariables(v: View){
@@ -98,12 +120,7 @@ class LogFragment : Fragment() {
         bottomNavigation = activity?.findViewById(R.id.bottomNavigationView)
         cancel = activity?.findViewById(R.id.cancel_text)
         cancelModule = activity?.findViewById(R.id.cancel_module)
-
-        preData() //为数据库预留
-
-        groupAdapter = LogGroupAdapter(requireContext(),groups)
-        groupView.layoutManager = viewManager
-        groupView.adapter = groupAdapter
+        dao = LogGroupDAO(requireContext())
 
     }
 
@@ -158,15 +175,22 @@ class LogFragment : Fragment() {
                     Toast.makeText(requireContext(), "备注超出15个字符", Toast.LENGTH_SHORT).show()
                 } else {
                     // 在这里处理获取到的内容，例如保存到数据库或更新 UI
-                    if(note.isEmpty()){
-                        addGroup(1,name,null)
-                    }else{
-                        addGroup(1,name,note)
+                    try{
+                        var hint:String? = null
+                        if(note.isNotEmpty()){
+                            hint = note
+                        }
+                        val it = packageGroup(name,hint)
+                        val newGPID = dao.insertLogGroup(it)
+                        groups.add(it.apply {
+                            gpId = newGPID.toInt()
+                        })
+                        groupAdapter.notifyItemInserted(groups.size-1)
+                        groupAdapter.notifyItemRangeChanged(0,groups.size)
+                        dialog.dismiss() // 关闭对话框
+                    } catch (e:IllegalArgumentException){
+                        Toast.makeText(requireContext(),e.message,Toast.LENGTH_SHORT).show()
                     }
-
-                    dialog.dismiss() // 关闭对话框
-                    groupAdapter.notifyItemInserted(groups.size-1)
-                    groupAdapter.notifyItemRangeChanged(0,groups.size)
                 }
             }
 
@@ -175,33 +199,43 @@ class LogFragment : Fragment() {
         }
 
         optionDel.setOnClickListener{
-            addBG.visibility = View.GONE
-            bottomNavigation?.visibility = View.GONE
-            searchModule.visibility = View.GONE
+            if(groups.size == 0){
+                optionAnimator.start(false)
+                Toast.makeText(requireContext(),"您尚未添加任何日志组",Toast.LENGTH_SHORT).show()
+            }else{
+                addBG.visibility = View.GONE
+                bottomNavigation?.visibility = View.GONE
+                searchModule.visibility = View.GONE
 //            searchAnimator.start(false)
-            cancel?.setTextColor(ContextCompat.getColor(requireContext(),R.color.themeRed))
-            optionAnimator.start(false)
-            menuAnimator.start(false)
-            title.setTextColor(ContextCompat.getColor(requireContext(),R.color.white0_5_zhj))
-            cancelAnimator.start()
-            hint.text = getString(R.string.log_group_delete)
-            hint.visibility = View.VISIBLE
+                cancel?.setTextColor(ContextCompat.getColor(requireContext(),R.color.themeRed))
+                optionAnimator.start(false)
+                menuAnimator.start(false)
+                title.setTextColor(ContextCompat.getColor(requireContext(),R.color.white0_5_zhj))
+                cancelAnimator.start()
+                hint.text = getString(R.string.log_group_delete)
+                hint.visibility = View.VISIBLE
 //            hintAnimator.start(true)
-            switchToDel()
+                switchToDel()
+            }
         }
 
         optionAlt.setOnClickListener {
-            addBG.visibility = View.GONE
-            bottomNavigation?.visibility = View.GONE
-            searchModule.visibility = View.GONE
-            cancel?.setTextColor(ContextCompat.getColor(requireContext(),R.color.themeBlue))
-            optionAnimator.start(false)
-            menuAnimator.start(false)
-            title.setTextColor(ContextCompat.getColor(requireContext(),R.color.white0_5_zhj))
-            cancelAnimator.start()
-            hint.text = getString(R.string.log_group_alter)
-            hint.visibility = View.VISIBLE
-            switchToEdit()
+            if(groups.size == 0){
+                optionAnimator.start(false)
+                Toast.makeText(requireContext(),"您尚未添加任何日志组",Toast.LENGTH_SHORT).show()
+            }else {
+                addBG.visibility = View.GONE
+                bottomNavigation?.visibility = View.GONE
+                searchModule.visibility = View.GONE
+                cancel?.setTextColor(ContextCompat.getColor(requireContext(),R.color.themeBlue))
+                optionAnimator.start(false)
+                menuAnimator.start(false)
+                title.setTextColor(ContextCompat.getColor(requireContext(),R.color.white0_5_zhj))
+                cancelAnimator.start()
+                hint.text = getString(R.string.log_group_alter)
+                hint.visibility = View.VISIBLE
+                switchToEdit()
+            }
         }
 
         options.setOnClickListener {
@@ -248,42 +282,20 @@ class LogFragment : Fragment() {
     }
 
     private fun preData(){
-        groups.add(
-            0,
-            LogGroupItem(
-                gpId = 1,
-                gpName = "Group1",
-                createTime = System.currentTimeMillis(),
-                lastModified = System.currentTimeMillis(),
-                coverUri = null,
-                hint = null,
-            )
-        )
-        groups.add(
-            0,
-            LogGroupItem(
-                gpId = 2,
-                gpName = "Group2",
-                createTime = System.currentTimeMillis()-100000,
-                lastModified = System.currentTimeMillis(),
-                coverUri = null,
-                hint = "你好",
-            )
-        )
+        groups = dao.getAllLogGroups()
     }
 
-    private fun addGroup(gpId:Int,name:String,hint:String?){
-        groups.add(
-            LogGroupItem(
+    private fun packageGroup(name:String,hint:String?,gpId:Int = 0) : LogGroupItem{
+        return LogGroupItem(
                 gpId = gpId,
                 gpName = name,
                 createTime = System.currentTimeMillis(),
-                lastModified = null,
+                lastModified = -1L,
                 coverUri = null,
                 hint = hint,
+                coverType = LogGroupItem.RES_COVER,
+                coverRes = R.drawable.icon_main
             )
-        )
     }
-
 
 }

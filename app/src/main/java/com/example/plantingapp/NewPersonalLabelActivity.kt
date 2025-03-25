@@ -16,7 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.example.plantingapp.dao.LabelDAO
 import com.example.plantingapp.item.LabelItem
-import com.example.plantingapp.item.LabelItemConverter
+import com.example.plantingapp.utils.LabelItemConverter
 
 class NewPersonalLabelActivity : AppCompatActivity() {
 

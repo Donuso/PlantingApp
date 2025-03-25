@@ -13,7 +13,7 @@ data class LabelItem(
     var valData:Double? = null,
     var valUnit:String? = null,
     var hint:String? = null,
-    val isCustom: Boolean,
+    var isCustom: Boolean,
     var status:Int = MODE_DISPLAY
 )
 {
@@ -21,8 +21,8 @@ data class LabelItem(
         val MODE_DISPLAY = 0
         val MODE_DEL = 1
 
-        val TYPE_DATA = 1
-        val TYPE_STATUS = 2
+        val TYPE_DATA = 2
+        val TYPE_STATUS = 1
 
         val STATUS_1 = 1 //好
         val STATUS_2 = 2 //较好
@@ -33,26 +33,4 @@ data class LabelItem(
     }
 }
 
-object LabelItemConverter {
 
-    private val gson = Gson()
-
-    // 将 MutableList<LabelItem> 转换为 JSON 字符串
-    fun listToJson(labelItems: MutableList<LabelItem>): String {
-        return gson.toJson(labelItems)
-    }
-
-    fun labelToJson(l: LabelItem): String {
-        return gson.toJson(l)
-    }
-
-    // 将 JSON 字符串 转换为 MutableList<LabelItem>
-    fun jsonToList(json: String): MutableList<LabelItem> {
-        val listType = object : TypeToken<MutableList<LabelItem>>() {}.type
-        return gson.fromJson(json, listType)
-    }
-
-    fun jsonToLabel(str: String): LabelItem {
-        return gson.fromJson(str, LabelItem::class.java)
-    }
-}

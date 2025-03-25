@@ -3,7 +3,7 @@ package com.example.plantingapp.item
 import com.example.plantingapp.R
 
 data class LogGroupItem(
-    val gpId:Int,
+    var gpId:Int,
     var gpName:String,
     val createTime:Long,
     var lastModified:Long?,

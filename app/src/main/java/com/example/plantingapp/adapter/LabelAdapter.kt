@@ -18,7 +18,7 @@ import com.google.android.material.card.MaterialCardView
 class LabelAdapter(
     var labelList: MutableList<LabelItem>,
     private val context: Context,
-    private val itemCallback: (LabelItem) -> Unit)
+    private val itemCallback: (LabelItem,Int) -> Unit)
 : RecyclerView.Adapter<LabelAdapter.LabelViewHolder>()
 {
     inner class LabelViewHolder(v: View): RecyclerView.ViewHolder(v){
@@ -45,10 +45,10 @@ class LabelAdapter(
         v.icon.setImageResource(d.tagIcon)
         v.name.text = d.tagName
         v.delLayer.setOnClickListener{
+            itemCallback(d,LabelItem.MODE_DEL)
             labelList.removeAt(pos)
             notifyItemRemoved(pos)
             notifyItemRangeChanged(0,labelList.size)
-            // 数据库操作预留位
         }
         v.actionLayer.setOnClickListener{
             when(d.tagType){
@@ -219,11 +219,13 @@ class LabelAdapter(
             }else if(extraInput.text.toString().length > 15){
                 Toast.makeText(context,"额外描述超出字数限制",Toast.LENGTH_SHORT).show()
             }else{
-                itemCallback(d.apply {
+                itemCallback(
+                    d.apply {
+                    tagType = LabelItem.TYPE_STATUS
                     if(extraInput.text.isNotEmpty()){
                         this.hint = extraInput.text.toString()
                     }
-                })
+                },LabelItem.MODE_DISPLAY)
                 dialog.dismiss()
             }
         }
@@ -267,7 +269,9 @@ class LabelAdapter(
                             d.hint = hint.text.toString()
                         }
                         d.valData = inputValue // 正确赋值给 d.valData
-                        itemCallback(d)
+                        itemCallback(d.apply {
+                            tagType = LabelItem.TYPE_DATA
+                        },LabelItem.MODE_DISPLAY)
                         dialog.dismiss()
                     }
                 } catch (e: NumberFormatException) {

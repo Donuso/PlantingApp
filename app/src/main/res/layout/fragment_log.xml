@@ -116,6 +116,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/log_group_list"
+                        android:paddingBottom="90dp"
                         />
 
             </ScrollView>

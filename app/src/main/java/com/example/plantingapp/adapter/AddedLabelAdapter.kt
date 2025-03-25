@@ -14,7 +14,8 @@ import com.example.plantingapp.item.LabelItem
 
 class AddedLabelAdapter(
     var labelList: MutableList<LabelItem>,
-    private val context:Context
+    private val context:Context,
+    private val itemCallback: (LabelItem) -> Unit
 ) : RecyclerView.Adapter<AddedLabelAdapter.LabelViewHolder>() {
 
     inner class LabelViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -74,11 +75,10 @@ class AddedLabelAdapter(
         }
 
         h.deleteButton.setOnClickListener {
-            // 处理删除按钮点击事件，例如从列表中移除项
+            itemCallback(d)
             labelList.removeAt(position)
             notifyItemRemoved(position)
             notifyItemRangeChanged(0,labelList.size)
-            //DB
         }
     }
 
