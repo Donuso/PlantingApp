@@ -29,7 +29,6 @@
             android:paddingEnd="0dp"
             android:paddingBottom="40dp"
             android:id="@+id/delete_pic_icon"
-            android:focusable="false"
             android:visibility="gone"
             />
 

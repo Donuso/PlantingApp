@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="ef_colorPrimary" tools:override="true">#016F34</color>
+    <color name="ef_colorPrimaryDark" tools:override="true">#016F34</color>
+    <color name="colorPrimary">#A8D49C</color>
+    <color name="colorPrimaryDark">#016F34</color>
+    <color name="colorAccent">#4095E5</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
@@ -34,9 +36,9 @@
     <color name="white0.6_zhj">#99FFFFFF</color>
     <color name="white0.5_zhj">#80FFFFFF</color>
     <color name="yellow_zhj">#fffdba</color>
-    <color name="colorPrimary">#FF4081</color>
-    <color name="colorAccent">#FF4081</color>
     <color name="ripple_green_wzc">#44016f34</color>
     <color name="grey_title_chl">#6c6c6c</color>
     <color name="grey_line_chl">#cecece</color>
+
+
 </resources>

@@ -9,7 +9,7 @@
     <string name="log_group_delete">点击以删除日志组</string>
     <string name="cancel_wzc">取消</string>
     <string name="alter_info_wzc">修改信息</string>
-    <string name="hint_name_wzc">名称｜不超过15个字</string>
+    <string name="hint_name_wzc">名称｜不超过10个字</string>
     <string name="hint_name_input_wzc">点击此处填写</string>
     <string name="hint_note_wzc">备注｜不超过15个字</string>
     <string name="hint_note_input_wzc">点击此处填写（可不填写）</string>
@@ -42,7 +42,7 @@
     <string name="title_new_diy_label_wzc">新增自定义标签</string>
     <string name="diy_label_type_status_wzc">状态标签</string>
     <string name="diy_label_type_data_wzc">数值记录标签</string>
-    <string name="new_label_name_subtitle_wzc">标签名称｜不超过8个字</string>
+    <string name="new_label_name_subtitle_wzc">标签名称｜不超过8个字符</string>
     <string name="new_diy_label_name_wzc">请输入名称</string>
     <string name="new_diy_label_unit_wzc">请输入单位名称</string>
     <string name="new_label_unit_subtitle_wzc">单位名称｜最多10个字符</string>
@@ -127,4 +127,6 @@
     <string name="log_out">登出</string>
     <string name="log_out_hint_wzc">您正在尝试登出，请问您是否确认？</string>
     <string name="log_out_no_auto_login_hint_wzc">登出后，将会自动关闭“自动登录”功能</string>
+    <string name="no_recently_used_label">暂无最近使用的标签</string>
+    <string name="record_temp_wzc">点击此处记录温度</string>
 </resources>
