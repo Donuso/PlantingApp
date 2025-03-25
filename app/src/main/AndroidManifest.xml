@@ -64,11 +64,13 @@
 
         <activity
             android:name=".RegisterActivity"
-            android:exported="true"></activity>
+            android:exported="true"
+            android:launchMode="singleTask">
+        </activity>
         <activity
             android:name=".LoginActivity"
-            android:exported="true">
-
+            android:exported="true"
+            android:launchMode="singleTask">
         </activity>
         <activity
             android:name=".SplashActivity"
@@ -79,7 +81,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LogSearchActivity"
+            android:name=".SearchActivity"
             android:exported="true"></activity>
         <activity
             android:name=".AllToDoActivity"
@@ -87,9 +89,6 @@
         <activity
             android:name=".NewTodoActivity"
             android:exported="true"></activity>
-            android:exported="true" >
-
-        </activity>
         <activity
             android:name=".MainSwitchActivity"
             android:exported="true"></activity>

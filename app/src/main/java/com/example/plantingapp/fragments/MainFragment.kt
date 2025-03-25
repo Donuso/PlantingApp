@@ -18,9 +18,13 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.plantingapp.Constants
+import com.example.plantingapp.LogActivity
+import com.example.plantingapp.SearchActivity
+import com.example.plantingapp.Utils
 import com.example.plantingapp.animators.FadeAnimator
 import com.example.plantingapp.item.DataExchange
 import com.tencent.map.geolocation.TencentLocation
@@ -53,11 +57,19 @@ class MainFragment : Fragment() {
     private lateinit var AttentionCardView: CardView
     private lateinit var Attention: TextView
     private lateinit var layerAnimator: FadeAnimator
+    private lateinit var PlantPhoto: ImageView
+    private lateinit var PlantName: TextView
+    private lateinit var PlantDay: TextView
+    private lateinit var DetailButtom: ImageView
+    private lateinit var Nothing: CardView
+    private lateinit var Something: ConstraintLayout
+    private lateinit var SearchButton: View
 
     //SharedPreferences文件
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var sp: SharedPreferences
     private val preferenceFileName = "weather_info"
+    private val userPreferenceFileName = "${DataExchange.USERID}_prefs"
     private var isFirstLoad = true
 
 
@@ -86,7 +98,19 @@ class MainFragment : Fragment() {
         Attention = view.findViewById(R.id.attention)
         WeatherPhoto = view.findViewById(R.id.weatherPhoto)
         NextClimateTextView = view.findViewById(R.id.nextClimate)
+        PlantPhoto = view.findViewById(R.id.plantPhoto)
+        PlantName = view.findViewById(R.id.plantName)
+        PlantDay = view.findViewById(R.id.group_days)
+        DetailButtom = view.findViewById(R.id.group_enter_button)
+        Nothing = view.findViewById(R.id.Nothing)
+        Something = view.findViewById(R.id.Something)
         layerAnimator = FadeAnimator(LoadingCardView).setDuration(200)
+        SearchButton = view.findViewById(R.id.search_touch_area)
+
+        SearchButton.setOnClickListener {
+            val intent = Intent(requireContext(), SearchActivity::class.java)
+            startActivity(intent)
+        }
 
 
         // 初始化定位SDK，但是被移动到onResume方法中
@@ -435,8 +459,38 @@ class MainFragment : Fragment() {
                 Attention.text = alarmTitle
             }
         }
+        val user_prefs = requireActivity().getSharedPreferences(userPreferenceFileName, Context.MODE_PRIVATE)
+        // 绑定日志组信息
+        val groupId = user_prefs.getInt("group_id", -1)
+        val groupName = user_prefs.getString("group_name", "未命名日志组")
+        val groupCreatedTime = user_prefs.getLong("group_created_time", 0L)
+
+
+        Log.i("groupId",groupId.toString())
+        Log.i("groupName",groupName.toString())
+        Log.i("groupCreatedTime",groupCreatedTime.toString())
+
+
+        if (groupId != -1){
+            if (groupName != "未命名日志组" && groupCreatedTime != 0L){
+                PlantName.text = groupName
+                PlantDay.text = "已种植${Utils.daysBetweenNowAndTimestamp(groupCreatedTime)}天"
+                PlantPhoto.setImageResource(R.drawable.icon_main)
+                DetailButtom.setOnClickListener {
+                    val intent = Intent(requireContext(), LogActivity::class.java)
+                    intent.putExtra("log_group_id", groupId) // 传递第一个参数
+                    intent.putExtra("log_group_name", groupName)     // 传递第二个参数
+                    startActivity(intent)
+                }
+            }
+            else{
+                Something.setVisibility(View.GONE)
+                Nothing.setVisibility(View.VISIBLE)
+            }
+        }
+        else{
+            Something.setVisibility(View.GONE)
+            Nothing.setVisibility(View.VISIBLE)
+        }
     }
-
-
-
 }

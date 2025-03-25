@@ -17,7 +17,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.plantingapp.LogSearchActivity
+import com.example.plantingapp.SearchActivity
 import com.example.plantingapp.R
 import com.example.plantingapp.adapter.LogGroupAdapter
 import com.example.plantingapp.animators.ExpandAnimator
@@ -25,7 +25,6 @@ import com.example.plantingapp.animators.FadeAnimator
 import com.example.plantingapp.dao.LogGroupDAO
 import com.example.plantingapp.item.LogGroupItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import org.w3c.dom.Text
 
 /*
 * 此fragment对应“日志”的入口
@@ -255,7 +254,7 @@ class LogFragment : Fragment() {
 
         search.setOnClickListener{
             requireContext().startActivity(
-                Intent(activity,LogSearchActivity::class.java)
+                Intent(activity,SearchActivity::class.java)
             )
         }
     }

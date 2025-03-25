@@ -63,7 +63,6 @@ class RegisterActivity : BaseActivity() {
             performRegistration()
         }
         toLogin.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
     }
