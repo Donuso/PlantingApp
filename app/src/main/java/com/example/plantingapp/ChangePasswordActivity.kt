@@ -9,6 +9,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.plantingapp.item.DataExchange
 
 class ChangePasswordActivity : AppCompatActivity() {
 
@@ -118,7 +119,7 @@ class ChangePasswordActivity : AppCompatActivity() {
 
     private fun updatePassword(newPassword: String): Boolean {
         val db = dbHelper.writableDatabase
-        val sql = "UPDATE user SET password = ? WHERE userId = '1'"
+        val sql = "UPDATE user SET password = ? WHERE userId = ${DataExchange.USERID}"
         return try {
             db.execSQL(sql, arrayOf(newPassword))
             true

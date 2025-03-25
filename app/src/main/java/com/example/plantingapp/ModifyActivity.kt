@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import java.io.File
+import com.example.plantingapp.item.DataExchange
 
 class ModifyActivity : AppCompatActivity() {
 
@@ -71,7 +72,7 @@ class ModifyActivity : AppCompatActivity() {
                 // 直接使用固定的 userId = 1 更新数据库中的昵称
                 val dbHelper = DBHelper(this)
                 val db = dbHelper.writableDatabase
-                val updateQuery = "UPDATE user SET username =? WHERE userId = 1"
+                val updateQuery = "UPDATE user SET username =? WHERE userId = ${DataExchange.USERID}"
                 db.execSQL(updateQuery, arrayOf(newNickname))
                 db.close()
 
@@ -214,7 +215,7 @@ class ModifyActivity : AppCompatActivity() {
         val dbHelper = DBHelper(this)
         val db = dbHelper.writableDatabase
         // 直接使用固定的 userId = 1 更新数据库中的头像
-        val updateQuery = "UPDATE user SET user_avatar =? WHERE userId = 1"
+        val updateQuery = "UPDATE user SET user_avatar =? WHERE userId = ${DataExchange.USERID}"
         db.execSQL(updateQuery, arrayOf(uri.toString()))
         db.close()
     }
@@ -224,7 +225,7 @@ class ModifyActivity : AppCompatActivity() {
         val db = dbHelper.writableDatabase
         val imageUri = saveBitmapToInternalStorage(bitmap)
         // 直接使用固定的 userId = 1 更新数据库中的头像
-        val updateQuery = "UPDATE user SET user_avatar =? WHERE userId = 1"
+        val updateQuery = "UPDATE user SET user_avatar =? WHERE userId = ${DataExchange.USERID}"
         db.execSQL(updateQuery, arrayOf(imageUri.toString()))
         db.close()
     }

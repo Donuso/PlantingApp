@@ -27,11 +27,13 @@ import com.example.plantingapp.ChangePasswordActivity
 import java.io.File
 import android.app.Activity
 import android.content.Intent
-import com.example.plantingapp.DataExchange
+import com.davemorrissey.labs.subscaleview.ImageSource
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+import com.example.plantingapp.item.DataExchange
 
 class MeFragment : Fragment() {
 
-    private lateinit var userAvatar: ImageView
+    private lateinit var userAvatar: SubsamplingScaleImageView
     private lateinit var userNickname: TextView
 
     private val modifyActivityLauncher = registerForActivityResult(
@@ -95,7 +97,7 @@ class MeFragment : Fragment() {
         val db = dbHelper.readableDatabase
         val projection = arrayOf("user_avatar")
         val selection = "userId =?"
-        val selectionArgs = arrayOf("1")
+        val selectionArgs = arrayOf(DataExchange.USERID)
         val cursor: Cursor = db.query(
             "user",
             projection,
@@ -127,7 +129,7 @@ class MeFragment : Fragment() {
         val db = dbHelper.readableDatabase
         val projection = arrayOf("user_avatar")
         val selection = "userId =?"
-        val selectionArgs = arrayOf("1")
+        val selectionArgs = arrayOf(DataExchange.USERID)
         val cursor: Cursor = db.query(
             "user",
             projection,
@@ -158,7 +160,7 @@ class MeFragment : Fragment() {
         val db = dbHelper.readableDatabase
         val projection = arrayOf("username")
         val selection = "userId =?"
-        val selectionArgs = arrayOf("1")
+        val selectionArgs = arrayOf(DataExchange.USERID)
         val cursor: Cursor = db.query(
             "user",
             projection,
@@ -185,14 +187,13 @@ class MeFragment : Fragment() {
 
     private fun setAvatarImage(uri: Uri) {
         try {
-            val bitmap = BitmapFactory.decodeStream(requireContext().contentResolver.openInputStream(uri))
-            userAvatar.setImageBitmap(bitmap)
+            userAvatar.setImage(ImageSource.uri(uri))
         } catch (e: Exception) {
             Log.e("MeFragment", "Error setting avatar image: ${e.message}", e)
             val file = File(requireContext().filesDir, "avatar.jpg")
             if (file.exists()) {
                 val bitmap = BitmapFactory.decodeFile(file.path)
-                userAvatar.setImageBitmap(bitmap)
+                userAvatar.setImage(ImageSource.bitmap(bitmap))
             }
         }
     }
