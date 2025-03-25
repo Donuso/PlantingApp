@@ -6,22 +6,13 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <!-- 移除重复声明的 WRITE_EXTERNAL_STORAGE 权限，因为已经在后续逻辑中处理存储权限 -->
-    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
-    <!-- 对于 Android 12L 及以下，保留此声明并设置 maxSdkVersion -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
-    <!-- 对于 Android 13 及以上，声明新的媒体权限 -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"
         tools:targetApi="33" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"
         tools:targetApi="33" />
-    <!-- 对于 Android 14 及以上，声明新的选择性媒体权限 -->
     <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED"
         tools:targetApi="34" />
-
-    <!-- 声明外部存储读写特性 -->
     <uses-feature android:name="android.hardware.storage.external" android:required="true" />
-    <!-- 可选的额外声明，表示应用可能使用外部存储设备 -->
     <uses-feature android:name="android.hardware.storage" android:required="false" />
 
     <application

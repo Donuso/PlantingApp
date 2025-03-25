@@ -112,6 +112,7 @@ class LogActivity : AppCompatActivity() {
             val selectedDate = result.data?.getStringExtra("selected_date")
             if (!selectedDate.isNullOrEmpty()) {
                 chosenTime = selectedDate
+                temp = null
                 reLoadingLog()
                 Toast.makeText(this,"已加载这一天的日志",Toast.LENGTH_SHORT).show()
             }else{
@@ -377,6 +378,9 @@ class LogActivity : AppCompatActivity() {
                     config = ImagePickerConfig {
                     isShowCamera = false
                     arrowColor = R.color.themeDarkGreen
+                    language = "zh-rCN"
+                    imageTitle = "选择一张或多张图片"
+                    doneButtonText = "完成"
                     }
                 )
         }

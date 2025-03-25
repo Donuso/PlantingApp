@@ -69,7 +69,7 @@
     <string name="input_new_password_hint_2_yzr">在此再次输入新密码</string>
     <string name="alter_personal_info_title_yzr">修改个人信息</string>
     <string name="alter_avatar_title_yzr">头像｜点击修改</string>
-    <string name="alter_name_title_yzr">昵称｜点击修改</string>
+    <string name="alter_name_title_yzr">昵称｜点击修改｜不少于5个字</string>
     <string name="alter_name_hint_yzr">在这里填写你的昵称</string>
     <string name="RelatedLog_zhj">相关日志</string>
     <string name="RelatedAgency_zhj">相关代办</string>

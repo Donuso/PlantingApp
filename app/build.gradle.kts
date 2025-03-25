@@ -60,5 +60,5 @@ dependencies {
     implementation ("com.google.code.gson:gson:2.10.1")
     implementation ("com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0")
     implementation ("com.github.esafirm:android-image-picker:3.0.0")
-    implementation("com.github.bumptech.glide:glide:3.7.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 }

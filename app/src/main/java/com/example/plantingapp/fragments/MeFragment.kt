@@ -27,23 +27,25 @@ import com.example.plantingapp.ChangePasswordActivity
 import java.io.File
 import android.app.Activity
 import android.content.Intent
+import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+import com.example.plantingapp.dao.UserDAO
 import com.example.plantingapp.item.DataExchange
 
 class MeFragment : Fragment() {
 
-    private lateinit var userAvatar: SubsamplingScaleImageView
+    private lateinit var userAvatar: ImageView
     private lateinit var userNickname: TextView
+    private lateinit var userAlterEntry: TextView
+    private lateinit var settingsEntry:TextView
+    private lateinit var userPasswordAlter:TextView
+    private lateinit var dao:UserDAO
+    private lateinit var noAvatar:ImageView
+    private lateinit var record1:TextView
+    private lateinit var record2:TextView
 
-    private val modifyActivityLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            // 当 ModifyActivity 返回 RESULT_OK 时，刷新头像显示
-            updateAvatar()
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,189 +57,75 @@ class MeFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_me, container, false)
 
-        // 找到用户头像的 ImageView
         userAvatar = view.findViewById(R.id.user_avatar)
+//        userAvatar.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_CROP)
+//        userAvatar.isZoomEnabled = false
+//        userAvatar.isPanEnabled = false
         userNickname = view.findViewById(R.id.user_nickname)
+        userPasswordAlter = view.findViewById(R.id.change_password)
+        settingsEntry = view.findViewById(R.id.settings)
+        userAlterEntry = view.findViewById(R.id.user_nickname_hint)
+        noAvatar = view.findViewById(R.id.no_avatar)
+        record1 = view.findViewById(R.id.record_count1)
+        record2 = view.findViewById(R.id.todo_count1)
+        dao = UserDAO(requireContext())
 
-        val changePasswordCardView = view.findViewById<TextView>(R.id.change_password)
-        changePasswordCardView.setOnClickListener {
-            // 处理修改密码的逻辑，比如跳转到修改密码页面
-            val intent = Intent(requireContext(), ChangePasswordActivity::class.java)
-            startActivity(intent)
-        }
-
-        val settingsView = view.findViewById<TextView>(R.id.settings)
-        settingsView.setOnClickListener {
-            // 处理设置的逻辑，比如跳转到设置页面
-        }
-
-        val userNicknameHint = view.findViewById<TextView>(R.id.user_nickname_hint)
-        userNicknameHint.setOnClickListener {
-            val intent = Intent(requireContext(), ModifyActivity::class.java)
-            modifyActivityLauncher.launch(intent)
-        }
-
-        // 添加头像点击事件处理
-        userAvatar.setOnClickListener {
-            val avatarUri = getAvatarUri()
-            if (avatarUri != null) {
-                showEnlargedAvatarDialog(avatarUri)
-            }
-        }
-
-        // 获取数据库实例并查询用户名和头像
-        updateAvatar()
-        updateNickname()
+        addOnListeners()
 
         return view
     }
 
-    private fun getAvatarUri(): Uri? {
-        val dbHelper = DBHelper(requireContext())
-        val db = dbHelper.readableDatabase
-        val projection = arrayOf("user_avatar")
-        val selection = "userId =?"
-        val selectionArgs = arrayOf(DataExchange.USERID)
-        val cursor: Cursor = db.query(
-            "user",
-            projection,
-            selection,
-            selectionArgs,
-            null,
-            null,
-            null
-        )
-
-        var avatarUri: Uri? = null
-        if (cursor.moveToFirst()) {
-            val avatarColumnIndex = cursor.getColumnIndex("user_avatar")
-            if (avatarColumnIndex != -1) {
-                val avatarPath = cursor.getString(avatarColumnIndex)
-                if (avatarPath != null) {
-                    avatarUri = Uri.parse(avatarPath)
-                }
-            }
-        }
-
-        cursor.close()
-        db.close()
-        return avatarUri
-    }
-
-    private fun updateAvatar() {
-        val dbHelper = DBHelper(requireContext())
-        val db = dbHelper.readableDatabase
-        val projection = arrayOf("user_avatar")
-        val selection = "userId =?"
-        val selectionArgs = arrayOf(DataExchange.USERID)
-        val cursor: Cursor = db.query(
-            "user",
-            projection,
-            selection,
-            selectionArgs,
-            null,
-            null,
-            null
-        )
-
-        if (cursor.moveToFirst()) {
-            val avatarColumnIndex = cursor.getColumnIndex("user_avatar")
-            if (avatarColumnIndex != -1) {
-                val avatarUri = cursor.getString(avatarColumnIndex)
-                Log.d("MeFragment", "Retrieved avatar URI: $avatarUri")
-                if (avatarUri != null) {
-                    setAvatarImage(Uri.parse(avatarUri))
-                }
-            }
-        }
-
-        cursor.close()
-        db.close()
-    }
-
-    private fun updateNickname() {
-        val dbHelper = DBHelper(requireContext())
-        val db = dbHelper.readableDatabase
-        val projection = arrayOf("username")
-        val selection = "userId =?"
-        val selectionArgs = arrayOf(DataExchange.USERID)
-        val cursor: Cursor = db.query(
-            "user",
-            projection,
-            selection,
-            selectionArgs,
-            null,
-            null,
-            null
-        )
-
-        if (cursor.moveToFirst()) {
-            val usernameColumnIndex = cursor.getColumnIndex("username")
-            if (usernameColumnIndex != -1) {
-                val username = cursor.getString(usernameColumnIndex)
-                userNickname.text = username
-            } else {
-                userNickname.text = "默认昵称"
-            }
-        }
-
-        cursor.close()
-        db.close()
-    }
-
-    private fun setAvatarImage(uri: Uri) {
-        try {
-            userAvatar.setImage(ImageSource.uri(uri))
-        } catch (e: Exception) {
-            Log.e("MeFragment", "Error setting avatar image: ${e.message}", e)
-            val file = File(requireContext().filesDir, "avatar.jpg")
-            if (file.exists()) {
-                val bitmap = BitmapFactory.decodeFile(file.path)
-                userAvatar.setImage(ImageSource.bitmap(bitmap))
-            }
-        }
-    }
-
-    private fun showEnlargedAvatarDialog(uri: Uri) {
-        val dialog = Dialog(requireContext())
-        dialog.setContentView(R.layout.dialog_enlarge_avatar)
-        val enlargedImageView = dialog.findViewById<ImageView>(R.id.full_screen_image)
-
-        try {
-            val bitmap = BitmapFactory.decodeStream(requireContext().contentResolver.openInputStream(uri))
-            enlargedImageView.setImageBitmap(bitmap)
-        } catch (e: Exception) {
-            Log.e("MeFragment", "Error loading enlarged avatar: ${e.message}", e)
-        }
-
-        // 获取设备屏幕尺寸
-        val displayMetrics = DisplayMetrics()
-        requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
-        val screenWidth = displayMetrics.widthPixels
-        val screenHeight = displayMetrics.heightPixels
-        val minScreenSize = Math.min(screenWidth, screenHeight)
-
-        // 设置头像的大小为设备最短边的长度
-        val layoutParams = enlargedImageView.layoutParams
-        layoutParams.width = minScreenSize
-        layoutParams.height = minScreenSize
-        enlargedImageView.layoutParams = layoutParams
-
-        enlargedImageView.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        dialog.setOnDismissListener {
-            // 对话框关闭时的处理逻辑（如果有）
-        }
-
-        dialog.show()
-    }
-
     override fun onResume() {
         super.onResume()
-        // 在页面恢复时重新查询数据库，以显示更新后的昵称和头像
-        updateAvatar()
-        updateNickname()
+        loadUsr()
+        loadExtra()
     }
+
+    private fun loadUsr(){
+        val usr = dao.getUserByIdYZR(DataExchange.USERID!!.toInt())
+        if(usr!=null){
+            userNickname.text = usr.username
+            if(usr.userAvatar == null){
+                noAvatar.visibility = View.VISIBLE
+                userAvatar.visibility = View.GONE
+            }else{
+                noAvatar.visibility = View.GONE
+                userAvatar.visibility = View.VISIBLE
+                Glide.with(requireContext()).load(Uri.parse(usr.userAvatar)).into(userAvatar)
+//                userAvatar.setImage(ImageSource.uri(Uri.parse(usr.userAvatar)))
+            }
+        }else{
+            Toast.makeText(requireContext(),"用户信息加载失败",Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun addOnListeners(){
+        userAlterEntry.setOnClickListener {
+            startActivity(
+                Intent(requireContext(),ModifyActivity::class.java)
+            )
+        }
+        settingsEntry.setOnClickListener {
+            // 预留
+        }
+        userPasswordAlter.setOnClickListener {
+            startActivity(
+                Intent(requireContext(),ChangePasswordActivity::class.java)
+            )
+        }
+    }
+
+    private fun loadExtra(){
+        val sp = requireContext().getSharedPreferences(
+            "${DataExchange.USERID}_prefs",Context.MODE_PRIVATE)
+        var count1 = 0
+        var count2 = 0
+        with(sp){
+            count1 = getInt("logs_recorded_count",0)
+            count2 = getInt("todo_finished_count",0)
+        }
+        record1.text = "$count1"
+        record2.text = "$count2"
+    }
+
 }

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.plantingapp.LogActivity
 import com.example.plantingapp.R
 import com.example.plantingapp.Utils
+import com.example.plantingapp.dao.LogDAO
 import com.example.plantingapp.dao.LogGroupDAO
 import com.example.plantingapp.item.DataExchange
 import com.example.plantingapp.item.LogGroupItem
@@ -58,6 +59,7 @@ class LogGroupAdapter(
                         putString("group_name",d.gpName)
                         apply()
                     }
+                    LogDAO(context).updateLastModified(d.gpId)
                     groupEnterButton.setImageResource(R.drawable.icon_activator_wzc)
                     groupEnterButton.setOnClickListener {
                         context.startActivity(
@@ -98,7 +100,12 @@ class LogGroupAdapter(
                 if(d.lastModified == -1L || d.lastModified == null){
                     v.groupLastModifiedTime.text = "最近未查看"
                 }else{
-                    v.groupLastModifiedTime.text = "${Utils.daysBetweenNowAndTimestamp(d.lastModified!!)}天前查看"
+                    val days = Utils.daysBetweenNowAndTimestamp(d.lastModified!!)
+                    if(days == 0L){
+                        v.groupLastModifiedTime.text = "今日内查看"
+                    }else{
+                        v.groupLastModifiedTime.text = "${days}天前查看"
+                    }
                 }
                 when(d.coverType){
                     LogGroupItem.RES_COVER -> {

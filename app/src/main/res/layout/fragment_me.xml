@@ -21,11 +21,24 @@
         app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/avatar">
 
-        <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+        <ImageView
             android:id="@+id/user_avatar"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:scaleType="centerCrop"
+            android:visibility="gone"
+            />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="fitCenter"
+            android:id="@+id/no_avatar"
+            android:src="@drawable/icon_main"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:paddingBottom="30dp"
+            android:paddingTop="40dp"
             />
 
     </androidx.cardview.widget.CardView>
@@ -59,7 +72,8 @@
                 android:textSize="22sp"
                 android:textStyle="bold"
                 android:gravity="start|bottom"
-                android:maxLines="1"/>
+                android:maxLines="1"
+                android:ellipsize="end"/>
 
             <TextView
                 android:id="@+id/user_nickname_hint"
@@ -69,7 +83,7 @@
                 android:paddingEnd="0dp"
                 android:text="@string/edit_personal_info_yzr"
                 android:textColor="#9a9a9a"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
@@ -95,8 +109,8 @@
 
                 <ImageView
                     android:id="@+id/record_icon"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:paddingTop="3dp"
                     android:paddingBottom="3dp"
                     android:paddingStart="5dp"
@@ -170,8 +184,8 @@
 
             <ImageView
                 android:id="@+id/todo_icon"
-                android:layout_width="125dp"
-                android:layout_height="115dp"
+                android:layout_width="115dp"
+                android:layout_height="105dp"
                 android:paddingEnd="10dp"
                 android:paddingStart="5dp"
                 android:paddingBottom="5dp"
@@ -226,15 +240,25 @@
 
     </androidx.cardview.widget.CardView>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white0.5_zhj"
+        app:layout_constraintTop_toBottomOf="@id/todo_module"
+        android:id="@+id/dividing_line_4"
+        android:layout_marginTop="22dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"/>
+
     <!-- 修改密码按钮 -->
     <androidx.cardview.widget.CardView
         android:id="@+id/change_password_card_view"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="43dp"
         app:cardCornerRadius="25dp"
         app:cardElevation="0dp"
         android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/log_counts">
+        app:layout_constraintTop_toBottomOf="@id/dividing_line_4">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -269,7 +293,7 @@
     <!-- 设置按钮 -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="43dp"
         app:cardCornerRadius="25dp"
         app:cardElevation="0dp"
         android:layout_marginTop="20dp"
