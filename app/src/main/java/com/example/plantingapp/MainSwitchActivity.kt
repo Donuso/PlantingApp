@@ -13,7 +13,6 @@ import com.example.plantingapp.fragments.MainFragment
 import com.example.plantingapp.fragments.MeFragment
 import com.example.plantingapp.fragments.TodoFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.example.plantingapp.fragments.WeatherFragment
 
 /*
 * 这是fragment的框架显示页
