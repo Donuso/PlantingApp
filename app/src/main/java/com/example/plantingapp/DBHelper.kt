@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper
 class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object {
         private const val DATABASE_NAME = "main.db"
-        private const val DATABASE_VERSION = 1
+        private const val DATABASE_VERSION = 2
 
         private val createLogGroup: String = """
             CREATE TABLE logGroup (
@@ -138,6 +138,10 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+        if (oldVersion < 2) {
+            // 添加 createdTime 列到旧表
+            db.execSQL("ALTER TABLE logGroup ADD COLUMN createdTime INTEGER NOT NULL DEFAULT 0")
+        }
         db.execSQL(dropLogPics)
         db.execSQL(dropLogTags)
         db.execSQL(dropCustomTag)

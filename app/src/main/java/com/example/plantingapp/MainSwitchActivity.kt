@@ -1,23 +1,12 @@
 package com.example.plantingapp
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.activity.enableEdgeToEdge
-import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.plantingapp.fragments.AsapiFragment
 import com.example.plantingapp.fragments.LogFragment
 import com.example.plantingapp.fragments.MainFragment
 import com.example.plantingapp.fragments.MeFragment
-import com.example.plantingapp.fragments.TengapiFragment
 import com.example.plantingapp.fragments.TodoFragment
-import com.example.plantingapp.fragments.WeatherFragment
-import com.example.plantingapp.fragments.YuanFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlin.concurrent.thread
 
 /*
 * 这是fragment的框架显示页
