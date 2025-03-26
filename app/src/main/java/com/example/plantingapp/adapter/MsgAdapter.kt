@@ -72,4 +72,11 @@ class MsgAdapter(val msgItemList:List<MsgItem>):RecyclerView.Adapter<RecyclerVie
         msgItemList[pos].content = content
         notifyItemChanged(pos)
     }
+    fun updateReceivedMessage(position: Int, newContent: String) {
+        if (position < msgItemList.size) {
+            val msgItem = msgItemList[position]
+            msgItem.content = newContent
+            notifyItemChanged(position)
+        }
+    }
 }

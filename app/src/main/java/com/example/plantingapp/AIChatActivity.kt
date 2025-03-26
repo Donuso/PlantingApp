@@ -1,6 +1,7 @@
 package com.example.plantingapp
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -17,12 +18,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONException
 import org.json.JSONObject
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 class AIChatActivity : AppCompatActivity(), View.OnClickListener {
@@ -73,51 +74,85 @@ class AIChatActivity : AppCompatActivity(), View.OnClickListener {
     private fun sendMessageToAI(message: String) {
         addMsg(
             MsgItem(
-                "",MsgItem.TYPE_RECEIVED,MsgItem.STATUS_START_LOADING
+                "", MsgItem.TYPE_RECEIVED, MsgItem.STATUS_START_LOADING
             )
         )
         val pos = msgItemList.size - 1
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val json = """{"model": "qwen2.5:3b", "prompt": "$message", "stream": false}"""
-//                val json = """{"model": "llama 3.2", "prompt": "$message", "stream": false}"""
+                // 使用正确的模型名称，设置 stream 为 true
+                val json = """{"model": "llama3.2", "prompt": "$message", "stream": true}"""
 
                 val body = json.toRequestBody(mediaType)
                 val request = Request.Builder()
-//                    .url("http://10.0.2.2:11434/api/generate") // 替换为实际的 Ollama 服务器 URL
-                    .url("http://10.225.91.100:11434/api/generate") // @wuzichen's API
+                    .url("http://10.0.2.2:11434/api/generate") // 替换为实际的 Ollama 服务器 URL
+//                  .url("http://172.20.10.4:11434/api/generate") // @wuzichen's API
                     .post(body)
                     .build()
 
-                val response = client.newCall(request).execute()
-                val responseBody = response.body?.string()
-
-                // 打印响应状态码和内容
-                println("Response Code: ${response.code}")
-                println("Response Body: $responseBody")  // 打印响应内容
-
-                val aiResponse = responseBody?.let { parseAIResponse(it) }
-
-                withContext(Dispatchers.Main) {
-                    if (aiResponse != null) {
-                        recyclerView.scrollToPosition(pos)
-                        adapter?.stopAnimator(pos,MsgItem.STATUS_LOAD_SUCCESSFULLY,aiResponse)
-                    } else {
-                        // 如果 AI 回复为空，显示错误消息
-                        recyclerView.scrollToPosition(pos)
-                        adapter?.stopAnimator(pos,MsgItem.STATUS_LOAD_FAILED,"未知错误，对话加载失败")
+                client.newCall(request).enqueue(object : Callback {
+                    override fun onFailure(call: Call, e: IOException) {
+                        e.printStackTrace()
+                        CoroutineScope(Dispatchers.Main).launch {
+                            recyclerView.scrollToPosition(pos)
+                            adapter?.stopAnimator(pos, MsgItem.STATUS_LOAD_FAILED, "网络错误，对话加载失败")
+                        }
+                        this@AIChatActivity.runOnUiThread {
+                            backgroundSend.setCardBackgroundColor(ContextCompat.getColor(this@AIChatActivity, R.color.themeDarkGreen))
+                            send.isClickable = true
+                        }
                     }
-                }
+
+                    override fun onResponse(call: Call, response: Response) {
+                        try {
+                            val responseBody = response.body?.source()
+                            var buffer = ""
+                            responseBody?.use { source ->
+                                while (!source.exhausted()) {
+                                    val line = source.readUtf8Line()
+                                    if (line != null && line.isNotEmpty()) {
+                                        val jsonObject = JSONObject(line)
+                                        if (jsonObject.has("response")) {
+                                            val partialResponse = jsonObject.getString("response")
+                                            buffer += partialResponse
+                                            CoroutineScope(Dispatchers.Main).launch {
+                                                adapter?.updateReceivedMessage(pos, buffer)
+                                                recyclerView.scrollToPosition(pos)
+                                            }
+                                        }
+                                        if (jsonObject.has("done") && jsonObject.getBoolean("done")) {
+                                            CoroutineScope(Dispatchers.Main).launch {
+                                                recyclerView.scrollToPosition(pos)
+                                                adapter?.stopAnimator(pos, MsgItem.STATUS_LOAD_SUCCESSFULLY, buffer)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                            CoroutineScope(Dispatchers.Main).launch {
+                                recyclerView.scrollToPosition(pos)
+                                adapter?.stopAnimator(pos, MsgItem.STATUS_LOAD_FAILED, "解析 AI 响应时出错: ${e.message}")
+                            }
+                        } finally {
+                            this@AIChatActivity.runOnUiThread {
+                                backgroundSend.setCardBackgroundColor(ContextCompat.getColor(this@AIChatActivity, R.color.themeDarkGreen))
+                                send.isClickable = true
+                            }
+                        }
+                    }
+                })
             } catch (e: Exception) {
                 e.printStackTrace()
                 withContext(Dispatchers.Main) {
                     recyclerView.scrollToPosition(pos)
-                    adapter?.stopAnimator(pos,MsgItem.STATUS_LOAD_FAILED,"网络错误，对话加载失败")
+                    adapter?.stopAnimator(pos, MsgItem.STATUS_LOAD_FAILED, "网络错误，对话加载失败")
                 }
-            }
-            this@AIChatActivity.runOnUiThread{
-                backgroundSend.setCardBackgroundColor(ContextCompat.getColor(this@AIChatActivity,R.color.themeDarkGreen))
-                send.isClickable = true
+                this@AIChatActivity.runOnUiThread {
+                    backgroundSend.setCardBackgroundColor(ContextCompat.getColor(this@AIChatActivity, R.color.themeDarkGreen))
+                    send.isClickable = true
+                }
             }
         }
     }
@@ -125,18 +160,19 @@ class AIChatActivity : AppCompatActivity(), View.OnClickListener {
     private fun parseAIResponse(response: String): String {
         return try {
             val jsonObject = JSONObject(response)
-            if (jsonObject.has("response")) {
-                jsonObject.getString("response")
-            } else {
-                "Unexpected response format: no 'response' key"
+            when {
+                jsonObject.has("response") -> jsonObject.getString("response")
+                jsonObject.has("error") -> {
+                    val error = jsonObject.getString("error")
+                    Log.e("AI_Error", "Ollama 返回错误: $error")
+                    "AI 服务错误: $error\n请检查模型是否已安装"
+                }
+                else -> "未知响应格式: $response"
             }
         } catch (e: JSONException) {
-            e.printStackTrace()
-            "JSON parsing error: ${e.message}"
-        } catch (e: Exception) {
-            e.printStackTrace()
-            "General error: ${e.message}"
-        }.also { println("Parsed response: $it") }
+            Log.e("AI_Error", "JSON 解析错误", e)
+            "解析 AI 响应时出错: ${e.message}"
+        }
     }
 
     private fun initMsg() {
@@ -144,8 +180,8 @@ class AIChatActivity : AppCompatActivity(), View.OnClickListener {
         msgItemList.add(msgItem1)
     }
 
-    private fun addMsg(item:MsgItem){
-        when(item.type){
+    private fun addMsg(item: MsgItem) {
+        when (item.type) {
             MsgItem.TYPE_RECEIVED -> {
                 msgItemList.add(item)
                 adapter?.notifyItemInserted(msgItemList.size - 1)
@@ -157,10 +193,9 @@ class AIChatActivity : AppCompatActivity(), View.OnClickListener {
                 recyclerView.scrollToPosition(msgItemList.size - 1)
                 inputText.setText("")
                 send.isClickable = false
-                backgroundSend.setCardBackgroundColor(ContextCompat.getColor(this,R.color.line_grey_wzc))
+                backgroundSend.setCardBackgroundColor(ContextCompat.getColor(this, R.color.line_grey_wzc))
                 sendMessageToAI(item.content)
             }
         }
     }
-
 }

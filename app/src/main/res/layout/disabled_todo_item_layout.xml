@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/disabled_todo_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="待办1"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:textStyle="bold"
+        android:textColor="#161515"/>
+
+    <TextView
+        android:id="@+id/disabled_todo_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="创建于 xxxx年xx月xx日"
+        android:textSize="14sp"
+        android:textColor="#888888"
+        android:layout_marginTop="4dp"/>
+
+    <TextView
+        android:id="@+id/disabled_reminder_interval_display"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="提醒时间间隔：天"
+        android:textSize="14sp"
+        android:textColor="#888888"
+        android:layout_marginTop="4dp"/>
+
+    <TextView
+        android:id="@+id/disabled_date_display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="停用于 xxxx年xx月xx日"
+        android:textSize="14sp"
+        android:textColor="#888888"
+        android:layout_marginTop="4dp"/>
+</LinearLayout>

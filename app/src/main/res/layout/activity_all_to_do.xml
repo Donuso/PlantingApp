@@ -106,7 +106,7 @@
                     android:paddingTop="15dp"
                     android:id="@+id/no_enabled_todos"
                     android:textSize="14sp"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     />
 
                 <LinearLayout
@@ -128,69 +128,18 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         android:id="@+id/enabled_todos"
                         />
-<!--                    下面是一个用于测试的布局-->
-                    <LinearLayout
+
+                    <!--<LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
                         <include layout="@layout/item_todo_enabled_chl"/>
                         <include layout="@layout/item_todo_enabled_chl"/>
                         <include layout="@layout/item_todo_enabled_chl"/>
-                    </LinearLayout>
-
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:orientation="horizontal"-->
-<!--                        android:gravity="center_vertical">-->
-<!--                        <LinearLayout-->
-<!--                            android:layout_width="263dp"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:orientation="vertical"-->
-<!--                            android:gravity="center_vertical">-->
-<!--                            <TextView-->
-<!--                                android:id="@+id/todo1"-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:text="待办1"-->
-<!--                                android:layout_marginTop="8dp"-->
-<!--                                android:clickable="true"-->
-<!--                                android:focusable="true"-->
-<!--                                android:textStyle="bold"-->
-<!--                                android:textColor="#161515"/>-->
-<!--                            <TextView-->
-<!--                                android:id="@+id/todo1_details"-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:text="创建于 xxxx年xx月xx日"-->
-<!--                                android:textSize="14sp"-->
-<!--                                android:textColor="#888888"-->
-<!--                                android:layout_marginTop="4dp"/>-->
-<!--                        </LinearLayout>-->
-<!--                        <LinearLayout-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:orientation="horizontal">-->
-<!--                            <ImageView-->
-<!--                                android:id="@+id/delete_todo1"-->
-<!--                                android:layout_width="30dp"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:src="@drawable/icon_delete_chl"-->
-<!--                                android:padding="8dp"-->
-<!--                                android:visibility="gone"/>-->
-<!--                            <ImageView-->
-<!--                                android:id="@+id/tingyong"-->
-<!--                                android:layout_width="60dp"-->
-<!--                                android:layout_height="50dp"-->
-<!--                                android:src="@drawable/icon_stop_chl"-->
-<!--                                android:padding="8dp"-->
-<!--                                android:visibility="gone"-->
-<!--                                />-->
-<!--                        </LinearLayout>-->
-<!--                    </LinearLayout>-->
+                    </LinearLayout>-->
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -233,47 +182,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:visibility="gone"
                         android:id="@+id/invalid_todos"
                         />
 <!--                    下面是一个用于测试的布局-->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <include layout="@layout/item_todo_invalid_chl"/>
-                        <include layout="@layout/item_todo_invalid_chl"/>
-                        <include layout="@layout/item_todo_invalid_chl"/>
-                        <include layout="@layout/item_todo_invalid_chl"/>
-                        <include layout="@layout/item_todo_invalid_chl"/>
-                        <include layout="@layout/item_todo_invalid_chl"/>
-                    </LinearLayout>
-<!--                    <TextView-->
-<!--                        android:id="@+id/todo5"-->
+<!--                    <LinearLayout-->
 <!--                        android:layout_width="match_parent"-->
 <!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="待办5"-->
-<!--                        android:layout_marginTop="8dp"-->
-<!--                        android:clickable="true"-->
-<!--                        android:focusable="true"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:textColor="#161515"/>-->
-<!--                    <TextView-->
-<!--                        android:id="@+id/todo5_details"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="创建于 xxxx年xx月xx日"-->
-<!--                        android:textSize="14sp"-->
-<!--                        android:textColor="#888888"-->
-<!--                        android:layout_marginTop="4dp"/>-->
-<!--                    <TextView-->
-<!--                        android:id="@+id/todo5_disabled_details"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="停用于 xxxx年xx月xx日"-->
-<!--                        android:textSize="14sp"-->
-<!--                        android:textColor="#888888"-->
-<!--                        android:layout_marginTop="4dp"/>-->
+<!--                        android:orientation="vertical">-->
+<!--                        <include layout="@layout/item_todo_invalid_chl"/>-->
+<!--                        <include layout="@layout/item_todo_invalid_chl"/>-->
+<!--                        <include layout="@layout/item_todo_invalid_chl"/>-->
+<!--                        <include layout="@layout/item_todo_invalid_chl"/>-->
+<!--                        <include layout="@layout/item_todo_invalid_chl"/>-->
+<!--                        <include layout="@layout/item_todo_invalid_chl"/>-->
+<!--                    </LinearLayout>-->
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
