@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:text="@string/new_todo_chl"
             android:textColor="@color/text_black_wzc"
-            android:textSize="20sp"
+            android:textSize="19sp"
             android:layout_gravity="center"
             android:layout_marginBottom="9dp"
             android:id="@+id/log_group_name"
@@ -52,7 +52,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/dividing_line"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:paddingBottom="100dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -161,7 +162,7 @@
                                 android:layout_height="match_parent"
                                 android:text="@string/never_ends_chl"
                                 android:gravity="center"
-                                android:textSize="14sp"
+                                android:textSize="13sp"
                                 android:textColor="@color/themeDarkGreen"/>
 
                         </com.google.android.material.card.MaterialCardView>
@@ -183,7 +184,7 @@
                                 android:layout_height="match_parent"
                                 android:text="@string/choose_time_to_end_chl"
                                 android:gravity="center"
-                                android:textSize="14sp"
+                                android:textSize="13sp"
                                 android:textColor="@color/white"/>
 
                         </com.google.android.material.card.MaterialCardView>
@@ -294,6 +295,47 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="0dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="20dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp">
+
+                    <TextView
+                        android:id="@+id/pick_notification_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pick_sys_notify_time_wzc"
+                        android:textColor="@color/general_grey_wzc"
+                        android:textSize="16sp"
+                        android:layout_marginTop="1dp"/>
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:theme="@style/MySwitchTheme" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 app:cardCornerRadius="20dp"
                 android:layout_margin="20dp"
                 app:cardElevation="0dp"
@@ -310,8 +352,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/group_binding_chl"
-                        android:textSize="17sp"
-                        android:layout_marginBottom="10dp"/>
+                        android:textSize="16sp"
+                        android:layout_marginBottom="10dp"
+                        android:textColor="@color/general_grey_wzc"/>
 
                     <Spinner
                         android:id="@+id/plant_group_spinner"
@@ -323,6 +366,8 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
+
+
 
         </LinearLayout>
 

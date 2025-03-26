@@ -57,6 +57,12 @@ class ExpandAnimator(private val context: Context, private val targetView: View)
         this.moveDistanceDp = distanceDp
         this.moveDistancePx = Utils.dpToPx(context, distanceDp)
     }
+
+    fun setMoveDirection(direction: Int, distancePx: Int) = apply {
+        this.moveDirection = direction
+        this.moveDistancePx = distancePx
+    }
+
     fun setIfFade(needFade:Boolean) = apply {
         this.fadeEnabled = needFade
     }

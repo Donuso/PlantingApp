@@ -69,11 +69,11 @@ class NewTodoActivity : AppCompatActivity() {
         animeNS = ExpandAnimator(this,neverStop)
             .setIfFade(true)
             .setRateType(ExpandAnimator.iOSRatio)
-            .setDuration(500)
+            .setDuration(400)
         animeTP = ExpandAnimator(this,chooseToPick)
             .setIfFade(true)
             .setRateType(ExpandAnimator.iOSRatio)
-            .setDuration(500)
+            .setDuration(400)
 
         themeDarkGreen = ContextCompat.getColor(this,R.color.themeDarkGreen)
         greyText = ContextCompat.getColor(this,R.color.general_grey_wzc)
