@@ -1,7 +1,9 @@
 package com.example.plantingapp
 
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.database.Cursor
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -28,9 +30,12 @@ import java.util.Locale
 class AllToDoActivity : AppCompatActivity() {
     private lateinit var enabledCardViewLayout: RecyclerView
     private lateinit var disabledCardViewLayout: RecyclerView
+
     companion object {
         private const val REQUEST_CODE_NEW_TODO = 1
+        const val RESULT_TODO_UPDATED = 2 // 新增的结果码
     }
+
     private lateinit var optionLayer: LinearLayout
     private lateinit var cancel: TextView
     private lateinit var cancelModule: CardView
@@ -45,30 +50,67 @@ class AllToDoActivity : AppCompatActivity() {
     private lateinit var addModuleAnimator: ExpandAnimator
     private lateinit var menuAnimator: ExpandAnimator
     private val cancelDisplacement = 120f
-    // 数据列表
     private val enabledTodoList = mutableListOf<TodoItem>()
     private val disabledTodoList = mutableListOf<TodoItem>()
-    private var isDeleting = false // 标记是否处于删除模式
-    private var isAltering = false // 标记是否处于停用/复用模式
+    private var isDeleting = false
+    private var isAltering = false
+    private lateinit var dbHelper: DBHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_all_to_do)
+        dbHelper = DBHelper(this)
         initAll()
         addOnListeners()
-        // 初始化 RecyclerView
+
         enabledCardViewLayout = findViewById(R.id.enabled_todos)
         disabledCardViewLayout = findViewById(R.id.invalid_todos)
         enabledCardViewLayout.layoutManager = LinearLayoutManager(this)
         disabledCardViewLayout.layoutManager = LinearLayoutManager(this)
-        // 设置新增任务按钮的点击事件
+
+        loadTodosFromDatabase()
+
         findViewById<ImageView>(R.id.new_todo).setOnClickListener {
             val intent = Intent(this, NewTodoActivity::class.java)
             startActivityForResult(intent, REQUEST_CODE_NEW_TODO)
         }
+
         findViewById<ImageButton>(R.id.backtoDo).setOnClickListener {
-            finish() // 结束当前 Activity，返回上一个界面
+            finish()
         }
+    }
+
+    private fun loadTodosFromDatabase() {
+        enabledTodoList.clear()
+        disabledTodoList.clear()
+
+        dbHelper.readableDatabase.use { db ->
+            val projection = arrayOf("todoId", "todoName", "createTime", "endTime", "interval", "isEnabled")
+
+            // 加载已启用的待办
+            db.query("todo", projection, "isEnabled = ?", arrayOf("1"), null, null, null)?.use { cursor ->
+                while (cursor.moveToNext()) {
+                    val todoName = cursor.getString(cursor.getColumnIndexOrThrow("todoName"))
+                    val createTime = cursor.getLong(cursor.getColumnIndexOrThrow("createTime"))
+                    enabledTodoList.add(TodoItem(todoName, "创建于: ${formatDate(createTime)}"))
+                }
+            }
+
+            // 加载已停用的待办
+            db.query("todo", projection, "isEnabled = ?", arrayOf("0"), null, null, null)?.use { cursor ->
+                while (cursor.moveToNext()) {
+                    val todoName = cursor.getString(cursor.getColumnIndexOrThrow("todoName"))
+                    val createTime = cursor.getLong(cursor.getColumnIndexOrThrow("createTime"))
+                    disabledTodoList.add(TodoItem(todoName, "停用于 ${formatDate(createTime)}"))
+                }
+            }
+        }
+
+        updateRecyclerViews()
+    }
+
+    private fun formatDate(time: Long): String {
+        return SimpleDateFormat("yyyy年MM月dd日", Locale.getDefault()).format(Date(time))
     }
 
     private fun initAll() {
@@ -81,6 +123,7 @@ class AllToDoActivity : AppCompatActivity() {
         alterTodo = findViewById(R.id.alter_todos)
         menu = findViewById(R.id.menu)
         hint = findViewById(R.id.hint_subtitle)
+
         optionAnimator = ExpandAnimator(this, optionLayer)
             .setIfFade(true)
             .setDuration(100)
@@ -95,59 +138,34 @@ class AllToDoActivity : AppCompatActivity() {
     }
 
     private fun addOnListeners() {
-        findViewById<ImageButton>(R.id.backtoDo).setOnClickListener {
-            finish()
-        }
-        menu.setOnClickListener {
-            showMenu()
-        }
-        optionLayer.setOnClickListener {
-            hideMenu()
-        }
+        findViewById<ImageButton>(R.id.backtoDo).setOnClickListener { finish() }
+
+        menu.setOnClickListener { showMenu() }
+        optionLayer.setOnClickListener { hideMenu() }
+
         cancel.setOnClickListener {
             hideCancel()
-            if (isDeleting) {
-                isDeleting = false
-            } else if (isAltering) {
-                isAltering = false
-            }
+            isDeleting = false
+            isAltering = false
             updateRecyclerViews()
         }
+
         deleteTodo.setOnClickListener {
             hint.text = "点击红 X 即可删除待办"
-            hint.setTextColor(
-                ContextCompat.getColor(
-                    this,
-                    R.color.themeRed
-                )
-            )
+            hint.setTextColor(ContextCompat.getColor(this, R.color.themeRed))
             hideMenu()
-            cancel.setTextColor(
-                ContextCompat.getColor(
-                    this,
-                    R.color.themeRed
-                )
-            )
+            cancel.setTextColor(ContextCompat.getColor(this, R.color.themeRed))
             showCancel()
             isDeleting = true
             isAltering = false
             updateRecyclerViews()
         }
+
         alterTodo.setOnClickListener {
             hint.text = "点击按钮以停用/复用待办"
-            hint.setTextColor(
-                ContextCompat.getColor(
-                    this,
-                    R.color.themeBlue
-                )
-            )
+            hint.setTextColor(ContextCompat.getColor(this, R.color.themeBlue))
             hideMenu()
-            cancel.setTextColor(
-                ContextCompat.getColor(
-                    this,
-                    R.color.themeBlue
-                )
-            )
+            cancel.setTextColor(ContextCompat.getColor(this, R.color.themeBlue))
             showCancel()
             isAltering = true
             isDeleting = false
@@ -155,62 +173,90 @@ class AllToDoActivity : AppCompatActivity() {
         }
     }
 
-    private fun addNewTodo(todoContent: String, selectedDate: String) {
-        val todoItem = TodoItem("待办: $todoContent", "创建于: $selectedDate")
-        enabledTodoList.add(todoItem)
-        Log.d("AllToDoActivity", "添加新待办事项: ${todoItem.title}, ${todoItem.details}")
-        updateRecyclerViews()
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_NEW_TODO && resultCode == RESULT_OK) {
-            val todoContent = data?.getStringExtra("todo_content")
-            val selectedDate = data?.getStringExtra("selected_date")
-            if (todoContent != null && selectedDate != null) {
-                Log.d("AllToDoActivity", "接收到新待办事项: $todoContent, $selectedDate")
-                addNewTodo(todoContent, selectedDate)
-            }
+            loadTodosFromDatabase()
+            setResult(RESULT_TODO_UPDATED) // 通知Fragment刷新
         }
     }
 
     private fun deleteTodo(todoView: View) {
         val todoTitle = todoView.findViewById<TextView>(R.id.todo_title).text.toString()
-        val todoDetails = todoView.findViewById<TextView>(R.id.todo_details).text.toString()
-        // 从已启用列表中移除
-        val todoItem = TodoItem(todoTitle, todoDetails)
-        enabledTodoList.remove(todoItem)
-        updateRecyclerViews()
-        Toast.makeText(this, "待办事项已删除", Toast.LENGTH_SHORT).show()
+        val realTitle = todoTitle.removePrefix("待办: ")
+
+        dbHelper.writableDatabase.use { db ->
+            val whereClause = "todoName = ? AND isEnabled = ?"
+            val whereArgs = arrayOf(realTitle, "1")
+
+            if (db.delete("todo", whereClause, whereArgs) > 0) {
+                enabledTodoList.removeIf { it.title == todoTitle }
+                updateRecyclerViews()
+                Toast.makeText(this, "待办事项已删除", Toast.LENGTH_SHORT).show()
+                setResult(RESULT_TODO_UPDATED) // 通知Fragment刷新
+            } else {
+                Toast.makeText(this, "删除失败", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun disableTodo(todoView: View) {
         val todoTitle = todoView.findViewById<TextView>(R.id.todo_title).text.toString()
-        val todoDetails = todoView.findViewById<TextView>(R.id.todo_details).text.toString()
-        // 获取停用日期
-        val sdf = SimpleDateFormat("yyyy年MM月dd日", Locale.getDefault())
-        val disabledDate = sdf.format(Date())
-        // 从已启用列表中移除
-        val todoItem = TodoItem(todoTitle, todoDetails)
-        enabledTodoList.remove(todoItem)
-        // 添加到已停用列表
-        val disabledTodoItem = TodoItem(todoTitle, "停用于 $disabledDate")
-        disabledTodoList.add(disabledTodoItem)
-        updateRecyclerViews()
-        Toast.makeText(this, "待办事项已停用", Toast.LENGTH_SHORT).show()
+        val realTitle = todoTitle.removePrefix("待办: ")
+
+        dbHelper.writableDatabase.use { db ->
+            val values = ContentValues().apply { put("isEnabled", 0) }
+            val whereClause = "todoName = ? AND isEnabled = ?"
+            val whereArgs = arrayOf(realTitle, "1")
+
+            if (db.update("todo", values, whereClause, whereArgs) > 0) {
+                val disabledDate = SimpleDateFormat("yyyy年MM月dd日", Locale.getDefault()).format(Date())
+                enabledTodoList.removeIf { it.title == todoTitle }
+                disabledTodoList.add(TodoItem(todoTitle, "停用于 $disabledDate"))
+                updateRecyclerViews()
+                Toast.makeText(this, "待办事项已停用", Toast.LENGTH_SHORT).show()
+                setResult(RESULT_TODO_UPDATED) // 通知Fragment刷新
+            }
+        }
     }
 
     private fun enableTodo(todoView: View) {
         val todoTitle = todoView.findViewById<TextView>(R.id.todo_title).text.toString()
-        val todoDetails = todoView.findViewById<TextView>(R.id.todo_details).text.toString()
-        // 从已停用列表中移除
-        val todoItem = TodoItem(todoTitle, todoDetails)
-        disabledTodoList.remove(todoItem)
-        // 添加到已启用列表
-        val enabledTodoItem = TodoItem(todoTitle, todoDetails.split("停用于 ")[1])
-        enabledTodoList.add(enabledTodoItem)
-        updateRecyclerViews()
-        Toast.makeText(this, "待办事项已复用", Toast.LENGTH_SHORT).show()
+        val realTitle = todoTitle.removePrefix("待办: ")
+
+        dbHelper.writableDatabase.use { db ->
+            val values = ContentValues().apply { put("isEnabled", 1) }
+            val whereClause = "todoName = ? AND isEnabled = ?"
+            val whereArgs = arrayOf(realTitle, "0")
+
+            if (db.update("todo", values, whereClause, whereArgs) > 0) {
+                val details = todoView.findViewById<TextView>(R.id.todo_details).text.toString()
+                disabledTodoList.removeIf { it.title == todoTitle }
+                enabledTodoList.add(TodoItem(todoTitle, details.split("停用于 ")[1]))
+                updateRecyclerViews()
+                Toast.makeText(this, "待办事项已复用", Toast.LENGTH_SHORT).show()
+                setResult(RESULT_TODO_UPDATED) // 通知Fragment刷新
+            }
+        }
+    }
+
+    private fun deleteDisabledTodo(todoView: View) {
+        val todoTitle = todoView.findViewById<TextView>(R.id.todo_title).text.toString()
+        val realTitle = todoTitle.removePrefix("待办: ")
+
+        dbHelper.writableDatabase.use { db ->
+            val whereClause = "todoName = ? AND isEnabled = ?"
+            val whereArgs = arrayOf(realTitle, "0")
+
+            if (db.delete("todo", whereClause, whereArgs) > 0) {
+                disabledTodoList.removeIf { it.title == todoTitle }
+                updateRecyclerViews()
+                Toast.makeText(this, "已停用待办事项已删除", Toast.LENGTH_SHORT).show()
+                setResult(RESULT_TODO_UPDATED) // 通知Fragment刷新
+            } else {
+                Toast.makeText(this, "删除失败", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun showMenu() {
@@ -226,95 +272,74 @@ class AllToDoActivity : AppCompatActivity() {
             .setRateType(ExpandAnimator.iOSRatio)
             .setDuration(500)
             .start()
-        addModuleAnimator.setFade(1f, 0f)
-            .start()
-        menuAnimator.setFade(1f, 0f)
-            .start()
+        addModuleAnimator.setFade(1f, 0f).start()
+        menuAnimator.setFade(1f, 0f).start()
     }
 
     private fun hideCancel() {
         hint.text = getString(R.string.hint_subtitle)
-        hint.setTextColor(
-            ContextCompat.getColor(
-                this,
-                R.color.general_grey_wzc
-            )
-        )
+        hint.setTextColor(ContextCompat.getColor(this, R.color.general_grey_wzc))
         cancelAnimator.setMoveDirection(2, cancelDisplacement)
             .setRateType(ExpandAnimator.linearRatio)
             .setDuration(150)
             .start()
-        addModuleAnimator.setFade(0f, 1f)
-            .start()
-        menuAnimator.setFade(0f, 1f)
-            .start()
+        addModuleAnimator.setFade(0f, 1f).start()
+        menuAnimator.setFade(0f, 1f).start()
     }
 
     private fun updateRecyclerViews() {
-        val enabledAdapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_todo_enabled_chl, parent, false)
-                return object : RecyclerView.ViewHolder(view) {}
-            }
+        enabledCardViewLayout.adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+                object : RecyclerView.ViewHolder(
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.item_todo_enabled_chl, parent, false)
+                ) {}
 
             override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
                 val todoItem = enabledTodoList[position]
-                holder.itemView.findViewById<TextView>(R.id.todo_title).text = todoItem.title
-                holder.itemView.findViewById<TextView>(R.id.todo_details).text = todoItem.details
-                val deleteIcon = holder.itemView.findViewById<ImageView>(R.id.delete_todo_icon)
-                val disableButton = holder.itemView.findViewById<MaterialCardView>(R.id.invalid_todo_icon)
+                holder.itemView.apply {
+                    findViewById<TextView>(R.id.todo_title).text = todoItem.title
+                    findViewById<TextView>(R.id.todo_details).text = todoItem.details
 
-                if (isDeleting) {
-                    deleteIcon.visibility = View.VISIBLE
-                    deleteIcon.setOnClickListener {
-                        deleteTodo(holder.itemView)
-                    }
-                } else {
-                    deleteIcon.visibility = View.GONE
-                }
+                    val deleteIcon = findViewById<ImageView>(R.id.delete_todo_icon)
+                    val disableButton = findViewById<MaterialCardView>(R.id.invalid_todo_icon)
 
-                if (isAltering) {
-                    disableButton.visibility = View.VISIBLE
-                    disableButton.setOnClickListener {
-                        disableTodo(holder.itemView)
-                    }
-                } else {
-                    disableButton.visibility = View.GONE
+                    deleteIcon.visibility = if (isDeleting) View.VISIBLE else View.GONE
+                    disableButton.visibility = if (isAltering) View.VISIBLE else View.GONE
+
+                    deleteIcon.setOnClickListener { deleteTodo(holder.itemView) }
+                    disableButton.setOnClickListener { disableTodo(holder.itemView) }
                 }
             }
 
-            override fun getItemCount(): Int {
-                return enabledTodoList.size
-            }
+            override fun getItemCount() = enabledTodoList.size
         }
-        enabledCardViewLayout.adapter = enabledAdapter
 
-        val disabledAdapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_todo_invalid_chl, parent, false)
-                return object : RecyclerView.ViewHolder(view) {}
-            }
+        disabledCardViewLayout.adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+                object : RecyclerView.ViewHolder(
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.item_todo_invalid_chl, parent, false)
+                ) {}
 
             override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
                 val todoItem = disabledTodoList[position]
-                holder.itemView.findViewById<TextView>(R.id.todo_title).text = todoItem.title
-                holder.itemView.findViewById<TextView>(R.id.todo_details).text = todoItem.details
-                val enableButton = holder.itemView.findViewById<MaterialCardView>(R.id.valid_todo_icon)
+                holder.itemView.apply {
+                    findViewById<TextView>(R.id.todo_title).text = todoItem.title
+                    findViewById<TextView>(R.id.todo_details).text = todoItem.details
 
-                if (isAltering) {
-                    enableButton.visibility = View.VISIBLE
-                    enableButton.setOnClickListener {
-                        enableTodo(holder.itemView)
-                    }
-                } else {
-                    enableButton.visibility = View.GONE
+                    val enableButton = findViewById<MaterialCardView>(R.id.valid_todo_icon)
+                    val deleteIcon = findViewById<ImageView>(R.id.delete_todo_icon)
+
+                    enableButton.visibility = if (isAltering) View.VISIBLE else View.GONE
+                    deleteIcon.visibility = if (isDeleting) View.VISIBLE else View.GONE
+
+                    enableButton.setOnClickListener { enableTodo(holder.itemView) }
+                    deleteIcon.setOnClickListener { deleteDisabledTodo(holder.itemView) }
                 }
             }
 
-            override fun getItemCount(): Int {
-                return disabledTodoList.size
-            }
+            override fun getItemCount() = disabledTodoList.size
         }
-        disabledCardViewLayout.adapter = disabledAdapter
     }
 }

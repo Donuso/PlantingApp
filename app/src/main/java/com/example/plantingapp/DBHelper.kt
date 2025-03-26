@@ -1,5 +1,6 @@
 package com.example.plantingapp
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
@@ -44,7 +45,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
                 userId INTEGER,
                 todoName TEXT NOT NULL CHECK(LENGTH(todoName) <= 15),
                 createTime INTEGER NOT NULL,
-                endTime INTEGER DEFAULT 0,
+                endTime Text,
                 interval INTEGER CHECK(interval BETWEEN 1 AND 365),
                 isEnabled INTEGER DEFAULT 0 CHECK(isEnabled IN (0,1,2)),
                 logGroupId INTEGER,
@@ -124,7 +125,35 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         val clearLogTagsTable: String = "DELETE FROM logTags;"
         val clearLogPicsTable: String = "DELETE FROM logPics;"
     }
-
+    fun insertTodo(
+        userId: Int,
+        todoName: String,
+        createTime: Long,
+        endTime: String?,
+        interval: Int,
+        isEnabled: Int
+    ): Long {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put("userId", userId)
+            put("todoName", todoName)
+            put("createTime", createTime)
+            put("endTime", endTime)
+            put("interval", interval)
+            put("isEnabled", isEnabled)
+        }
+        val newRowId = db.insert("todo", null, values)
+        db.close()
+        return newRowId
+    }
+    fun deleteTodo(todoName: String, isEnabled: Int): Int {
+        val db = this.writableDatabase
+        val whereClause = "todoName = ? AND isEnabled = ?"
+        val whereArgs = arrayOf(todoName, isEnabled.toString())
+        val result = db.delete("todo", whereClause, whereArgs)
+        db.close()
+        return result
+    }
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(createLogGroup)
         db.execSQL(createLog)

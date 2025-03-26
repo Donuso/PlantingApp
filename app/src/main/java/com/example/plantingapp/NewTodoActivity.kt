@@ -16,9 +16,10 @@ import com.example.plantingapp.animators.ExpandAnimator
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.datepicker.DateValidatorPointForward
 import java.util.Calendar
+import android.widget.Toast
+import android.content.ContentValues
 
 class NewTodoActivity : AppCompatActivity() {
-
     private lateinit var changeButton: MaterialCardView
     private lateinit var neverStop: MaterialCardView
     private lateinit var chooseToPick: MaterialCardView
@@ -26,10 +27,8 @@ class NewTodoActivity : AppCompatActivity() {
     private lateinit var back: ImageButton
     private lateinit var endTimeText: TextView
     private lateinit var pickUpHint: TextView
-
     private lateinit var animeNS: ExpandAnimator
     private lateinit var animeTP: ExpandAnimator
-
     private var ifNeverStop = true
     private val neverStopDisplacement = 147f
     private val chooseToPickDisplacement = 106f
@@ -43,12 +42,9 @@ class NewTodoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_todo)
-
         val todoContentEditText = findViewById<EditText>(R.id.todo_content)
         val confirmButton = findViewById<TextView>(R.id.confirm_button)
-
         initAll()
-
         changeButton.setOnClickListener {
             simulateSwitchCompat()
             ifNeverStop = !ifNeverStop
@@ -61,15 +57,34 @@ class NewTodoActivity : AppCompatActivity() {
         back.setOnClickListener {
             finish() // 结束当前Activity，返回上一个界面
         }
-
         confirmButton.setOnClickListener {
             val todoContent = todoContentEditText.text.toString()
-            val selectedDate = endTimeText.text.toString()
+            val endTime = endTimeText.text.toString()
+            val reminderIntervalEditText = findViewById<EditText>(R.id.reminder_interval)
+            val reminderInterval = reminderIntervalEditText.text.toString().toIntOrNull()?: 0
 
-            val intent = Intent()
-            intent.putExtra("todo_content", todoContent)
-            intent.putExtra("selected_date", selectedDate)
-            setResult(RESULT_OK, intent)
+            val dbHelper = DBHelper(this)
+            val db = dbHelper.writableDatabase
+            val createTime = System.currentTimeMillis()
+
+            // 将 MutableMap 转换为 ContentValues
+            val values = ContentValues()
+            values.put("userId", 1) // 假设用户ID为1，需根据实际情况修改
+            values.put("todoName", todoContent)
+            values.put("createTime", createTime)
+            values.put("endTime", endTime)
+            values.put("interval", reminderInterval)
+            values.put("isEnabled", 1) // 1表示启用，0表示停用，2表示其他状态，根据实际需求修改
+
+            val newRowId = db.insert("todo", null, values)
+            if (newRowId != -1L) {
+                Toast.makeText(this, "待办事项添加成功", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "待办事项添加失败", Toast.LENGTH_SHORT).show()
+            }
+            db.close()
+
+            setResult(RESULT_OK)
             finish()
         }
     }
@@ -82,7 +97,6 @@ class NewTodoActivity : AppCompatActivity() {
         back = findViewById(R.id.back_btn)
         endTimeText = findViewById(R.id.end_time)
         pickUpHint = findViewById(R.id.pick_up_hint)
-
         animeNS = ExpandAnimator(this, neverStop)
             .setIfFade(true)
             .setRateType(ExpandAnimator.iOSRatio)
@@ -91,7 +105,6 @@ class NewTodoActivity : AppCompatActivity() {
             .setIfFade(true)
             .setRateType(ExpandAnimator.iOSRatio)
             .setDuration(500)
-
         themeDarkGreen = ContextCompat.getColor(this, R.color.themeDarkGreen)
         greyText = ContextCompat.getColor(this, R.color.general_grey_wzc)
         greyLine = ContextCompat.getColor(this, R.color.line_grey_wzc)
@@ -132,20 +145,16 @@ class NewTodoActivity : AppCompatActivity() {
     private fun showMaterialDatePicker() {
         val calendar = Calendar.getInstance()
         val todayMillis = calendar.timeInMillis
-
         val constraints = CalendarConstraints.Builder()
             .setValidator(DateValidatorPointForward.from(todayMillis + 24 * 60 * 60 * 1000)) // 今天之后（不包括今天）
             .build()
-
         // 配置日期选择器
         val builder = MaterialDatePicker.Builder.datePicker()
             .setTitleText("选择结束日期") // 可自定义标题
             .setTheme(R.style.ThemeOverlay_App_MaterialDatePicker) // 使用自定义主题（可选）
             .setSelection(pickedTime) // 默认选择明天
             .setCalendarConstraints(constraints)
-
         val datePicker = builder.build()
-
         // 设置监听器
         datePicker.addOnPositiveButtonClickListener { selectedDateMillis ->
             val selectedCalendar = Calendar.getInstance()
@@ -156,12 +165,10 @@ class NewTodoActivity : AppCompatActivity() {
             pickedTime = selectedDateMillis
             pickUpHint.text = getString(R.string.picked_time_chl)
         }
-
         // 设置取消监听器（可选）
         datePicker.addOnNegativeButtonClickListener {
             // 用户取消选择时的操作
         }
-
         datePicker.show(supportFragmentManager, "MATERIAL_DATE_PICKER")
     }
 }
