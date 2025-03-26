@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.plantingapp.dao.UserDAO
 import com.example.plantingapp.item.DataExchange
 
-class ChangePasswordActivity : AppCompatActivity() {
+class ChangePasswordActivity : BaseActivity() {
 
     private lateinit var dao:UserDAO
     private lateinit var back : ImageButton

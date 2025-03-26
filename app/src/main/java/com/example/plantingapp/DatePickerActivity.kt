@@ -20,7 +20,7 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 
-class DatePickerActivity : AppCompatActivity() {
+class DatePickerActivity : BaseActivity() {
 
 //    private lateinit var dayAdapter:
     private lateinit var days :MutableList<DayItem>
@@ -48,7 +48,6 @@ class DatePickerActivity : AppCompatActivity() {
     private var currentDay:Int = -1
 
     private lateinit var backTodayListener: View.OnClickListener
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_date_picker_wzc)

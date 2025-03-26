@@ -19,7 +19,7 @@ import java.util.Calendar
 import android.widget.Toast
 import android.content.ContentValues
 
-class NewTodoActivity : AppCompatActivity() {
+class NewTodoActivity : BaseActivity() {
     private lateinit var changeButton: MaterialCardView
     private lateinit var neverStop: MaterialCardView
     private lateinit var chooseToPick: MaterialCardView

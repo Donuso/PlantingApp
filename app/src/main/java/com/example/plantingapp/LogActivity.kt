@@ -33,7 +33,7 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 
-class LogActivity : AppCompatActivity() {
+class LogActivity : BaseActivity() {
 
     private lateinit var backBtn: ImageButton
     private lateinit var logGroupName: TextView

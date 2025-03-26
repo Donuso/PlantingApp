@@ -34,6 +34,11 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.example.plantingapp.animators.PicAnimator
 import com.example.plantingapp.dao.UserDAO
 import com.example.plantingapp.item.DataExchange
+import com.example.plantingapp.SettingsActivity
+
+/*
+* 此fragment对应“我”的入口
+* */
 
 class MeFragment : Fragment() {
 

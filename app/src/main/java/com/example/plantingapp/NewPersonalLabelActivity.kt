@@ -18,7 +18,7 @@ import com.example.plantingapp.dao.LabelDAO
 import com.example.plantingapp.item.LabelItem
 import com.example.plantingapp.utils.LabelItemConverter
 
-class NewPersonalLabelActivity : AppCompatActivity() {
+class NewPersonalLabelActivity : BaseActivity() {
 
     private lateinit var backBtn: ImageButton
     private lateinit var helpBtn: ImageButton

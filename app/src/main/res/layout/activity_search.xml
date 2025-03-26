@@ -34,6 +34,7 @@
             android:paddingBottom="6dp"
             android:ellipsize="end"
             android:maxLines="1"
+            android:id="@+id/search_text"
             />
         <ImageView
             android:layout_width="35dp"
@@ -66,6 +67,7 @@
                 android:orientation="vertical"
                 android:layout_marginTop="20dp"
                 android:id="@+id/relatedLog"
+                android:visibility="gone"
                 >
                 <TextView
                     android:layout_width="match_parent"
@@ -89,6 +91,7 @@
                 android:orientation="vertical"
                 android:layout_marginTop="20dp"
                 android:id="@+id/relatedAgency"
+                android:visibility="gone"
                 >
                 <TextView
                     android:layout_width="match_parent"

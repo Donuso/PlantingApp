@@ -20,18 +20,16 @@
     <style name="CustomDialogTheme" parent="Theme.AppCompat.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
-
+    
     <style name="ImagePickerTheme" parent="ef_BaseTheme">
         <item name="colorPrimary">@color/themeLightGreen</item>
         <item name="colorPrimaryDark">@color/themeDarkGreen</item>
         <item name="colorAccent">@color/themeBlue</item>
     </style>
-
     <style name="MySwitchTheme">
         <item name="colorControlActivated">@color/themeDarkGreen</item>
         <!-- 如果你需要设置关闭后的颜色，可以使用以下属性 -->
         <!-- <item name="colorSwitchThumbNormal">#你的关闭后滑块颜色</item> -->
         <!-- <item name="android:colorForeground">#你的关闭后轨道颜色</item> -->
     </style>
-
 </resources>

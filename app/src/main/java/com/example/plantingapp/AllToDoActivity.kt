@@ -27,7 +27,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class AllToDoActivity : AppCompatActivity() {
+class AllToDoActivity : BaseActivity() {
     private lateinit var enabledCardViewLayout: RecyclerView
     private lateinit var disabledCardViewLayout: RecyclerView
 

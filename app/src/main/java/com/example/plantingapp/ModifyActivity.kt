@@ -37,7 +37,7 @@ import com.example.plantingapp.item.DataExchange
 import com.example.plantingapp.item.LogPicItem
 import com.example.plantingapp.item.MeItem
 
-class ModifyActivity : AppCompatActivity() {
+class ModifyActivity : BaseActivity() {
 
     private lateinit var avatarImage:ImageView
     private lateinit var nicknameEdit:EditText
