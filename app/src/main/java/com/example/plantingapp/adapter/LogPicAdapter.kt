@@ -12,6 +12,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.plantingapp.R
+import com.example.plantingapp.animators.PicAnimator
 import com.example.plantingapp.item.LabelItem
 import com.example.plantingapp.item.LogPicItem
 import java.io.File
@@ -57,6 +58,8 @@ class LogPicAdapter(
             is ViewHolder -> {
                 val item = items[position]
                 holder.load(item)
+                val anime = PicAnimator(context,item.uriString,"image_transition_log_pics")
+                anime.attachTo(holder.pic)
                 // 删除按钮点击事件
                 holder.deleteIcon.setOnClickListener {
                     itemCallback(item)

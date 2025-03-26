@@ -189,7 +189,7 @@ class ExpandAnimator(private val context: Context, private val targetView: View)
         }
     }
 
-    private class IOSLikeInterpolator : TimeInterpolator {
+    class IOSLikeInterpolator : TimeInterpolator {
         override fun getInterpolation(input: Float): Float {
             return when {
                 input <= 0 -> 0f

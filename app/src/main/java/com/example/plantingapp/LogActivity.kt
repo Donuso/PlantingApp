@@ -524,6 +524,7 @@ class LogActivity : AppCompatActivity() {
 
     private fun initTemp(){
         if(temp == null || temp!!.isEmpty()){
+            recordTemp.text = "点击记录今日温度"
             if(chosenTime == Utils.timestampToDateString(System.currentTimeMillis())){
                 recordTemp.setOnClickListener(tempListener)
             }else{

@@ -31,6 +31,7 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+import com.example.plantingapp.animators.PicAnimator
 import com.example.plantingapp.dao.UserDAO
 import com.example.plantingapp.item.DataExchange
 
@@ -92,7 +93,8 @@ class MeFragment : Fragment() {
                 noAvatar.visibility = View.GONE
                 userAvatar.visibility = View.VISIBLE
                 Glide.with(requireContext()).load(Uri.parse(usr.userAvatar)).into(userAvatar)
-//                userAvatar.setImage(ImageSource.uri(Uri.parse(usr.userAvatar)))
+                val picAnimator = PicAnimator(requireContext(),usr.userAvatar.toString(),"image_transition")
+                picAnimator.attachTo(userAvatar)
             }
         }else{
             Toast.makeText(requireContext(),"用户信息加载失败",Toast.LENGTH_SHORT).show()

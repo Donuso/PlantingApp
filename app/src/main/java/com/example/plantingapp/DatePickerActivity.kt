@@ -106,10 +106,10 @@ class DatePickerActivity : AppCompatActivity() {
             currentMonth = chosenTime.substring(5..6).toInt()
             currentDay = chosenTime.substring(8..9).toInt()
             backTodayBg.setCardBackgroundColor(
-                ContextCompat.getColor(this,R.color.general_grey_wzc)
+                ContextCompat.getColor(this,R.color.cover_gray_wzc)
             )
             backTodayBg.cardElevation = 0f
-            refreshDisplay()
+            refreshDisplay(Utils.timestampToDateString(System.currentTimeMillis()).substring(8..9).toInt())
             backTodayText.setOnClickListener(null)
         }
 
@@ -140,7 +140,8 @@ class DatePickerActivity : AppCompatActivity() {
         }
         plusMonth.setOnClickListener {
             currentMonth = if(currentMonth == 12){
-                12
+                currentYear++
+                1
             }else{
                 currentMonth + 1
             }
@@ -153,7 +154,8 @@ class DatePickerActivity : AppCompatActivity() {
         }
         minusMonth.setOnClickListener {
             currentMonth = if(currentMonth == 1){
-                1
+                currentYear--
+                12
             }else{
                 currentMonth - 1
             }
@@ -190,7 +192,7 @@ class DatePickerActivity : AppCompatActivity() {
         }
     }
 
-    private fun refreshDisplay(){
+    private fun refreshDisplay(chosen:Int = -1){
         yearDisplay.text = "${currentYear}年"
         monthDisplay.text = "${currentMonth}月"
         val m = if(currentMonth < 10){
@@ -202,7 +204,12 @@ class DatePickerActivity : AppCompatActivity() {
             gpId,
             "${currentYear}-$m"
         )
-        dayAdapter.lastChosen = -1
+        if(chosen == -1){
+            dayAdapter.lastChosen = -1
+        }else{
+            dayAdapter.lastChosen = chosen - 1
+            dayAdapter.dayList[chosen - 1].status = DayItem.STATUS_CHOSEN
+        }
         dayAdapter.notifyDataSetChanged()
     }
 }

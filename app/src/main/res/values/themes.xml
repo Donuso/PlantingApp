@@ -17,7 +17,7 @@
         <item name="android:statusBarColor">@color/themeDarkGreen</item>
     </style>
     <!--   ThemeOverlay.FinalApp.FullscreenContainer 全屏主题     -->
-    <style name="ThemeOverlay.FinalApp.FullscreenContainer" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="FullscreenContainer" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="fullscreenBackgroundColor">@color/black</item>
         <item name="fullscreenTextColor">@color/white</item>
     </style>
