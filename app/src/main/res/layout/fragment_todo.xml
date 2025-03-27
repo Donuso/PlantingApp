@@ -169,10 +169,11 @@
 <!--                        android:visibility="visible"/>-->
 
 <!--                    列表项-->
+                    <!--                    请使用 item_main_page_todo_finished_flag_chl 和 item_todos_main_page_chl 作为子项-->
                     <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/main_page_todos"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/main_page_todos"
                         android:visibility="visible"
                         />
 <!--                    请使用 item_main_page_todo_finished_flag_chl 和 item_todos_main_page_chl 作为子项-->

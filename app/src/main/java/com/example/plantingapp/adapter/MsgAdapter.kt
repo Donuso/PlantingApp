@@ -25,6 +25,7 @@ class MsgAdapter(val msgItemList:List<MsgItem>):RecyclerView.Adapter<RecyclerVie
                     spinAnimator.start()
                 }
                 MsgItem.STATUS_LOAD_SUCCESSFULLY -> {
+
                     fadeAnimator.start(false)
                     spinAnimator.stop()
                 }

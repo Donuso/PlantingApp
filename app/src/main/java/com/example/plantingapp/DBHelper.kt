@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper
 class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object {
         private const val DATABASE_NAME = "main.db"
-        private const val DATABASE_VERSION = 1
+        private const val DATABASE_VERSION = 2  // Incremented version for schema changes
 
         private val createLogGroup: String = """
             CREATE TABLE logGroup (
@@ -51,7 +51,8 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
                 interval INTEGER CHECK(interval BETWEEN 0 AND 365),
                 isEnabled INTEGER DEFAULT 0 CHECK(isEnabled IN (0,1,2)), -- 0 running/1 outdated/2 disabled
                 logGroupId INTEGER,
-                finished_times INTEGER DEFAULT 0
+                finished_times INTEGER DEFAULT 0,
+                isDeleted INTEGER DEFAULT 0 CHECK(isDeleted IN (0,1))
             );
         """.trimIndent()
 
@@ -111,7 +112,6 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         private val dropUser: String = """
             DROP TABLE IF EXISTS user;
         """.trimIndent()
-//密码以及修改成a1111111,昵称更新成忆植测试1
         private val insertDefaultUser = """
             INSERT INTO user (username, password, user_avatar)
             VALUES ('admin', '11111111', NULL);
@@ -125,6 +125,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         val clearLogTagsTable: String = "DELETE FROM logTags;"
         val clearLogPicsTable: String = "DELETE FROM logPics;"
     }
+
     fun insertTodo(
         userId: Int,
         todoName: String,
@@ -141,19 +142,37 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
             put("endTime", endTime)
             put("interval", interval)
             put("isEnabled", isEnabled)
+            put("isDeleted", 0)  // Default to not deleted
         }
         val newRowId = db.insert("todo", null, values)
         db.close()
         return newRowId
     }
-    fun deleteTodo(todoName: String, isEnabled: Int): Int {
+
+    fun softDeleteTodo(todoName: String, isEnabled: Int): Int {
         val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put("isDeleted", 1)
+        }
         val whereClause = "todoName = ? AND isEnabled = ?"
         val whereArgs = arrayOf(todoName, isEnabled.toString())
-        val result = db.delete("todo", whereClause, whereArgs)
+        val result = db.update("todo", values, whereClause, whereArgs)
         db.close()
         return result
     }
+
+    fun restoreTodo(todoName: String): Int {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put("isDeleted", 0)
+        }
+        val whereClause = "todoName = ?"
+        val whereArgs = arrayOf(todoName)
+        val result = db.update("todo", values, whereClause, whereArgs)
+        db.close()
+        return result
+    }
+
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(createLogGroup)
         db.execSQL(createLog)
@@ -162,26 +181,27 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         db.execSQL(createCustomTag)
         db.execSQL(createLogTags)
         db.execSQL(createLogPics)
-        // 插入默认账户
         db.execSQL(insertDefaultUser)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db.execSQL(dropLogPics)
-        db.execSQL(dropLogTags)
-        db.execSQL(dropCustomTag)
-        db.execSQL(dropTodo)
-        db.execSQL(dropLog)
-        db.execSQL(dropLogGroup)
-        db.execSQL(dropUser)
-
-        db.execSQL(createLogGroup)
-        db.execSQL(createLog)
-        db.execSQL(createUser)
-        db.execSQL(createTodo)
-        db.execSQL(createCustomTag)
-        db.execSQL(createLogTags)
-        db.execSQL(createLogPics)
+        when (oldVersion) {
+            1 -> {
+                // Upgrade from version 1 to 2 - add isDeleted column
+                db.execSQL("ALTER TABLE todo ADD COLUMN isDeleted INTEGER DEFAULT 0 CHECK(isDeleted IN (0,1))")
+            }
+            // Add more upgrade steps if needed for future versions
+            else -> {
+                // For any other case, drop and recreate tables
+                db.execSQL(dropLogPics)
+                db.execSQL(dropLogTags)
+                db.execSQL(dropCustomTag)
+                db.execSQL(dropTodo)
+                db.execSQL(dropLog)
+                db.execSQL(dropLogGroup)
+                db.execSQL(dropUser)
+                onCreate(db)
+            }
+        }
     }
-
 }

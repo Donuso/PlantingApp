@@ -107,7 +107,7 @@
                     android:paddingTop="15dp"
                     android:id="@+id/no_enabled_todos"
                     android:textSize="14sp"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     />
 
                 <LinearLayout

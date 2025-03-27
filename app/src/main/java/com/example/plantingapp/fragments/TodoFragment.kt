@@ -76,7 +76,6 @@ class TodoFragment : Fragment() {
             )
         }
     }
-
     private fun initAdapter(){
         todoAdapter = TodayTodoAdapter(
             requireContext(),

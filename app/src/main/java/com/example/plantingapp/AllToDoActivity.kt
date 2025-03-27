@@ -1,11 +1,8 @@
 package com.example.plantingapp
 
 import android.content.ContentValues
-import android.content.Context
 import android.content.Intent
-import android.database.Cursor
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +13,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -37,7 +33,7 @@ class AllToDoActivity : BaseActivity() {
 
     companion object {
         private const val REQUEST_CODE_NEW_TODO = 1
-        const val RESULT_TODO_UPDATED = 2 // 新增的结果码
+        const val RESULT_TODO_UPDATED = 2
     }
 
     private lateinit var optionLayer: LinearLayout
@@ -221,6 +217,7 @@ class AllToDoActivity : BaseActivity() {
             cancel.setTextColor(ContextCompat.getColor(this, R.color.themeRed))
             showCancel()
         }
+
 
         alterTodo.setOnClickListener {
             hint.text = "点击按钮以停用/复用待办"
