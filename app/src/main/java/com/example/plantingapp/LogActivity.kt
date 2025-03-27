@@ -137,7 +137,7 @@ class LogActivity : BaseActivity() {
         if(tem1 == null || tem2 == null){
             Toast.makeText(this,"无法加载天气",Toast.LENGTH_SHORT).show()
         }else{
-            temp = "当日温度   $tem1℃ ~ $tem2℃"
+            temp = "当日温度   $tem2℃ ~ $tem1℃"
             recordTemp.text = temp
             daoLog.updateWeatherTemperatureRange(logId,temp!!)
             daoLog.updateLastModified(groupId)

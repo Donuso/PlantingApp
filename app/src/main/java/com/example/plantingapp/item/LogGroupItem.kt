@@ -15,12 +15,12 @@ data class LogGroupItem(
 )
 {
     companion object {
-        val URI_COVER = 1
-        val RES_COVER = 0
+        const val URI_COVER = 1
+        const val RES_COVER = 0
 
-        val MODE_OPEN = 1
-        val MODE_EDIT = 2
-        val MODE_DEL = 3
+        const val MODE_OPEN = 1
+        const val MODE_EDIT = 2
+        const val MODE_DEL = 3
     }
 
 }

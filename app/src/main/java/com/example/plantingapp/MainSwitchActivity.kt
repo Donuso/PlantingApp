@@ -38,36 +38,52 @@ class MainSwitchActivity : BaseActivity() {
         when (tag) {
             "main" -> {
                 transaction.show(mainFragment)
-                logFragment.let { transaction.hide(it) }
-                todoFragment.let { transaction.hide(it) }
-                meFragment.let { transaction.hide(it) }
+                logFragment.let { transaction.hide(it)
+                }
+                todoFragment.let { transaction.hide(it)
+                }
+                meFragment.let { transaction.hide(it)
+                }
+                transaction.commit()
             }
             "logs" -> {
                 if(!logFragment.isAdded)
                     transaction.add(R.id.frameLayoutContent, logFragment)
                 transaction.show(logFragment)
-                mainFragment.let { transaction.hide(it) }
-                todoFragment.let { transaction.hide(it) }
-                meFragment.let { transaction.hide(it) }
+                mainFragment.let { transaction.hide(it)
+                }
+                todoFragment.let { transaction.hide(it)
+                }
+                meFragment.let { transaction.hide(it)
+                }
+                transaction.commit()
             }
             "todos" -> {
                 if(!todoFragment.isAdded)
                     transaction.add(R.id.frameLayoutContent, todoFragment)
                 transaction.show(todoFragment)
-                mainFragment.let { transaction.hide(it) }
-                logFragment.let { transaction.hide(it) }
-                meFragment.let { transaction.hide(it) }
+                mainFragment.let { transaction.hide(it)
+                }
+                logFragment.let { transaction.hide(it)
+                }
+                meFragment.let { transaction.hide(it)
+                }
+                transaction.commit()
             }
             "me" -> {
                 if(!meFragment.isAdded)
                     transaction.add(R.id.frameLayoutContent, meFragment)
                 transaction.show(meFragment)
-                mainFragment.let { transaction.hide(it) }
-                logFragment.let { transaction.hide(it) }
-                todoFragment.let { transaction.hide(it) }
+                mainFragment.let { transaction.hide(it)
+                }
+                logFragment.let { transaction.hide(it)
+                }
+                todoFragment.let { transaction.hide(it)
+                }
+                transaction.commit()
             }
         }
-        transaction.commit()
+
     }
 
     private fun setBottomNavigationListener() {

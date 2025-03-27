@@ -40,7 +40,6 @@ class LoginActivity : BaseActivity() {
 
         toRegister.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
-            finish()
         }
 
         // 自动登录按钮
@@ -155,6 +154,7 @@ class LoginActivity : BaseActivity() {
                 startActivity(Intent(this, MainSwitchActivity::class.java))
                 Log.i("id", DataExchange.USERID.toString())
                 Log.i("spid", sharedPreferences.getString("user_id", "default_id") ?: "null")
+                finish()
             }
         }
     }

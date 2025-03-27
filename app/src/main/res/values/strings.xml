@@ -106,11 +106,11 @@
     <string name="no_time_chl">----</string>
     <string name="todo_content_subtitle_chl">待办内容｜不超过15个字</string>
     <string name="todo_content_hint_chl">请输入待办的内容</string>
-    <string name="time_division_subtitle_chl">提醒时间间隔｜可填写1~365天</string>
-    <string name="group_binding_chl">是否绑定植物组</string>
+    <string name="time_division_subtitle_chl">提醒时间间隔｜可填写0~365天</string>
+    <string name="group_binding_chl">是否绑定日志组</string>
     <string name="unit_of_day_division_chl">天</string>
     <string name="All_todos_title_chl">所有待办</string>
-    <string name="hint_subtitle">点击待办即可修改其信息</string>
+    <string name="hint_subtitle">点击待办即可查看/修改其信息</string>
     <string name="delete_todo_chl">删除待办</string>
     <string name="alter_todos_chl">停用或复用待办</string>
     <string name="finish_chl">完成</string>
@@ -130,4 +130,5 @@
     <string name="no_recently_used_label">暂无最近使用的标签</string>
     <string name="record_temp_wzc">点击此处记录温度</string>
     <string name="pick_sys_notify_time_wzc">是否启用系统通知</string>
+    <string name="today_no_todo">今日暂无需要完成的待办</string>
 </resources>

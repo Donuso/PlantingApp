@@ -6,7 +6,7 @@ data class LogPicItem(
     var status:Int = MODE_DISPLAY
 ) {
     companion object{
-        val MODE_DISPLAY = 0
-        val MODE_DEL = 1
+        const val MODE_DISPLAY = 0
+        const val MODE_DEL = 1
     }
 }

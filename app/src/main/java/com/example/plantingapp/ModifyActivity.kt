@@ -64,6 +64,7 @@ class ModifyActivity : BaseActivity() {
             val uri = result[0].uri
             val storedUri = Utils.storeSinglePicture(this,uri)
             storedUri?.let {
+                Toast.makeText(this,"修改头像成功",Toast.LENGTH_SHORT).show()
                 Glide.with(this).load(storedUri).into(avatarImage)
                 dao.updateUserAvatarYZR(
                     MeItem(
@@ -125,6 +126,7 @@ class ModifyActivity : BaseActivity() {
                 if(resultName == MeItem.FAILED_ALTER_USERNAME){
                     Toast.makeText(this,"用户名已存在，请尝试其他名称",Toast.LENGTH_SHORT).show()
                 }else{
+                    Toast.makeText(this,"修改昵称成功",Toast.LENGTH_SHORT).show()
                     onBackPressedDispatcher.onBackPressed()
                 }
             }else{

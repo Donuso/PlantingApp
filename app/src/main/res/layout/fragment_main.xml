@@ -181,12 +181,12 @@
                                 android:layout_height="wrap_content"
                                 android:id="@+id/area"
                                 android:text="--"
-                                android:layout_marginStart="5dp"
-                                android:textSize="15sp"
+                                android:layout_marginStart="3dp"
+                                android:textSize="12sp"
                                 android:textColor="@color/mass_text_grey_wzc"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintStart_toEndOf="@id/location_icon"
-                                android:layout_marginTop="5dp"
+                                android:layout_marginTop="7dp"
                                 />
 
                             <TextView
@@ -617,9 +617,10 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="最近无编辑对象"
+                    android:text="最近未查看日志组"
                     android:textStyle="bold"
                     android:gravity="center"
+                    android:paddingBottom="5dp"
                     />
             </androidx.cardview.widget.CardView>
 
@@ -649,9 +650,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="植物名称"
-                        android:textSize="18sp"
+                        android:textSize="17sp"
                         android:textColor="@color/black"
-                        android:layout_marginTop="19dp"
+                        android:layout_marginTop="20dp"
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:id="@+id/plantName"
@@ -663,13 +664,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="已种植n天"
-                        android:textSize="15sp"
+                        android:textSize="14sp"
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:id="@+id/group_days"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/plantPhoto"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="17dp"
                         />
 
                     <ImageButton

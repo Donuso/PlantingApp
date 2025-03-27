@@ -1,23 +1,30 @@
 package com.example.plantingapp
 
 import android.content.Intent
-import com.google.android.material.datepicker.CalendarConstraints
-import com.google.android.material.datepicker.MaterialDatePicker
-import java.text.SimpleDateFormat
-import java.util.Locale
 import android.os.Bundle
-import android.widget.Button
+import android.view.View
+import android.widget.AdapterView
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.Spinner
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import com.example.plantingapp.animators.ExpandAnimator
-import com.google.android.material.card.MaterialCardView
-import com.google.android.material.datepicker.DateValidatorPointForward
-import java.util.Calendar
 import android.widget.Toast
-import android.content.ContentValues
+import androidx.appcompat.widget.SwitchCompat
+import androidx.core.content.ContextCompat
+import com.example.plantingapp.adapter.GroupSpinnerAdapter
+import com.example.plantingapp.animators.ExpandAnimator
+import com.example.plantingapp.converter.TodoConverter
+import com.example.plantingapp.dao.ToDoDAO
+import com.example.plantingapp.item.DataExchange
+import com.example.plantingapp.item.UniversalTodoItem
+import com.google.android.material.card.MaterialCardView
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.DateValidatorPointForward
+import com.google.android.material.datepicker.MaterialDatePicker
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
+
 
 class NewTodoActivity : BaseActivity() {
     private lateinit var changeButton: MaterialCardView
@@ -29,6 +36,16 @@ class NewTodoActivity : BaseActivity() {
     private lateinit var pickUpHint: TextView
     private lateinit var animeNS: ExpandAnimator
     private lateinit var animeTP: ExpandAnimator
+    private lateinit var dao:ToDoDAO
+    private lateinit var todoContentEditText:EditText
+    private lateinit var confirm:TextView
+    private lateinit var title:TextView
+    private lateinit var intervalText: EditText
+    private lateinit var groupSpinner:Spinner
+    private lateinit var switchCompat :SwitchCompat
+    private lateinit var attachTitleTextView:TextView
+    private lateinit var spinnerAdapter: GroupSpinnerAdapter
+
     private var ifNeverStop = true
     private val neverStopDisplacement = 147f
     private val chooseToPickDisplacement = 106f
@@ -38,65 +55,40 @@ class NewTodoActivity : BaseActivity() {
     private var pickedTime = MaterialDatePicker.todayInUtcMilliseconds() + 24 * 60 * 60 * 1000
     private var pickedTimeText = "----"
     private val dateFormat = SimpleDateFormat("yyyy年MM月dd日", Locale.getDefault())
+    private var transferredItem:UniversalTodoItem? = null
+    private var groupAttachMode = GROUP_ATTACH_MODE_NO_ATTACH
+
+    companion object{
+        const val GROUP_ATTACH_MODE_DO_ATTACH = 1
+        const val GROUP_ATTACH_MODE_NO_ATTACH = 0
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_todo)
-        val todoContentEditText = findViewById<EditText>(R.id.todo_content)
-        val confirmButton = findViewById<TextView>(R.id.confirm_button)
-        initAll()
-        changeButton.setOnClickListener {
-            simulateSwitchCompat()
-            ifNeverStop = !ifNeverStop
-            simulateDateButton.isClickable = !ifNeverStop
-        }
-        simulateDateButton.setOnClickListener {
-            showMaterialDatePicker()
-        }
-        simulateDateButton.isClickable = false
-        back.setOnClickListener {
-            finish() // 结束当前Activity，返回上一个界面
-        }
-        confirmButton.setOnClickListener {
-            val todoContent = todoContentEditText.text.toString()
-            val endTime = endTimeText.text.toString()
-            val reminderIntervalEditText = findViewById<EditText>(R.id.reminder_interval)
-            val reminderInterval = reminderIntervalEditText.text.toString().toIntOrNull()?: 0
 
-            val dbHelper = DBHelper(this)
-            val db = dbHelper.writableDatabase
-            val createTime = System.currentTimeMillis()
-
-            // 将 MutableMap 转换为 ContentValues
-            val values = ContentValues()
-            values.put("userId", 1) // 假设用户ID为1，需根据实际情况修改
-            values.put("todoName", todoContent)
-            values.put("createTime", createTime)
-            values.put("endTime", endTime)
-            values.put("interval", reminderInterval)
-            values.put("isEnabled", 1) // 1表示启用，0表示停用，2表示其他状态，根据实际需求修改
-
-            val newRowId = db.insert("todo", null, values)
-            if (newRowId != -1L) {
-                Toast.makeText(this, "待办事项添加成功", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "待办事项添加失败", Toast.LENGTH_SHORT).show()
-            }
-            db.close()
-
-            setResult(RESULT_OK)
-            finish()
-        }
+        initViewsAndSoOn()
+        initData()
+        setOnListeners()
     }
 
-    private fun initAll() {
+    private fun initViewsAndSoOn() {
         changeButton = findViewById(R.id.fake_switch_compat)
         neverStop = findViewById(R.id.left_view_never_stop)
         chooseToPick = findViewById(R.id.left_view_pick_time)
         simulateDateButton = findViewById(R.id.sim_date_button)
+        title = findViewById(R.id.title)
         back = findViewById(R.id.back_btn)
         endTimeText = findViewById(R.id.end_time)
         pickUpHint = findViewById(R.id.pick_up_hint)
+        todoContentEditText = findViewById(R.id.todo_content)
+        confirm = findViewById(R.id.confirm_button)
+        intervalText = findViewById(R.id.reminder_interval)
+        groupSpinner = findViewById(R.id.plant_group_spinner)
+        switchCompat = findViewById(R.id.switch_compat)
+        attachTitleTextView = findViewById(R.id.group_binder_title)
+        groupSpinner.dropDownVerticalOffset = Utils.dpToPx(this,40f)
+
         animeNS = ExpandAnimator(this, neverStop)
             .setIfFade(true)
             .setRateType(ExpandAnimator.iOSRatio)
@@ -109,6 +101,71 @@ class NewTodoActivity : BaseActivity() {
         themeDarkGreen = ContextCompat.getColor(this,R.color.themeDarkGreen)
         greyText = ContextCompat.getColor(this,R.color.general_grey_wzc)
         greyLine = ContextCompat.getColor(this, R.color.line_grey_wzc)
+
+        dao = ToDoDAO(this)
+    }
+
+    private fun setOnListeners(){
+        changeButton.setOnClickListener {
+            simulateSwitchCompat()
+            ifNeverStop = !ifNeverStop
+            simulateDateButton.isClickable = !ifNeverStop
+        }
+        simulateDateButton.setOnClickListener {
+            showMaterialDatePicker()
+        }
+        simulateDateButton.isClickable = false
+        back.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+        confirm.setOnClickListener {
+            newConfirm()
+        }
+        switchCompat.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked){
+                switchAttachGroupMode(GROUP_ATTACH_MODE_DO_ATTACH)
+            }else{
+                switchAttachGroupMode(GROUP_ATTACH_MODE_NO_ATTACH)
+            }
+        }
+    }
+
+    private fun initData(){
+        initGroupBinding()
+        val preData = intent.getStringExtra("alter_todo")
+        if(preData != null){
+            title.text = "修改待办"
+            transferredItem = TodoConverter.fromJsonToItem(preData)
+            intervalText.setText("${transferredItem!!.interval}")
+            todoContentEditText.setText(transferredItem!!.todoName)
+            if(transferredItem!!.endTime != null){
+                ifNeverStop = true
+                simulateSwitchCompat()
+                ifNeverStop = false
+                endTimeText.text = transferredItem!!.endTime?.let { Utils.dateStringToCH(it) }
+                pickedTimeText = transferredItem!!.endTime.toString()
+                pickedTime = Utils.dateStringToTimestamp(transferredItem!!.endTime.toString())
+                pickUpHint.text = getString(R.string.picked_time_chl)
+            }else{
+                ifNeverStop = false
+                simulateSwitchCompat()
+                ifNeverStop = true
+            }
+            var cnt = 0
+            if(transferredItem!!.logGroupId != null){
+                for(it in spinnerAdapter.items){
+                    if(it.id == transferredItem!!.logGroupId){
+                        groupSpinner.setSelection(cnt)
+                        switchAttachGroupMode(
+                            GROUP_ATTACH_MODE_DO_ATTACH
+                        )
+                        switchCompat.isChecked = true
+                    }
+                    cnt++
+                }
+            }
+            // 预留：系统通知选项
+        }
     }
 
     private fun simulateSwitchCompat() {
@@ -172,4 +229,133 @@ class NewTodoActivity : BaseActivity() {
         }
         datePicker.show(supportFragmentManager, "MATERIAL_DATE_PICKER")
     }
+
+    private fun newConfirm(){
+        val todoContent = todoContentEditText.text.toString()
+        val interval = intervalText.text.toString()
+        if(todoContent.isEmpty()){
+            Toast.makeText(this,"待办名称不能为空",Toast.LENGTH_SHORT).show()
+        }else if(todoContent.length > 15){
+            Toast.makeText(this,"待办名称不能超过15个字",Toast.LENGTH_SHORT).show()
+        }else if(interval.isEmpty() || interval.toInt() < 0||interval.toInt() >365){
+            Toast.makeText(this,"请正确填写时间间隔",Toast.LENGTH_SHORT).show()
+        }else{
+            when(transferredItem){
+                null -> {
+                    dao.insertTodo(
+                        userId = DataExchange.USERID!!.toInt(),
+                        todoName = todoContent,
+                        interval = interval.toInt(),
+                        isEnabled = UniversalTodoItem.STATUS_RUNNING,
+                        endTime = if(ifNeverStop || pickedTimeText == "----"){
+                            null
+                        }else{
+                            Utils.timestampToDateString(pickedTime)
+                        },
+                        logGroupId = if(groupAttachMode == GROUP_ATTACH_MODE_NO_ATTACH || groupSpinner.selectedItemPosition == 0){
+                            null
+                        }else{
+                            spinnerAdapter.items[groupSpinner.selectedItemPosition].id
+                        }
+                    )
+                    Toast.makeText(this,"新建待办成功",Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    transferredItem!!.todoName = todoContent
+                    transferredItem!!.interval = interval.toInt()
+                    transferredItem!!.endTime = if(ifNeverStop || pickedTimeText == "----"){
+                        null
+                    }else{
+                        Utils.timestampToDateString(pickedTime)
+                    }
+                    transferredItem!!.logGroupId = if(groupAttachMode == GROUP_ATTACH_MODE_NO_ATTACH || groupSpinner.selectedItemPosition == 0){
+                        null
+                    }else{
+                        spinnerAdapter.items[groupSpinner.selectedItemPosition].id
+                    }
+                    dao.updateTodo(transferredItem!!)
+                    Toast.makeText(this,"修改待办成功",Toast.LENGTH_SHORT).show()
+                }
+            }
+            startActivity(Intent(this,AllToDoActivity::class.java))
+            finish()
+        }
+
+    }
+
+    private fun initGroupBinding() {
+        spinnerAdapter = GroupSpinnerAdapter(this){ pos ->
+            groupSpinner.setSelection(pos)
+            groupSpinner.performClick()
+        }
+        groupSpinner.adapter = spinnerAdapter.apply {
+            items.addAll(
+                dao.getLogGroupsByUserId(DataExchange.USERID!!.toInt())
+            )
+        }
+        groupSpinner.setSelection(0)
+        groupSpinner.visibility = View.GONE
+    }
+
+    // Switch逻辑封装
+    private fun switchAttachGroupMode(
+        mode:Int
+    ) {
+        when(mode){
+            GROUP_ATTACH_MODE_DO_ATTACH -> {
+                if(spinnerAdapter.items.size == 1){
+                    Toast.makeText(this, "未创建任何日志组", Toast.LENGTH_SHORT).show()
+                    switchCompat.isChecked = false
+                    groupAttachMode = GROUP_ATTACH_MODE_NO_ATTACH
+                    attachTitleTextView.setTextColor(ContextCompat.getColor(this,R.color.general_grey_wzc))
+                }else{
+                    groupSpinner.visibility = View.VISIBLE
+                    groupAttachMode = GROUP_ATTACH_MODE_DO_ATTACH
+                    attachTitleTextView.setTextColor(ContextCompat.getColor(this,R.color.themeDarkGreen))
+                }
+            }
+            GROUP_ATTACH_MODE_NO_ATTACH -> {
+                groupSpinner.visibility = View.GONE
+                groupAttachMode = GROUP_ATTACH_MODE_NO_ATTACH
+                attachTitleTextView.setTextColor(ContextCompat.getColor(this,R.color.general_grey_wzc))
+            }
+        }
+
+    }
+
+    // 原完成逻辑
+//    private fun oldConfirm(){
+//        val reminderIntervalEditText = findViewById<EditText>(R.id.reminder_interval)
+//        val reminderInterval = reminderIntervalEditText.text.toString().toIntOrNull()?: 0
+//        val todoContent = todoContentEditText.text.toString()
+//        if(todoContent.isEmpty()){
+//            Toast.makeText(this,"请填写待办名称",Toast.LENGTH_SHORT).show()
+//        }else if(reminderInterval < 0 || reminderInterval > 365){
+//            Toast.makeText(this,"请正确填写间隔天数",Toast.LENGTH_SHORT).show()
+//        }else{
+//            val endTime = endTimeText.text.toString()
+//            val dbHelper = DBHelper(this)
+//            val db = dbHelper.writableDatabase
+//            val createTime = System.currentTimeMillis()
+//
+//            // 将 MutableMap 转换为 ContentValues
+//            val values = ContentValues()
+//            values.put("userId", 1) // 假设用户ID为1，需根据实际情况修改
+//            values.put("todoName", todoContent)
+//            values.put("createTime", createTime)
+//            values.put("endTime", endTime)
+//            values.put("interval", reminderInterval)
+//            values.put("isEnabled", 1) // 1表示启用，0表示停用，2表示其他状态，根据实际需求修改
+//
+//            val newRowId = db.insert("todo", null, values)
+//            if (newRowId != -1L) {
+//                Toast.makeText(this, "待办事项添加成功", Toast.LENGTH_SHORT).show()
+//            } else {
+//                Toast.makeText(this, "待办事项添加失败", Toast.LENGTH_SHORT).show()
+//            }
+//            db.close()
+//            setResult(RESULT_OK)
+//            finish()
+//        }
+//    }
 }

@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper
 class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object {
         private const val DATABASE_NAME = "main.db"
-        private const val DATABASE_VERSION = 2
+        private const val DATABASE_VERSION = 1
 
         private val createLogGroup: String = """
             CREATE TABLE logGroup (
@@ -18,7 +18,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
                 remark TEXT CHECK(LENGTH(remark) <= 15),
                 coverImageUri TEXT DEFAULT 'default',
                 lastModified INTEGER,
-                createdTime INTEGER NOT NULL
+                createdTime INTEGER NOT NULL DEFAULT 0
             );
         """.trimIndent()
 
@@ -44,12 +44,12 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         private val createTodo: String = """
             CREATE TABLE todo (
                 todoId INTEGER PRIMARY KEY AUTOINCREMENT,
-                userId INTEGER,
+                userId INTEGER NOT NULL,
                 todoName TEXT NOT NULL CHECK(LENGTH(todoName) <= 15),
                 createTime INTEGER NOT NULL,
                 endTime Text,
-                interval INTEGER CHECK(interval BETWEEN 1 AND 365),
-                isEnabled INTEGER DEFAULT 0 CHECK(isEnabled IN (0,1,2)),
+                interval INTEGER CHECK(interval BETWEEN 0 AND 365),
+                isEnabled INTEGER DEFAULT 0 CHECK(isEnabled IN (0,1,2)), -- 0 running/1 outdated/2 disabled
                 logGroupId INTEGER,
                 finished_times INTEGER DEFAULT 0
             );
@@ -167,10 +167,6 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        if (oldVersion < 2) {
-            // 添加 createdTime 列到旧表
-            db.execSQL("ALTER TABLE logGroup ADD COLUMN createdTime INTEGER NOT NULL DEFAULT 0")
-        }
         db.execSQL(dropLogPics)
         db.execSQL(dropLogTags)
         db.execSQL(dropCustomTag)

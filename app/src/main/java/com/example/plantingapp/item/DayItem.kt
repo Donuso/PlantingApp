@@ -6,8 +6,8 @@ data class DayItem(
     var status:Int = STATUS_NO_RECORD
 ){
     companion object {
-        val STATUS_NO_RECORD = 0
-        val STATUS_HAS_RECORD = 1
-        val STATUS_CHOSEN = 2
+        const val STATUS_NO_RECORD = 0
+        const val STATUS_HAS_RECORD = 1
+        const val STATUS_CHOSEN = 2
     }
 }

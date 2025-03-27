@@ -3,12 +3,15 @@ package com.example.plantingapp
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,6 +36,8 @@ class AIChatActivity : BaseActivity(), View.OnClickListener {
     private lateinit var send: ImageButton
     private lateinit var inputText: EditText
     private lateinit var backgroundSend: CardView
+    private lateinit var backMain:TextView
+    private lateinit var rootView:ConstraintLayout
     // 请别忘记返回主页按钮
     private val client = OkHttpClient.Builder()
         .connectTimeout(5, TimeUnit.SECONDS) // 连接超时时间
@@ -51,12 +56,16 @@ class AIChatActivity : BaseActivity(), View.OnClickListener {
         send = findViewById(R.id.send)
         inputText = findViewById(R.id.inputText)
         backgroundSend = findViewById(R.id.bg_send)
+        backMain = findViewById(R.id.return_button)
+        rootView = findViewById(R.id.root)
 
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
         adapter = MsgAdapter(msgItemList)
         recyclerView.adapter = adapter
         send.setOnClickListener(this)
+        rootView.setOnClickListener(this)
+        backMain.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -67,6 +76,13 @@ class AIChatActivity : BaseActivity(), View.OnClickListener {
                     val msgItem = MsgItem(content, MsgItem.TYPE_SENT)
                     addMsg(msgItem)
                 }
+            }
+            rootView -> {
+                val imm2 = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                imm2.hideSoftInputFromWindow(inputText.windowToken, 0)
+            }
+            backMain -> {
+                onBackPressedDispatcher.onBackPressed()
             }
         }
     }
@@ -81,12 +97,12 @@ class AIChatActivity : BaseActivity(), View.OnClickListener {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 // 使用正确的模型名称，设置 stream 为 true
-                val json = """{"model": "llama3.2", "prompt": "$message", "stream": true}"""
+                val json = """{"model": "llama3.2:3b", "prompt": "$message", "stream": true}"""
 
                 val body = json.toRequestBody(mediaType)
                 val request = Request.Builder()
-                    .url("http://10.0.2.2:11434/api/generate") // 替换为实际的 Ollama 服务器 URL
-//                  .url("http://172.20.10.4:11434/api/generate") // @wuzichen's API
+//                    .url("http://10.0.2.2:11434/api/generate") // 替换为实际的 Ollama 服务器 URL
+                    .url("http://192.168.125.134:11434/api/generate") // @wuzichen's API
                     .post(body)
                     .build()
 

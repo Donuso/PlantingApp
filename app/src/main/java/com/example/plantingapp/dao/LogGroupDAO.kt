@@ -18,11 +18,31 @@ class LogGroupDAO(context: Context) {
 
     // 删除日志组
     fun deleteLogGroup(logGroupItem: LogGroupItem): Int {
-        return db.writableDatabase.delete(
-            "logGroup",
-            "logGroupId = ?",
-            arrayOf(logGroupItem.gpId.toString())
-        )
+        val db = db.writableDatabase
+        // 开启事务保证原子性
+        db.beginTransaction()
+        try {
+            // 1. 先清除关联的待办事项中的日志组ID
+            val updateCount = db.update(
+                "todo",
+                ContentValues().apply { putNull("logGroupId") },
+                "logGroupId = ?",
+                arrayOf(logGroupItem.gpId.toString())
+            )
+
+            // 2. 再执行日志组删除操作
+            val deleteCount = db.delete(
+                "logGroup",
+                "logGroupId = ?",
+                arrayOf(logGroupItem.gpId.toString())
+            )
+
+            // 提交事务
+            db.setTransactionSuccessful()
+            return deleteCount
+        } finally {
+            db.endTransaction()
+        }
     }
 
     // 新增日志组（带查重）

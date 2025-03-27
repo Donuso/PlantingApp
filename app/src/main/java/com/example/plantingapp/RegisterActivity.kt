@@ -63,7 +63,7 @@ class RegisterActivity : BaseActivity() {
             performRegistration()
         }
         toLogin.setOnClickListener {
-            finish()
+            onBackPressedDispatcher.onBackPressed()
         }
     }
 
@@ -149,7 +149,7 @@ class RegisterActivity : BaseActivity() {
         // 插入新用户
         val Id = userDao.insertUser(username, password)
         if (Id > 0) {
-            Toast.makeText(this,"注册成功！请登录",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"注册成功！",Toast.LENGTH_SHORT).show()
             // 跳转到登录页面
             val user_Id = userQuery.getUserIdByUsername(username)
 
@@ -162,7 +162,6 @@ class RegisterActivity : BaseActivity() {
                 apply()
             }
 
-
             // 放入伴生类
             DataExchange.USERID = user_Id
 
@@ -173,10 +172,6 @@ class RegisterActivity : BaseActivity() {
             Log.i("rg_spid", sharedPreferences.getString("user_id", "default_id") ?: "null")
 
             startActivity(Intent(this, MainSwitchActivity::class.java))
-
-
-
-
             finish()
         } else {
             Toast.makeText(this,"注册失败",Toast.LENGTH_SHORT).show()

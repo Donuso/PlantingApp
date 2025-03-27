@@ -80,10 +80,12 @@
             android:exported="true" />
         <activity
             android:name=".RegisterActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".LoginActivity"
-            android:exported="true" >
+            android:exported="true"
+            android:launchMode="singleTask">
 
         </activity>
         <activity
@@ -96,7 +98,8 @@
         </activity>
         <activity
             android:name=".AllToDoActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".NewTodoActivity"
             android:exported="true" >

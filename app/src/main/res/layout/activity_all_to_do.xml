@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:text="@string/All_todos_title_chl"
             android:textColor="@color/text_black_wzc"
-            android:textSize="20sp"
+            android:textSize="19sp"
             android:layout_gravity="center"
             android:layout_marginBottom="9dp"
             android:id="@+id/title"
@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:text="@string/hint_subtitle"
         android:layout_marginTop="10dp"
-        android:textSize="16sp"
+        android:textSize="15sp"
         android:textColor="@color/general_grey_wzc"
         android:layout_gravity="center_horizontal"
         app:layout_constraintTop_toBottomOf="@id/division"
@@ -96,6 +96,7 @@
                 app:cardElevation="0dp"
                 app:strokeColor="@color/themeDarkGreen"
                 app:strokeWidth="1dp"
+                app:cardBackgroundColor="@color/white0.5_zhj"
                 >
 
                 <TextView
@@ -113,7 +114,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="20dp">
+                    android:padding="15dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -121,6 +122,9 @@
                         android:text="@string/enable_todo_subtitle_chl"
                         android:textSize="18sp"
                         android:textColor="@color/themeDarkGreen"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginBottom="10dp"
                         />
 <!--                    实际的数据应该存放在列表布局中-->
 
@@ -132,14 +136,14 @@
                         android:id="@+id/enabled_todos"
                         />
 
-                    <!--<LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <include layout="@layout/item_todo_enabled_chl"/>
-                        <include layout="@layout/item_todo_enabled_chl"/>
-                        <include layout="@layout/item_todo_enabled_chl"/>
-                    </LinearLayout>-->
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="vertical">-->
+<!--                        <include layout="@layout/item_todo_enabled_chl"/>-->
+<!--                        <include layout="@layout/item_todo_enabled_chl"/>-->
+<!--                        <include layout="@layout/item_todo_enabled_chl"/>-->
+<!--                    </LinearLayout>-->
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -153,7 +157,8 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 app:cardElevation="0dp"
-                android:layout_marginBottom="40dp">
+                android:layout_marginBottom="40dp"
+                app:cardBackgroundColor="@color/white0.5_zhj">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -162,21 +167,23 @@
                     android:paddingTop="25dp"
                     android:id="@+id/no_invalid_todos"
                     android:textSize="14sp"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="20dp"
-
+                    android:padding="15dp"
                     >
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/invalid_todo_subtitle_chl"
                         android:textColor="@color/grey_title_chl"
-                        android:textSize="18sp"/>
+                        android:textSize="18sp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginBottom="10dp"/>
 <!--                    实际的数据应该存放在列表布局中-->
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"

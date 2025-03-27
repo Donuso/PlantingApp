@@ -87,6 +87,14 @@ class MeFragment : Fragment() {
         loadExtra()
     }
 
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if(!hidden){
+            loadUsr()
+            loadExtra()
+        }
+    }
+
     private fun loadUsr(){
         val usr = dao.getUserByIdYZR(DataExchange.USERID!!.toInt())
         if(usr!=null){
@@ -113,7 +121,9 @@ class MeFragment : Fragment() {
             )
         }
         settingsEntry.setOnClickListener {
-            // 预留
+            startActivity(
+                Intent(requireContext(),SettingsActivity::class.java)
+            )
         }
         userPasswordAlter.setOnClickListener {
             startActivity(
