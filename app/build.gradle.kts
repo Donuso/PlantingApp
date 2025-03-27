@@ -26,6 +26,11 @@ android {
             )
         }
     }
+    packagingOptions {
+        exclude ("META-INF/DEPENDENCIES")
+        exclude ("META-INF/LICENSE.md")
+        exclude("META-INF/NOTICE.md")
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -56,4 +61,7 @@ dependencies {
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.google.code.gson:gson:2.10.1")
+    implementation ("com.aliyun:aliyun-java-sdk-core:4.5.16")
+    implementation ("com.aliyun:aliyun-java-sdk-dashscope:1.0.0")
+    /*implementation ("group: 'com.alibaba';" + "name: 'dashscope-sdk-java';" + "version: 'the-latest-version'")*/
 }

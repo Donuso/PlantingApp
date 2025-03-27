@@ -3,10 +3,8 @@ package com.example.plantingapp
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
@@ -21,6 +19,7 @@ import kotlinx.coroutines.withContext
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
@@ -33,11 +32,16 @@ class AIChatActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var send: ImageButton
     private lateinit var inputText: EditText
     private lateinit var backgroundSend: CardView
-    // 请别忘记返回主页按钮
+
+    // 阿里云DashScope配置
+    private val API_KEY = "sk-ea3444620b0d4468b6610b30d02ecbc1" // 替换为你的阿里云API Key
+    private val DASHSCOPE_URL = "https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation"
+    private val MODEL_NAME = "qwen-turbo" // 或其他阿里云支持的模型
+
     private val client = OkHttpClient.Builder()
-        .connectTimeout(5, TimeUnit.SECONDS) // 连接超时时间
-        .readTimeout(60, TimeUnit.SECONDS)   // 读取超时时间
-        .writeTimeout(60, TimeUnit.SECONDS)  // 写入超时时间
+        .connectTimeout(5, TimeUnit.SECONDS)
+        .readTimeout(60, TimeUnit.SECONDS)
+        .writeTimeout(60, TimeUnit.SECONDS)
         .build()
 
     private val mediaType = "application/json; charset=utf-8".toMediaType()
@@ -46,7 +50,6 @@ class AIChatActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_aichat)
         initMsg()
-        // init history messages from database?
         recyclerView = findViewById(R.id.recyclerView)
         send = findViewById(R.id.send)
         inputText = findViewById(R.id.inputText)
@@ -80,14 +83,29 @@ class AIChatActivity : AppCompatActivity(), View.OnClickListener {
         val pos = msgItemList.size - 1
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                // 使用正确的模型名称，设置 stream 为 true
-                val json = """{"model": "llama3.2", "prompt": "$message", "stream": true}"""
+                // 构建阿里云DashScope API请求
+                val json = JSONObject().apply {
+                    put("model", MODEL_NAME)
+                    put("input", JSONObject().apply {
+                        put("messages", JSONArray().apply {
+                            put(JSONObject().apply {
+                                put("role", "user")
+                                put("content", message)
+                            })
+                        })
+                    })
+                    put("parameters", JSONObject().apply {
+                        put("result_format", "message")
+                    })
+                }.toString()
 
                 val body = json.toRequestBody(mediaType)
                 val request = Request.Builder()
-                    .url("http://10.0.2.2:11434/api/generate") // 替换为实际的 Ollama 服务器 URL
-                    //                 .url("http://172.20.10.4:11434/api/generate") // @wuzichen's API
+                    .url(DASHSCOPE_URL)
                     .post(body)
+                    .addHeader("Authorization", "Bearer $API_KEY")
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("X-DashScope-SSE", "enable")
                     .build()
 
                 client.newCall(request).enqueue(object : Callback {
@@ -96,6 +114,7 @@ class AIChatActivity : AppCompatActivity(), View.OnClickListener {
                         CoroutineScope(Dispatchers.Main).launch {
                             recyclerView.scrollToPosition(pos)
                             adapter?.stopAnimator(pos, MsgItem.STATUS_LOAD_FAILED, "网络错误，对话加载失败")
+                            adapter?.notifyItemChanged(pos)
                         }
                         this@AIChatActivity.runOnUiThread {
                             backgroundSend.setCardBackgroundColor(ContextCompat.getColor(this@AIChatActivity, R.color.themeDarkGreen))
@@ -111,25 +130,55 @@ class AIChatActivity : AppCompatActivity(), View.OnClickListener {
                                 while (!source.exhausted()) {
                                     val line = source.readUtf8Line()
                                     if (line != null && line.isNotEmpty()) {
-                                        val jsonObject = JSONObject(line)
-                                        if (jsonObject.has("response")) {
-                                            val partialResponse = jsonObject.getString("response")
-                                            buffer += partialResponse
-                                            CoroutineScope(Dispatchers.Main).launch {
-                                                adapter?.updateReceivedMessage(pos, buffer)
-                                                recyclerView.scrollToPosition(pos)
+                                        try {
+                                            // Skip non-JSON lines and empty lines
+                                            val trimmedLine = line.trim()
+                                            if (trimmedLine.isEmpty() ||
+                                                (!trimmedLine.startsWith("{") && !trimmedLine.startsWith("data:"))) {
+                                                continue
                                             }
-                                        }
-                                        if (jsonObject.has("done") && jsonObject.getBoolean("done")) {
-                                            CoroutineScope(Dispatchers.Main).launch {
-                                                recyclerView.scrollToPosition(pos)
-                                                adapter?.stopAnimator(pos, MsgItem.STATUS_LOAD_SUCCESSFULLY, buffer)
+
+                                            // Remove "data:" prefix if present
+                                            val jsonString = if (trimmedLine.startsWith("data:")) {
+                                                trimmedLine.substring(5).trim()
+                                            } else {
+                                                trimmedLine
                                             }
+
+                                            val jsonObject = JSONObject(jsonString)
+                                            if (jsonObject.has("output")) {
+                                                val output = jsonObject.getJSONObject("output")
+                                                if (output.has("choices")) {
+                                                    val choices = output.getJSONArray("choices")
+                                                    if (choices.length() > 0) {
+                                                        val choice = choices.getJSONObject(0)
+                                                        if (choice.has("message")) {
+                                                            val message = choice.getJSONObject("message")
+                                                            val partialResponse = message.getString("content")
+                                                            buffer += partialResponse
+                                                            CoroutineScope(Dispatchers.Main).launch {
+                                                                adapter?.updateReceivedMessage(pos, buffer)
+                                                                recyclerView.scrollToPosition(pos)
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            if (jsonObject.has("usage")) {
+                                                // Response is complete
+                                                CoroutineScope(Dispatchers.Main).launch {
+                                                    recyclerView.scrollToPosition(pos)
+                                                    adapter?.stopAnimator(pos, MsgItem.STATUS_LOAD_SUCCESSFULLY, buffer)
+                                                }
+                                            }
+                                        } catch (e: JSONException) {
+                                            Log.e("JSONParse", "Error parsing line: $line", e)
+                                            continue
                                         }
                                     }
                                 }
                             }
-                        } catch (e: JSONException) {
+                        } catch (e: Exception) {
                             e.printStackTrace()
                             CoroutineScope(Dispatchers.Main).launch {
                                 recyclerView.scrollToPosition(pos)
@@ -148,30 +197,13 @@ class AIChatActivity : AppCompatActivity(), View.OnClickListener {
                 withContext(Dispatchers.Main) {
                     recyclerView.scrollToPosition(pos)
                     adapter?.stopAnimator(pos, MsgItem.STATUS_LOAD_FAILED, "网络错误，对话加载失败")
+                    adapter?.notifyItemChanged(pos)
                 }
                 this@AIChatActivity.runOnUiThread {
                     backgroundSend.setCardBackgroundColor(ContextCompat.getColor(this@AIChatActivity, R.color.themeDarkGreen))
                     send.isClickable = true
                 }
             }
-        }
-    }
-
-    private fun parseAIResponse(response: String): String {
-        return try {
-            val jsonObject = JSONObject(response)
-            when {
-                jsonObject.has("response") -> jsonObject.getString("response")
-                jsonObject.has("error") -> {
-                    val error = jsonObject.getString("error")
-                    Log.e("AI_Error", "Ollama 返回错误: $error")
-                    "AI 服务错误: $error\n请检查模型是否已安装"
-                }
-                else -> "未知响应格式: $response"
-            }
-        } catch (e: JSONException) {
-            Log.e("AI_Error", "JSON 解析错误", e)
-            "解析 AI 响应时出错: ${e.message}"
         }
     }
 
