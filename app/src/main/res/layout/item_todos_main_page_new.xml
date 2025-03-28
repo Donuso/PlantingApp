@@ -47,7 +47,7 @@
             android:id="@+id/todo_log_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+            android:textSize="13sp"
             android:textColor="@color/iconGrey"
             android:text="这是一个测试的日志组名称"
             android:maxLines="1"

@@ -111,6 +111,8 @@ object TodayTodoManager {
             for(it in result){
                 if(savedStatus.containsKey(it.todoId)){
                     it.status = savedStatus[it.todoId]!!
+                }else{
+                    it.status = TodayTodoItem.STATUS_UNFINISHED
                 }
             }
             // 放入结果

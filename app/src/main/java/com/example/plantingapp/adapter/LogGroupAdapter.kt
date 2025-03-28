@@ -96,7 +96,12 @@ class LogGroupAdapter(
         when(v){
             is LogGroup -> {
                 v.basicEdit(d,pos)
-                v.groupDays.text = "已种植${Utils.daysBetweenNowAndTimestamp(d.createTime)}天"
+                val days = Utils.daysBetweenNowAndTimestamp(d.createTime).toInt()
+                if(days <= 0){
+                    v.groupDays.text = "今日开始种植"
+                }else{
+                    v.groupDays.text = "已种植${days}天"
+                }
                 if(d.lastModified == -1L || d.lastModified == null){
                     v.groupLastModifiedTime.text = "最近未查看"
                 }else{

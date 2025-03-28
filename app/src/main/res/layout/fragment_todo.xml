@@ -6,11 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".fragments.TodoFragment">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/bg_res_1"
-        android:scaleType="centerCrop" />
+<!--    <ImageView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:src="@drawable/bg_res_1"-->
+<!--        android:scaleType="centerCrop" />-->
 
     <!--    标题-->
 
@@ -121,18 +121,6 @@
                         android:paddingBottom="8dp"
                         android:textStyle="bold"/>
 
-<!--                    无启用待办时显示-->
-<!--                    <TextView-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="100dp"-->
-<!--                        android:text="@string/no_enabled_todo_rightnow_chl"-->
-<!--                        android:gravity="center"-->
-<!--                        android:paddingBottom="15dp"-->
-<!--                        android:textSize="14sp"-->
-<!--                        android:textColor="@color/general_grey_wzc"-->
-<!--                        android:id="@+id/no_todo_reminder"-->
-<!--                        android:visibility="gone"-->
-<!--                        />-->
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
@@ -145,52 +133,13 @@
                         android:visibility="visible"
                         />
 
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:orientation="vertical">-->
-<!--                        <include layout="@layout/item_todos_main_page_new"/>-->
-<!--                        <include layout="@layout/item_todos_main_page_new"/>-->
-<!--                        <include layout="@layout/item_todos_main_page_new"/>-->
-<!--                        <include layout="@layout/item_todos_main_page_new"/>-->
-<!--                        <include layout="@layout/item_todos_main_page_new"/>-->
-
-<!--                    </LinearLayout>-->
-
-<!--                    未完成 列表头-->
-
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="@string/unfinished_todos_subtitle_chl"-->
-<!--                        android:textColor="@color/mass_text_grey_wzc"-->
-<!--                        android:textSize="16sp"-->
-<!--                        android:id="@+id/unfinished_subtitle"-->
-<!--                        android:visibility="visible"/>-->
-
-<!--                    列表项-->
-                    <!--                    请使用 item_main_page_todo_finished_flag_chl 和 item_todos_main_page_chl 作为子项-->
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/main_page_todos"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="visible"
+                        android:nestedScrollingEnabled="false"
                         />
-<!--                    请使用 item_main_page_todo_finished_flag_chl 和 item_todos_main_page_chl 作为子项-->
-<!--                    <View-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="1dp"-->
-<!--                        android:background="@color/grey_line_chl"-->
-<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                        />-->
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="@string/finished_todos_subtitle_chl"-->
-<!--                        android:textColor="@color/mass_text_grey_wzc"-->
-<!--                        android:textSize="16sp"-->
-<!--                        android:id="@+id/finished_subtitle"-->
-<!--                        android:visibility="visible"/>-->
 
 <!--                   <androidx.recyclerview.widget.RecyclerView-->
 <!--                       android:layout_width="match_parent"-->

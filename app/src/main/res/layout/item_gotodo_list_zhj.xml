@@ -12,16 +12,25 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_marginStart="20dp"
-            android:textSize="25dp"
+            android:layout_marginStart="12dp"
+            android:textSize="16dp"
             android:text="[data]"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:id="@+id/todo_text"
+            android:paddingTop="7dp"
+            android:gravity="center_vertical"
             />
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/icon_todo_zhj"
+            android:paddingTop="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
             />
 
     </LinearLayout>

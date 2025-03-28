@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/bg_res_1"
-        android:scaleType="centerCrop"
-        />
+<!--    <ImageView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:src="@drawable/bg_res_1"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        />-->
 
     <TextView
         android:layout_width="match_parent"
@@ -618,9 +618,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="最近未查看日志组"
-                    android:textStyle="bold"
                     android:gravity="center"
-                    android:paddingBottom="5dp"
+                    android:paddingBottom="8dp"
                     />
             </androidx.cardview.widget.CardView>
 

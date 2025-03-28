@@ -1,7 +1,9 @@
 package com.example.plantingapp.fragments
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -23,6 +25,7 @@ import com.example.plantingapp.adapter.LogGroupAdapter
 import com.example.plantingapp.animators.ExpandAnimator
 import com.example.plantingapp.animators.FadeAnimator
 import com.example.plantingapp.dao.LogGroupDAO
+import com.example.plantingapp.item.DataExchange
 import com.example.plantingapp.item.LogGroupItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -90,12 +93,22 @@ class LogFragment : Fragment() {
                 LogGroupDAO.OPT_ALT -> {
                     try{
                         dao.updateLogGroup(d)
+                        with(requireContext().getSharedPreferences("${DataExchange.USERID}_prefs", Context.MODE_PRIVATE).edit()){
+                            putString("group_name",d.gpName)
+                            apply()
+                        }
                     }catch (e:IllegalArgumentException){
                         Toast.makeText(requireContext(),e.message,Toast.LENGTH_SHORT).show()
                     }
                 }
                 LogGroupDAO.OPT_DEL -> {
                     dao.deleteLogGroup(d)
+                    with(requireContext().getSharedPreferences("${DataExchange.USERID}_prefs", Context.MODE_PRIVATE).edit()){
+                        putString("group_name",null)
+                        putInt("group_id",-1)
+                        putLong("groupCreatedTime",0L)
+                        apply()
+                    }
                 }
             }
         }

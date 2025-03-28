@@ -376,7 +376,7 @@ class LogActivity : BaseActivity() {
             picturePickerLauncher
                 .launch(
                     config = ImagePickerConfig {
-                    isShowCamera = false
+                    isShowCamera = true
                     arrowColor = R.color.themeDarkGreen
                     language = "zh-rCN"
                     imageTitle = "选择一张或多张图片"

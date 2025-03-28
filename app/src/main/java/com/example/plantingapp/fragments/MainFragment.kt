@@ -514,7 +514,12 @@ class MainFragment : Fragment() {
         if (groupId != -1){
             if (groupName != "未命名日志组" && groupCreatedTime != 0L){
                 PlantName.text = groupName
-                PlantDay.text = "已种植${Utils.daysBetweenNowAndTimestamp(groupCreatedTime)}天"
+                val days = Utils.daysBetweenNowAndTimestamp(groupCreatedTime).toInt()
+                if(days <= 0){
+                    PlantDay.text = "今日开始种植"
+                }else{
+                    PlantDay.text = "已种植${days}天"
+                }
                 PlantPhoto.setImageResource(R.drawable.icon_main)
                 DetailButtom.setOnClickListener {
                     val intent = Intent(requireContext(), LogActivity::class.java)

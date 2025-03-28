@@ -14,7 +14,7 @@ class SearchToDoAdapter(
 ) : RecyclerView.Adapter<SearchToDoAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView = view.findViewById(R.id.text)
+        val textView: TextView = view.findViewById(R.id.todo_text)
 
         init {
             view.findViewById<View>(R.id.touch_layer).setOnClickListener {

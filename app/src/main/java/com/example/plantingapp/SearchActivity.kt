@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plantingapp.adapter.SearchLogGroupAdapter
 import com.example.plantingapp.adapter.SearchToDoAdapter
+import com.example.plantingapp.converter.TodoConverter
 import com.example.plantingapp.dao.SearchDAO
+import com.example.plantingapp.dao.ToDoDAO
 import com.example.plantingapp.item.DataExchange
 
 class SearchActivity : BaseActivity() {
@@ -38,14 +40,21 @@ class SearchActivity : BaseActivity() {
             intent.putExtra("log_group_id", logGroup.logGroupId)
             intent.putExtra("log_group_name", logGroup.groupName)
             startActivity(intent)
+            finish()
         }
 
         todoAdapter = SearchToDoAdapter(emptyList()) { todoItem ->
-            // 处理待办事项点击事件（预留）
-            val intent = Intent(this, MainSwitchActivity::class.java)
-            intent.putExtra("todo_id", todoItem.todoId)
-            intent.putExtra("todo_title", todoItem.todoName)
-            startActivity(intent)
+             val x = ToDoDAO(this).getTodosByUserId(DataExchange.USERID!!.toInt())
+            for(it in x){
+                if(it.todoId == todoItem.todoId){
+                    val intent = Intent(this, NewTodoActivity::class.java).apply {
+                        putExtra("alter_todo",TodoConverter.toJson(it))
+                    }
+                    startActivity(intent)
+                    break
+                }
+            }
+            finish()
         }
 
         logRecyclerView.apply {

@@ -77,7 +77,7 @@
         android:textColorHint="@color/text_grey_wzc"
         android:gravity="start"
         android:textSize="16sp"
-        android:maxEms="15"
+        android:maxEms="13"
         android:textColor="@color/mass_text_grey_wzc"
         />
 

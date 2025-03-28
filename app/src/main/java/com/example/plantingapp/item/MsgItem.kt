@@ -14,4 +14,11 @@ data class MsgItem(
         const val STATUS_LOAD_SUCCESSFULLY = 1
         const val STATUS_LOAD_FAILED = -1
     }
+
+//    override fun equals(other: Any?): Boolean {
+//        if (this === other) return true
+//        if (javaClass != other?.javaClass) return false
+//        other as MsgItem
+//        return content == other.content && type == other.type && status == other.status
+//    }
 }

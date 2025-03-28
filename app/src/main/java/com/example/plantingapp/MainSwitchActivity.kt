@@ -38,11 +38,17 @@ class MainSwitchActivity : BaseActivity() {
         when (tag) {
             "main" -> {
                 transaction.show(mainFragment)
-                logFragment.let { transaction.hide(it)
+                logFragment.let {
+                    if(logFragment.isAdded)
+                        transaction.hide(it)
                 }
-                todoFragment.let { transaction.hide(it)
+                todoFragment.let {
+                    if(todoFragment.isAdded)
+                        transaction.hide(it)
                 }
-                meFragment.let { transaction.hide(it)
+                meFragment.let {
+                    if(meFragment.isAdded)
+                        transaction.hide(it)
                 }
                 transaction.commit()
             }
@@ -52,9 +58,13 @@ class MainSwitchActivity : BaseActivity() {
                 transaction.show(logFragment)
                 mainFragment.let { transaction.hide(it)
                 }
-                todoFragment.let { transaction.hide(it)
+                todoFragment.let {
+                    if(todoFragment.isAdded)
+                        transaction.hide(it)
                 }
-                meFragment.let { transaction.hide(it)
+                meFragment.let {
+                    if(meFragment.isAdded)
+                        transaction.hide(it)
                 }
                 transaction.commit()
             }
@@ -62,11 +72,16 @@ class MainSwitchActivity : BaseActivity() {
                 if(!todoFragment.isAdded)
                     transaction.add(R.id.frameLayoutContent, todoFragment)
                 transaction.show(todoFragment)
-                mainFragment.let { transaction.hide(it)
+                mainFragment.let {
+                    transaction.hide(it)
                 }
-                logFragment.let { transaction.hide(it)
+                logFragment.let {
+                    if(logFragment.isAdded)
+                        transaction.hide(it)
                 }
-                meFragment.let { transaction.hide(it)
+                meFragment.let {
+                    if(meFragment.isAdded)
+                        transaction.hide(it)
                 }
                 transaction.commit()
             }
@@ -74,11 +89,16 @@ class MainSwitchActivity : BaseActivity() {
                 if(!meFragment.isAdded)
                     transaction.add(R.id.frameLayoutContent, meFragment)
                 transaction.show(meFragment)
-                mainFragment.let { transaction.hide(it)
+                mainFragment.let {
+                    transaction.hide(it)
                 }
-                logFragment.let { transaction.hide(it)
+                logFragment.let {
+                    if(logFragment.isAdded)
+                        transaction.hide(it)
                 }
-                todoFragment.let { transaction.hide(it)
+                todoFragment.let {
+                    if(todoFragment.isAdded)
+                        transaction.hide(it)
                 }
                 transaction.commit()
             }
