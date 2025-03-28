@@ -1,6 +1,10 @@
 package com.example.plantingapp
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -230,57 +234,99 @@ class NewTodoActivity : BaseActivity() {
         datePicker.show(supportFragmentManager, "MATERIAL_DATE_PICKER")
     }
 
-    private fun newConfirm(){
+    private fun newConfirm() {
         val todoContent = todoContentEditText.text.toString()
         val interval = intervalText.text.toString()
-        if(todoContent.isEmpty()){
-            Toast.makeText(this,"待办名称不能为空",Toast.LENGTH_SHORT).show()
-        }else if(todoContent.length > 15){
-            Toast.makeText(this,"待办名称不能超过15个字",Toast.LENGTH_SHORT).show()
-        }else if(interval.isEmpty() || interval.toInt() < 0||interval.toInt() >365){
-            Toast.makeText(this,"请正确填写时间间隔",Toast.LENGTH_SHORT).show()
-        }else{
-            when(transferredItem){
+        if (todoContent.isEmpty()) {
+            Toast.makeText(this, "待办名称不能为空", Toast.LENGTH_SHORT).show()
+        } else if (todoContent.length > 15) {
+            Toast.makeText(this, "待办名称不能超过15个字", Toast.LENGTH_SHORT).show()
+        } else if (interval.isEmpty() || interval.toInt() < 0 || interval.toInt() > 365) {
+            Toast.makeText(this, "请正确填写时间间隔", Toast.LENGTH_SHORT).show()
+        } else {
+            when (transferredItem) {
                 null -> {
-                    dao.insertTodo(
+                    val todoId = dao.insertTodo(
                         userId = DataExchange.USERID!!.toInt(),
                         todoName = todoContent,
                         interval = interval.toInt(),
                         isEnabled = UniversalTodoItem.STATUS_RUNNING,
-                        endTime = if(ifNeverStop || pickedTimeText == "----"){
+                        endTime = if (ifNeverStop || pickedTimeText == "----") {
                             null
-                        }else{
+                        } else {
                             Utils.timestampToDateString(pickedTime)
                         },
-                        logGroupId = if(groupAttachMode == GROUP_ATTACH_MODE_NO_ATTACH || groupSpinner.selectedItemPosition == 0){
+                        logGroupId = if (groupAttachMode == GROUP_ATTACH_MODE_NO_ATTACH || groupSpinner.selectedItemPosition == 0) {
                             null
-                        }else{
+                        } else {
                             spinnerAdapter.items[groupSpinner.selectedItemPosition].id
                         }
                     )
-                    Toast.makeText(this,"新建待办成功",Toast.LENGTH_SHORT).show()
+                    setReminder(todoId.toInt(), interval.toInt())
+                    Toast.makeText(this, "新建待办成功", Toast.LENGTH_SHORT).show()
                 }
                 else -> {
                     transferredItem!!.todoName = todoContent
                     transferredItem!!.interval = interval.toInt()
-                    transferredItem!!.endTime = if(ifNeverStop || pickedTimeText == "----"){
+                    transferredItem!!.endTime = if (ifNeverStop || pickedTimeText == "----") {
                         null
-                    }else{
+                    } else {
                         Utils.timestampToDateString(pickedTime)
                     }
-                    transferredItem!!.logGroupId = if(groupAttachMode == GROUP_ATTACH_MODE_NO_ATTACH || groupSpinner.selectedItemPosition == 0){
+                    transferredItem!!.logGroupId = if (groupAttachMode == GROUP_ATTACH_MODE_NO_ATTACH || groupSpinner.selectedItemPosition == 0) {
                         null
-                    }else{
+                    } else {
                         spinnerAdapter.items[groupSpinner.selectedItemPosition].id
                     }
                     dao.updateTodo(transferredItem!!)
-                    Toast.makeText(this,"修改待办成功",Toast.LENGTH_SHORT).show()
+                    setReminder(transferredItem!!.todoId, interval.toInt())
+                    Toast.makeText(this, "修改待办成功", Toast.LENGTH_SHORT).show()
                 }
             }
-            startActivity(Intent(this,AllToDoActivity::class.java))
+            startActivity(Intent(this, AllToDoActivity::class.java))
             finish()
         }
+    }
 
+    private fun setReminder(todoId: Int, interval: Int) {
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, TodoReminderReceiver::class.java)
+        intent.putExtra("todoId", todoId)
+        intent.putExtra("todoName", todoContentEditText.text.toString())
+        val pendingIntent = PendingIntent.getBroadcast(
+            this,
+            todoId,
+            intent,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            } else {
+                PendingIntent.FLAG_UPDATE_CURRENT
+            }
+        )
+
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_YEAR, interval)
+        val triggerTime = calendar.timeInMillis
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                triggerTime,
+                pendingIntent
+            )
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            alarmManager.setExact(
+                AlarmManager.RTC_WAKEUP,
+                triggerTime,
+                pendingIntent
+            )
+        } else {
+            alarmManager.set(
+                AlarmManager.RTC_WAKEUP,
+                triggerTime,
+                pendingIntent
+            )
+        }
     }
 
     private fun initGroupBinding() {
