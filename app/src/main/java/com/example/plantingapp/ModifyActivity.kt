@@ -61,18 +61,20 @@ class ModifyActivity : BaseActivity() {
         confirm = findViewById(R.id.confirm_button)
         dao = UserDAO(this)
         picPickerLauncher = registerImagePicker { result: List<Image> ->
-            val uri = result[0].uri
-            val storedUri = Utils.storeSinglePicture(this,uri)
-            storedUri?.let {
-                Toast.makeText(this,"修改头像成功",Toast.LENGTH_SHORT).show()
-                Glide.with(this).load(storedUri).into(avatarImage)
-                dao.updateUserAvatarYZR(
-                    MeItem(
-                        DataExchange.USERID!!.toInt(),
-                        "",
-                        storedUri.toString()
+            if(result.isNotEmpty()){
+                val uri = result[0].uri
+                val storedUri = Utils.storeSinglePicture(this,uri)
+                storedUri?.let {
+                    Toast.makeText(this,"修改头像成功",Toast.LENGTH_SHORT).show()
+                    Glide.with(this).load(storedUri).into(avatarImage)
+                    dao.updateUserAvatarYZR(
+                        MeItem(
+                            DataExchange.USERID!!.toInt(),
+                            "",
+                            storedUri.toString()
+                        )
                     )
-                )
+                }
             }
         }
     }

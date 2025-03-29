@@ -89,23 +89,19 @@ object TodayTodoManager {
             }
             for(it in runningTodos){
                 var diff = calculateDaysDifference(Utils.timestampToDateString(it.createTime)).toInt()
-                if(it.interval != 0){
-                    diff %= it.interval
-                }
-                if(diff == 0 || it.interval == 0) {
-                    result.add(
-                        TodayTodoItem(
-                            todoId = it.todoId,
-                            userId = it.userId,
-                            todoName = it.todoName,
-                            attachedGroupName = if (it.logGroupId == null || it.logGroupId == 0) {
-                                null
-                            } else {
-                                allGroups[it.logGroupId]
-                            }
-                        )
+                diff %= (it.interval + 1)
+                result.add(
+                    TodayTodoItem(
+                        todoId = it.todoId,
+                        userId = it.userId,
+                        todoName = it.todoName,
+                        attachedGroupName = if (it.logGroupId == null || it.logGroupId == 0) {
+                            null
+                        } else {
+                            allGroups[it.logGroupId]
+                        }
                     )
-                }
+                )
             }
             // 复原待办的状态
             for(it in result){

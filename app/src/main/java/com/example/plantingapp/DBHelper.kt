@@ -181,7 +181,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         db.execSQL(createCustomTag)
         db.execSQL(createLogTags)
         db.execSQL(createLogPics)
-        db.execSQL(insertDefaultUser)
+//        db.execSQL(insertDefaultUser)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
