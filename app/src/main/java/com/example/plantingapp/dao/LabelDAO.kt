@@ -99,7 +99,7 @@ class LabelDAO(context: Context) {
     fun addCustomTag(labelItem: LabelItem): Long {
         // 第一步：检查名称重复
         if (isTagNameExist(labelItem.tagName, DataExchange.USERID!!)) {
-            throw IllegalArgumentException("标签名称已存在")
+            throw IllegalArgumentException("自定义标签名称重复")
         }
 
         // 第二步：插入新标签
@@ -114,7 +114,7 @@ class LabelDAO(context: Context) {
         return i
     }
 
-    private fun isTagNameExist(tagName: String, userId: String): Boolean {
+    fun isTagNameExist(tagName: String, userId: String): Boolean {
         val cursor = db.readableDatabase.rawQuery(
             "SELECT 1 FROM customTag WHERE userId = ? AND tagName = ?",
             arrayOf(userId, tagName)

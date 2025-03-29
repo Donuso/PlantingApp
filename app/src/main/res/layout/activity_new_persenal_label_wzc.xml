@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:text="@string/title_new_diy_label_wzc"
             android:textColor="@color/text_black_wzc"
-            android:textSize="19sp"
+            android:textSize="18sp"
             android:layout_gravity="center"
             android:layout_marginBottom="10dp"
             />

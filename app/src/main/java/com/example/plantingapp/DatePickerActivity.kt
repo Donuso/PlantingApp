@@ -166,6 +166,10 @@ class DatePickerActivity : BaseActivity() {
             backTodayText.setOnClickListener(backTodayListener)
         }
         backTodayText.setOnClickListener(null)
+        backTodayBg.setCardBackgroundColor(
+            ContextCompat.getColor(this,R.color.cover_gray_wzc)
+        )
+        backTodayBg.cardElevation = 0f
         makeSureText.setOnClickListener {
             if(dayAdapter.lastChosen == -1){
                 Toast.makeText(this,"您尚未选择日期",Toast.LENGTH_SHORT).show()

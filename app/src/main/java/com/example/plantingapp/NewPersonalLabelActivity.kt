@@ -15,6 +15,7 @@ import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.example.plantingapp.dao.LabelDAO
+import com.example.plantingapp.item.DataExchange
 import com.example.plantingapp.item.LabelItem
 import com.example.plantingapp.utils.LabelItemConverter
 
@@ -110,9 +111,11 @@ class NewPersonalLabelActivity : BaseActivity() {
         cancelText.setOnClickListener {
             if(labelName.text.toString().isEmpty()){
                 Toast.makeText(this,"标签名不可为空",Toast.LENGTH_SHORT).show()
-            }else if(labelName.text.toString().length > 8){
-                Toast.makeText(this,"标签名超出字数限制",Toast.LENGTH_SHORT).show()
-            }else{//需要一个额外分支，用数据库检查是否存在同名情况
+            }else if(labelName.text.toString().length > 8) {
+                Toast.makeText(this, "标签名超出字数限制", Toast.LENGTH_SHORT).show()
+            }else if(dao.isTagNameExist(labelName.text.toString(),DataExchange.USERID!!)){
+                Toast.makeText(this, "您已创建了同名的自定义标签", Toast.LENGTH_SHORT).show()
+            }else{
                 returnLabel.tagName = labelName.text.toString()
                 when(returnLabel.tagType){
                     LabelItem.TYPE_STATUS -> {

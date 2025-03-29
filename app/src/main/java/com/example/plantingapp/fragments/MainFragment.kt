@@ -270,7 +270,7 @@ class MainFragment : Fragment() {
         Thread {
             val client = OkHttpClient()
             val request: Request = Request.Builder()
-                .url("https://v1.yiketianqi.com/free/v2030?appid=53198836&appsecret=b4UesmFt&city=$city")
+                .url("https://v1.yiketianqi.com/free/v2030?appid=17371841&appsecret=eMtXQTl4&city=$city")
                 .build()
             try {
                 val response: Response = client.newCall(request).execute()
