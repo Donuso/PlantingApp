@@ -53,15 +53,21 @@ class LogGroupAdapter(
             }
             when(d.status){
                 LogGroupItem.MODE_OPEN -> {
-                    with(context.getSharedPreferences("${DataExchange.USERID}_prefs",Context.MODE_PRIVATE).edit()){
-                        putInt("group_id",d.gpId)
-                        putLong("group_created_time",d.createTime)
-                        putString("group_name",d.gpName)
-                        apply()
-                    }
+//                    with(context.getSharedPreferences("${DataExchange.USERID}_prefs",Context.MODE_PRIVATE).edit()){
+//                        putInt("group_id",d.gpId)
+//                        putLong("group_created_time",d.createTime)
+//                        putString("group_name",d.gpName)
+//                        apply()
+//                    }
                     LogDAO(context).updateLastModified(d.gpId)
                     groupEnterButton.setImageResource(R.drawable.icon_activator_wzc)
                     groupEnterButton.setOnClickListener {
+                        with(context.getSharedPreferences("${DataExchange.USERID}_prefs", Context.MODE_PRIVATE).edit()){
+                            putString("group_name",d.gpName)
+                            putInt("group_id",d.gpId)
+                            putLong("group_created_time",d.createTime)
+                            apply()
+                        }
                         context.startActivity(
                             Intent(context,LogActivity::class.java)
                                 .putExtra("log_group_id",d.gpId)

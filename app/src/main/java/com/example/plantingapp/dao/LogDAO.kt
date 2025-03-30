@@ -43,6 +43,8 @@ class LogDAO(context: Context) {
         val timestamp = Utils.dateStringToTimestamp(dateString)
         if (timestamp == 0L) return 0L // 无效日期处理
 
+        //放置访问记录
+
         val recordDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(timestamp))
         val existingLog = getLogIdByGroupAndDate(logGroupId, recordDate)
         return if (existingLog != 0L) {

@@ -106,7 +106,7 @@ class LogFragment : Fragment() {
                     with(requireContext().getSharedPreferences("${DataExchange.USERID}_prefs", Context.MODE_PRIVATE).edit()){
                         putString("group_name",null)
                         putInt("group_id",-1)
-                        putLong("groupCreatedTime",0L)
+                        putLong("group_created_time",0L)
                         apply()
                     }
                 }
