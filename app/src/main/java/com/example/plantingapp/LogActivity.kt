@@ -145,6 +145,11 @@ class LogActivity : BaseActivity() {
     }
 
     private val backTodayListener = View.OnClickListener {
+        if(logText.text.toString().isEmpty()){
+            daoLog.updateLogText(logId,null)
+        }else{
+            daoLog.updateLogText(logId,logText.text.toString())
+        }
         chosenTime = Utils.timestampToDateString(
             System.currentTimeMillis()
         )

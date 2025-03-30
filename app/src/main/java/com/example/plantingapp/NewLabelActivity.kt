@@ -81,14 +81,19 @@ class NewLabelActivity : BaseActivity() {
             var toastStr = "添加自定义标签失败"
             newLabel?.let{
                 val label = LabelItemConverter.jsonToLabel(newLabel)
-                customLabels.add(label)
-                allAdapter.notifyItemInserted(customLabels.size - 1)
-                toastStr = "添加\"${label.tagName}\"标签成功"
                 temporarilyNoDiyLabels.visibility = View.GONE
-                dao.addCustomTag(label)
+                val rst = dao.addCustomTag(label)
+                if(rst == -1L){
+                    toastStr = "添加\"${label.tagName}\"标签失败"
+                }else{
+                    toastStr = "添加\"${label.tagName}\"标签成功"
+                    customLabels.add(label.apply {
+                        tagId = rst.toInt()
+                    })
+                    allAdapter.notifyItemInserted(customLabels.size - 1)
+                }
             }
             Toast.makeText(this,toastStr,Toast.LENGTH_SHORT).show()
-
         }
     }
 
